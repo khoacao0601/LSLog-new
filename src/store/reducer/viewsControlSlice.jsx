@@ -19,7 +19,7 @@ const viewsControlSlice = createSlice({
 // Reducer
 const viewReducer = viewsControlSlice.reducer;
 
-//Selector
+//Selector to take out data from state
 export const viewsSelector = state => state.viewReducer.allViews;
 
 //Action Export
