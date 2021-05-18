@@ -1,6 +1,6 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 
-Version V0.1 for Testing
+Version V0.1 for Testing. Deployed on AWS EC2 Linux 2 and Ubuntu. 
 
 ## Available Scripts
 
