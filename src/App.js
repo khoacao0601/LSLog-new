@@ -3,6 +3,7 @@ import Header from './components/header';
 import About from './components/about';
 import Contact from './components/contact';
 import Help from './components/help';
+import Login from './components/loginPage';
 import {useSelector} from 'react-redux';
 import {viewsSelector} from './store/reducer/viewsControlSlice';
 
@@ -20,7 +21,7 @@ function App() {
     return (
       <div className="App">
         <Header/>
-       
+        <Login/>
       </div>
     );
   } else if(view === "contact"){
