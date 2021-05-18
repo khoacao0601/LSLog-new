@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, {useState} from 'react';
+import React from 'react';
 import LSLLogo from '../images/LSL Logo.png';
 import {setViews} from '../store/reducer/viewsControlSlice';
 import {useDispatch} from 'react-redux';
@@ -8,7 +8,6 @@ import {useDispatch} from 'react-redux';
 const Header = () => {
 
     const dispatch = useDispatch();
-    console.log(dispatch);
 
     const homeView = (event) => {
         event.preventDefault();
