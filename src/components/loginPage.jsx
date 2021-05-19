@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState}from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {setUsers, usersSelector, setUserInData} from '../store/reducer/usersControlSlice';
@@ -53,10 +54,10 @@ const Login = () => {
         //console.log(userName);
         for(let i = 0; i < userName[0].length; i++){
             if(userName[0][i] === inputUserName){
-                for(let i = 0; i < allUsers.length; i++){
-                    if(allUsers[i].username === userName[0][i] ){
+                for(let x = 0; x < allUsers.length; x++){
+                    if(allUsers[x].username === userName[0][i] ){
                         //console.log(allUsers[i]);
-                        dispatch(setUserInData(allUsers[i]));
+                        dispatch(setUserInData(allUsers[x]));
                     }
                 }
                 //console.log(allUsers);
