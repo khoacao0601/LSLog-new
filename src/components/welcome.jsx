@@ -8,9 +8,9 @@ const Welcome = () => {
 
     return (
         <div className="w-50 mx-auto">
-            <h1>Welcome to LSL main page</h1>
-            <h2>Hello {userInfo.fullname}</h2>
-            <div className="card" style={{width:'18rem'}}>
+            <h1 className="w-50 mx-auto ">Welcome to LSLog main page</h1>
+            <h2 className="w-25 mx-auto">Hello {userInfo.fullname}</h2>
+            <div className="card w-50 mx-auto shadow-lg p-3 mb-5 bg-white rounded" style={{width:'18rem'}}>
                 <div className="card-body">
                     <h5 className="card-title">User Info Card</h5>
                     <p className="card-text"><b>pKey:</b> {userInfo.pKey}</p>
