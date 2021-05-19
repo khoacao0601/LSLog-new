@@ -24,7 +24,7 @@ const Login = () => {
             
                 const responseJSON = await response.json();
                 
-                //console.log(responseJSON);
+                console.log(responseJSON);
                 
                 dispatch(setUsers(responseJSON));                
                 //Clear data to get Username Only
