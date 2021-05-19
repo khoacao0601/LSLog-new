@@ -1,16 +1,25 @@
 import {createSlice} from '@reduxjs/toolkit';
 
+
 const usersControlSlice = createSlice({
     name: 'users',
     initialState: {
-        allUsers: {}
+        allUsers: [],
+        onlyUserName: '',
+        userInData: {}
     },
 
     reducers: {
         setUsers: (state, action) => {
-            
             const users= action.payload;
-            state.allViews = users;
+            state.allUsers = users;
+            //console.log(action);
+            //console.log(state.allUsers);
+        },
+        setUserInData: (state, action) => {
+            const userInData = action.payload;
+            state.userInData = userInData;
+            //console.log(state.userInData);
         }
     }
 });
@@ -20,9 +29,10 @@ const usersReducer = usersControlSlice.reducer;
 
 //Selector to take out data from state
 export const usersSelector = state => state.usersReducer.allUsers;
+export const userInfoDataSelector = state => state.usersReducer.userInData;
 
 //Action Export
-export const {setUsers} = usersControlSlice.actions;
+export const {setUsers, setUserInData} = usersControlSlice.actions;
 
 //Export Reducer
 export default usersReducer;

@@ -9,7 +9,6 @@ const viewsControlSlice = createSlice({
 
     reducers: {
         setViews: (state, action) => {
-            
             const view = action.payload;
             state.allViews = view;
         }

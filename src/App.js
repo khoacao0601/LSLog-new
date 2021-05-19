@@ -4,6 +4,7 @@ import About from './components/about';
 import Contact from './components/contact';
 import Help from './components/help';
 import Login from './components/loginPage';
+import Welcome from './components/welcome';
 import {useSelector} from 'react-redux';
 import {viewsSelector} from './store/reducer/viewsControlSlice';
 
@@ -42,6 +43,7 @@ function App() {
     return (
       <div className="App">
         <Header/>
+        <Welcome/>
       </div>
     )
   }
