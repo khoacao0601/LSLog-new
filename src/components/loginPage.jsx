@@ -58,13 +58,18 @@ const Login = () => {
                     if(allUsers[x].username === userName[0][i] ){
                         //console.log(allUsers[i]);
                         dispatch(setUserInData(allUsers[x]));
+                        dispatch(setViews('welcome')); 
+                        //break the loop so you don't need to loop through the rest when you get it
+                        break; 
                     }
                 }
                 //console.log(allUsers);
-                dispatch(setViews('welcome'));  
-            } 
-        }
-        setUserStatus("Username is not available");
+                //break the loop so you don't need to loop through the rest when you get it
+                break;
+            } else { 
+                setUserStatus("Username is not available");
+            }   
+        }  
     }
     
 
