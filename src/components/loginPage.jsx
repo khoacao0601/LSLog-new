@@ -9,7 +9,7 @@ const Login = () => {
     const [inputUserName, setInputUserName] = useState('');
     const [userName, setUserName] = useState([]);
     const [userStatus, setUserStatus] = useState('');
-
+    
     const dispatch = useDispatch();
 
     const allUsers = useSelector(usersSelector);
@@ -52,26 +52,22 @@ const Login = () => {
         //debugger;
         event.preventDefault();
         //console.log(userName);
-        for(let i = 0; i < userName[0].length; i++){
-            if(userName[0][i] === inputUserName){
+        let statusCheckPoint = ''; // if we match user name don't run Status
+
                 for(let x = 0; x < allUsers.length; x++){
-                    if(allUsers[x].username === userName[0][i] ){
+                    if(allUsers[x].username === inputUserName ){
                         //console.log(allUsers[i]);
                         dispatch(setUserInData(allUsers[x]));
                         dispatch(setViews('welcome')); 
+                        statusCheckPoint = 'welcome';
                         //break the loop so you don't need to loop through the rest when you get it
                         break; 
                     }
                 }
-                //console.log(allUsers);
-                //break the loop so you don't need to loop through the rest when you get it
-                break;
-            } else { 
-                setUserStatus("Username is not available");
-            }   
+        if(statusCheckPoint === '') {
+            setUserStatus("Username is not available");
         }  
     }
-    
 
     return(
         <div className="login-form w-25 mx-auto">
