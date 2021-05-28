@@ -59,6 +59,7 @@ const Login = () => {
                         //console.log(allUsers[i]);
                         dispatch(setUserInData(allUsers[x]));
                         dispatch(setViews('welcome')); 
+                        setUserStatus(''); //remove status after fail login
                         statusCheckPoint = 'welcome';
                         //break the loop so you don't need to loop through the rest when you get it
                         break; 

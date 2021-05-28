@@ -4,7 +4,7 @@ import {createSlice} from '@reduxjs/toolkit';
 const viewsControlSlice = createSlice({
     name: 'views',
     initialState: {
-        allViews: 'home'
+        allViews: ''
     },
 
     reducers: {

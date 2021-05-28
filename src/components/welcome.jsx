@@ -6,6 +6,8 @@ const Welcome = () => {
 
     const userInfo = useSelector(userInfoDataSelector);
 
+    console.log(userInfo);
+
     return (
         <div className="w-50 mx-auto">
             <h1 className="w-50 mx-auto ">Welcome to LSLog main page</h1>

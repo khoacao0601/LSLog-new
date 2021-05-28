@@ -14,14 +14,18 @@ function App() {
 
   console.log(view);
 
+  const isAuthenticated = !!view;
+
+  console.log(isAuthenticated);
+
   const PrivateRoute = ({component: Component, ...rest}) => {
-    return (
-      <Route {...rest} render={(props) => (
-        view === 'welcome'
+  return(
+      <Route {...rest} component={(props) => (
+        isAuthenticated
           ? <Component {...props}/>
           : <Redirect to='/Login'/>
       )}/>
-    )
+   )
   }
 
   return(
@@ -32,7 +36,7 @@ function App() {
           <Route path='/About' component={About}/>
           <Route path='/Contact' component={Contact}/>
           <Route path='/Help' component={Help}/>
-          <PrivateRoute path='/Welcome' component={Welcome}/>
+          <PrivateRoute exact path='/Welcome' component={Welcome}/>
         </Switch>
     </Router>
   )
