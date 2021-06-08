@@ -5,6 +5,7 @@ import Contact from './components/contact';
 import Help from './components/help';
 import Login from './components/loginPage';
 import Welcome from './components/welcome';
+import CreateUser from './components/createUser';
 import {useSelector} from 'react-redux';
 import {viewsSelector} from './store/reducer/viewsControlSlice';
 
@@ -14,11 +15,11 @@ function App() {
   if(view === "about"){
     return(
       <div className="App">
-        <Header/>
-        <About/>
+          <Header/>
+          <About/>
       </div>
     )
-  } else if(view === "home"){
+  } else if(view === "login"){
     return (
       <div className="App">
         <Header/>
@@ -44,6 +45,12 @@ function App() {
       <div className="App">
         <Header/>
         <Welcome/>
+      </div>
+    )
+  } else if(view === "createAcc"){
+    return (
+      <div className="App">
+        <CreateUser/>
       </div>
     )
   }

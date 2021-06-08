@@ -9,9 +9,9 @@ const Header = () => {
 
     const dispatch = useDispatch();
 
-    const homeView = (event) => {
+    const loginView = (event) => {
         event.preventDefault();
-        dispatch(setViews('home'));
+        dispatch(setViews('login'));
     };
     const aboutView = (event) => {
         event.preventDefault();
@@ -36,7 +36,7 @@ const Header = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div className="navbar-nav">
-                <a className="nav-item nav-link active" href="Home" onClick={homeView}>Home <span className="sr-only">(current)</span></a>
+                <a className="nav-item nav-link active" href="Login" onClick={loginView}>Login<span className="sr-only">(current)</span></a>
                 <a className="nav-item nav-link" href="About" onClick={aboutView}>About</a>
                 <a className="nav-item nav-link" href="Contact" onClick={contactView}>Contact</a>
                 <a className="nav-item nav-link" href="Help" onClick={helpView}>Help</a>

@@ -14,7 +14,7 @@ const Login = () => {
 
     const allUsers = useSelector(usersSelector);
 
-    const api_url = `http://18.222.78.10:8110/uaa/users`;
+    const api_url = `http://18.218.0.232:8110/uaa/users`;
 
     useEffect(() => {
         async function fetchPostList(){
@@ -52,21 +52,29 @@ const Login = () => {
         //debugger;
         event.preventDefault();
         //console.log(userName);
-        for(let i = 0; i < userName[0].length; i++){
-            if(userName[0][i] === inputUserName){
+        let statusCheckPoint = ''; // if we match user name don't run Status
+
                 for(let x = 0; x < allUsers.length; x++){
-                    if(allUsers[x].username === userName[0][i] ){
+                    if(allUsers[x].username === inputUserName ){
                         //console.log(allUsers[i]);
                         dispatch(setUserInData(allUsers[x]));
+                        dispatch(setViews('welcome')); 
+                        setUserStatus(''); //remove status after fail login
+                        statusCheckPoint = 'welcome';
+                        //break the loop so you don't need to loop through the rest when you get it
+                        break; 
                     }
                 }
-                //console.log(allUsers);
-                dispatch(setViews('welcome'));  
-            } 
-        }
-        setUserStatus("Username is not available");
+        if(statusCheckPoint === '') {
+            setUserStatus("Username is not available");
+        }  
     }
     
+    //set state to direct to Create Acc page
+    const setCreateAcc = (event) => {
+        event.preventDefault();
+        dispatch(setViews('createAcc'));
+    }
 
     return(
         <div className="login-form w-25 mx-auto">
@@ -84,13 +92,9 @@ const Login = () => {
                 <p style={{color:'red'}}>{userStatus}</p>
                 <div className="form-group">
                     <button type="submit" className="btn btn-primary btn-block">Log in</button>
-                </div>
-                <div className="clearFix">
-                    <label className="float-left form-check-label"><input type="checkbox"/> Remember me</label>
-                    <a href="forgotPass" className="float-right">Forgot Password?</a>
-                </div>        
+                </div>       
             </form>
-            <p className="text-center"><a href="createAcc">Create an Account</a></p>
+            <p className="text-center" onClick={setCreateAcc}><a href="createAcc">Create an Account</a></p>
         </div>
     )
 }
