@@ -29,7 +29,7 @@ const CreateUser = () => {
                     <option value="1">Male</option>
                     <option value="2">Female</option>
                 </select>
-            <p><button class="w3-button w3-green w3-margin">Green</button></p>
+            <p><button class="w3-button w3-green w3-margin">Submit</button></p>
         </form>
     )
 }
@@ -40,7 +40,7 @@ let styles = {
     container: {
         border: 1,
         width: '45%',
-        left: '25%',
+        left: '28%',
         position: 'absolute',
         top: '15%',
         boxShadow: '30px 22px 45px grey',
