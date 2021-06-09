@@ -3,8 +3,47 @@ import React, {useEffect, useState}from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {setUsers, usersSelector, setUserInData} from '../store/reducer/usersControlSlice';
 import {setViews} from '../store/reducer/viewsControlSlice';
+import { makeStyles } from '@material-ui/core/styles';
+import { spacing } from '@material-ui/system';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import Link from '@material-ui/core/Link';
+import Typography from '@material-ui/core/Typography';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+      marginLeft: theme.spacing(2),
+    },
+    flexGrow: 1,
+  },
+  paper: {
+    height: 40,
+    width: 100,
+  },
+  page: {
+    marginTop: 20,
+  },
+  control: {
+    padding: theme.spacing(2),
+  },
+}));
+
 
 const Login = () => {
+    const classes = useStyles();
+    const preventDefault = (event) => event.preventDefault();
+    const [spacing, setSpacing] = useState(2);
+
+    const [state, setState] = useState({checkedB: false});
+    const handleChange = (event) => {setState({ ...state, [event.target.name]: event.target.checked });};
 
     const [inputUserName, setInputUserName] = useState('');
     const [userName, setUserName] = useState([]);
@@ -14,7 +53,7 @@ const Login = () => {
 
     const allUsers = useSelector(usersSelector);
 
-    const api_url = `http://18.222.78.10:8110/uaa/users`;
+    const api_url = `http://18.218.0.232:8110/uaa/users`;
 
     useEffect(() => {
         async function fetchPostList(){
@@ -54,16 +93,17 @@ const Login = () => {
         //console.log(userName);
         let statusCheckPoint = ''; // if we match user name don't run Status
 
-                for(let x = 0; x < allUsers.length; x++){
-                    if(allUsers[x].username === inputUserName ){
-                        //console.log(allUsers[i]);
-                        dispatch(setUserInData(allUsers[x]));
-                        dispatch(setViews('welcome')); 
-                        statusCheckPoint = 'welcome';
-                        //break the loop so you don't need to loop through the rest when you get it
-                        break; 
-                    }
-                }
+        for(let x = 0; x < allUsers.length; x++){
+            if(allUsers[x].username === inputUserName ){
+                //console.log(allUsers[i]);
+                dispatch(setUserInData(allUsers[x]));
+                dispatch(setViews('welcome')); 
+                setUserStatus(''); //remove status after fail login
+                statusCheckPoint = 'welcome';
+                //break the loop so you don't need to loop through the rest when you get it
+                break; 
+            }
+        }
         if(statusCheckPoint === '') {
             setUserStatus("Username is not available");
         }  
@@ -72,26 +112,51 @@ const Login = () => {
     return(
         <div className="login-form w-25 mx-auto">
             <form onSubmit={checkUserName}>
-                <h2 className="text-center">Log in</h2>       
-                <div className="form-group">
-                    <input type="text" className="form-control" placeholder="Username" required="required"
-                    value={inputUserName}
-                    onChange={getInputUserName}
-                    />
-                </div>
-                <div className="form-group">
-                    <input type="password" className="form-control" placeholder="Password" />
-                </div>
-                <p style={{color:'red'}}>{userStatus}</p>
-                <div className="form-group">
-                    <button type="submit" className="btn btn-primary btn-block">Log in</button>
-                </div>
-                <div className="clearFix">
-                    <label className="float-left form-check-label"><input type="checkbox"/> Remember me</label>
-                    <a href="forgotPass" className="float-right">Forgot Password?</a>
-                </div>        
+                <Grid container spacing={3} className={classes.page}>
+                <Grid item xs={12}>
+                        <h2 className="text-center">Log in</h2>       
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Grid container justify="center" spacing={spacing} width={1}>
+                            <TextField fullWidth={true} required id="standard-required" label="Username" variant="outlined" defaultValue="" value={inputUserName} onChange={getInputUserName} required="required" />
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Grid container justify="center" spacing={spacing}>
+                            <TextField fullWidth={true} id="standard-password-input" label="Password" variant="outlined" type="password" autoComplete="current-password"/>
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Grid container justify="center" spacing={spacing}>
+                            <p style={{color:'red'}}>{userStatus}</p>
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Grid container justify="center" spacing={spacing}>
+                            <Button fullWidth={true} type="submit" variant="contained" color="primary">Log in</Button>
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Grid container justify="center" spacing={spacing}>
+                            <FormControlLabel control={<Checkbox checked={state.checkedB} onChange={handleChange} name="checkedB" color="primary" />} label="Remember me" />
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Grid container justify="center" spacing={spacing}>
+                            <Link href="#" onClick={preventDefault}>Forgot password?</Link>
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Grid container justify="center" spacing={spacing}>
+                            <Link href="#" onClick={preventDefault}>Create an Account</Link>
+                        </Grid>
+                    </Grid>
+                </Grid>
             </form>
-            <p className="text-center"><a href="createAcc">Create an Account</a></p>
+            <Typography className={classes.root}>
+            
+            
+            </Typography>
         </div>
     )
 }
