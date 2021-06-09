@@ -9,12 +9,12 @@ const Login = () => {
     const [inputUserName, setInputUserName] = useState('');
     const [userName, setUserName] = useState([]);
     const [userStatus, setUserStatus] = useState('');
-    
+
     const dispatch = useDispatch();
 
     const allUsers = useSelector(usersSelector);
 
-    const api_url = `http://18.222.78.10:8110/uaa/users`;
+    const api_url = `http://18.218.0.232:8110/uaa/users`;
 
     useEffect(() => {
         async function fetchPostList(){
@@ -59,6 +59,7 @@ const Login = () => {
                         //console.log(allUsers[i]);
                         dispatch(setUserInData(allUsers[x]));
                         dispatch(setViews('welcome')); 
+                        setUserStatus(''); //remove status after fail login
                         statusCheckPoint = 'welcome';
                         //break the loop so you don't need to loop through the rest when you get it
                         break; 
@@ -67,6 +68,12 @@ const Login = () => {
         if(statusCheckPoint === '') {
             setUserStatus("Username is not available");
         }  
+    }
+    
+    //set state to direct to Create Acc page
+    const setCreateAcc = (event) => {
+        event.preventDefault();
+        dispatch(setViews('createAcc'));
     }
 
     return(
@@ -85,13 +92,9 @@ const Login = () => {
                 <p style={{color:'red'}}>{userStatus}</p>
                 <div className="form-group">
                     <button type="submit" className="btn btn-primary btn-block">Log in</button>
-                </div>
-                <div className="clearFix">
-                    <label className="float-left form-check-label"><input type="checkbox"/> Remember me</label>
-                    <a href="forgotPass" className="float-right">Forgot Password?</a>
-                </div>        
+                </div>       
             </form>
-            <p className="text-center"><a href="createAcc">Create an Account</a></p>
+            <p className="text-center" onClick={setCreateAcc}><a href="createAcc">Create an Account</a></p>
         </div>
     )
 }

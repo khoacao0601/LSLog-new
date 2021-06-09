@@ -2,11 +2,31 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import LSLLogo from '../images/LSL Logo.png';
-import {Link} from 'react-router-dom';
+import {setViews} from '../store/reducer/viewsControlSlice';
+import {useDispatch} from 'react-redux';
 
 const Header = () => {
 
-   
+    const dispatch = useDispatch();
+
+    const loginView = (event) => {
+        event.preventDefault();
+        dispatch(setViews('login'));
+    };
+    const aboutView = (event) => {
+        event.preventDefault();
+        dispatch(setViews('about'));
+    };
+    const contactView = (event) => {
+        event.preventDefault();
+        dispatch(setViews('contact'));
+    };
+    const helpView = (event) => {
+        event.preventDefault();
+        dispatch(setViews('help'));
+    };
+
+
     return(
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <img src={LSLLogo} style={{width:"3%"}}></img>
@@ -16,10 +36,10 @@ const Header = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div className="navbar-nav">
-                <Link className="nav-item nav-link active" to="/Login" >Home </Link>
-                <Link className="nav-item nav-link" to="/About" >About</Link>
-                <Link className="nav-item nav-link" to="/Contact">Contact</Link>
-                <Link className="nav-item nav-link" to="/Help" >Help</Link>
+                <a className="nav-item nav-link active" href="Login" onClick={loginView}>Login<span className="sr-only">(current)</span></a>
+                <a className="nav-item nav-link" href="About" onClick={aboutView}>About</a>
+                <a className="nav-item nav-link" href="Contact" onClick={contactView}>Contact</a>
+                <a className="nav-item nav-link" href="Help" onClick={helpView}>Help</a>
             </div>
         </div>
     </nav>

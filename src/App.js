@@ -5,6 +5,7 @@ import Contact from './components/contact';
 import Help from './components/help';
 import Login from './components/loginPage';
 import Welcome from './components/welcome';
+import CreateUser from './components/createUser';
 import {useSelector} from 'react-redux';
 import {viewsSelector} from './store/reducer/viewsControlSlice';
 import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
@@ -12,31 +13,50 @@ import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom
 function App() {
   const view = useSelector(viewsSelector);
 
-  console.log(view);
 
-  const PrivateRoute = ({component: Component, ...rest}) => {
+  if(view === "about"){
+    return(
+      <div className="App">
+          <Header/>
+          <About/>
+      </div>
+    )
+  } else if(view === "login"){
     return (
-      <Route {...rest} render={(props) => (
-        view === 'welcome'
-          ? <Component {...props}/>
-          : <Redirect to='/Login'/>
-      )}/>
+      <div className="App">
+        <Header/>
+        <Login/>
+      </div>
+    );
+  } else if(view === "contact"){
+    return (
+      <div className="App">
+        <Header/>
+        <Contact/>
+      </div>
+    );
+  } else if(view === "help"){
+    return (
+      <div className="App">
+        <Header/>
+        <Help/>
+      </div>
+    );
+  } else if(view === "welcome"){
+    return (
+      <div className="App">
+        <Header/>
+        <Welcome/>
+      </div>
+    )
+  } else if(view === "createAcc"){
+    return (
+      <div className="App">
+        <CreateUser/>
+      </div>
     )
   }
-
-  return(
-    <Router>
-      <Header/>
-        <Switch>
-          <Route exact path='/Login' component={Login}/>
-          <Route path='/About' component={About}/>
-          <Route path='/Contact' component={Contact}/>
-          <Route path='/Help' component={Help}/>
-          <PrivateRoute path='/Welcome' component={Welcome}/>
-        </Switch>
-    </Router>
-  )
-
+   
 }
 
 export default App;
