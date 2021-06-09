@@ -9,12 +9,16 @@ const CreateUser = () => {
             <img src={createUserPic} alt='front' style={styles.pic} className="w3-margin-top"/>
             <h3 className="w3-margin">Rigistration Info</h3>
             <label className="font-weight-bold w3-margin">Full Name:</label>
-                <input class="w3-input" type="text"></input>
+                <input type="text" class="w3-input" ></input>
             <label className="font-weight-bold w3-margin">UserName:</label>
                 <input class="w3-input" type="text"></input>
+            <label className="font-weight-bold w3-margin">Password:</label>
+                <input type="password" class="w3-input" ></input>
             <label className="font-weight-bold w3-margin">Phone Number:</label>
-                <input class="w3-input" type="text"></input>
+                <input class="w3-input" type="number"></input>
             <label className="font-weight-bold w3-margin">SkypeID:</label>
+                <input class="w3-input" type="text"></input>
+            <label className="font-weight-bold w3-margin">Office:</label>
                 <input class="w3-input" type="text"></input>
             <label className="font-weight-bold w3-margin">Department: </label>
                 <select class="w3-select w3-border" name="option">
