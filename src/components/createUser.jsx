@@ -46,7 +46,7 @@ let styles = {
         width: '45%',
         left: '28%',
         position: 'absolute',
-        top: '15%',
+        top: '8%',
         boxShadow: '30px 22px 45px grey',
         borderRadius: '8px'
     },
