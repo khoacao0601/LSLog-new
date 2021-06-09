@@ -8,7 +8,7 @@ import Welcome from './components/welcome';
 import CreateUser from './components/createUser';
 import {useSelector} from 'react-redux';
 import {viewsSelector} from './store/reducer/viewsControlSlice';
-import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
+//import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
 
 function App() {
   const view = useSelector(viewsSelector);
