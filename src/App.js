@@ -8,12 +8,20 @@ import Welcome from './components/welcome';
 import CreateUser from './components/createUser';
 import DashBoardTopNavBar from './components/dashBoardTopNavBar';
 import LeftSideNavBar from './components/leftSideNavBar';
+import Orders from './components/inbound/orders';
+import CreateOrder from './components/inbound/createOrder';
 import {useSelector} from 'react-redux';
 import {viewsSelector} from './store/reducer/viewsControlSlice';
+import {topNavBarViewsSelector} from './store/reducer/topNavBarViewsControl';
 //import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
 
 function App() {
+
   const view = useSelector(viewsSelector);
+  const viewFromTopNavBar = useSelector(topNavBarViewsSelector);
+
+  console.log(view);
+  console.log(viewFromTopNavBar);
 
 
   if(view === "about"){
@@ -45,12 +53,39 @@ function App() {
       </div>
     );
   } else if(view === "welcome"){
-    return (
-      <div className="App">
-        <DashBoardTopNavBar/>
-        <LeftSideNavBar/>
-      </div>
-    )
+    //check condition fater login, for inbound outbound ... tabs
+      if(viewFromTopNavBar === ""){
+        return (
+          <div className="App">
+            <DashBoardTopNavBar/>
+            <LeftSideNavBar/>
+          </div>
+        ) 
+      } else if (viewFromTopNavBar === "inbound"){
+        return (
+          <div className="App">
+            <DashBoardTopNavBar/>
+            <Orders/>
+            <LeftSideNavBar/>
+          </div>
+        ) 
+      } else if(viewFromTopNavBar === "createOrder"){
+        return (
+          <div className="App">
+            <DashBoardTopNavBar/>
+            <CreateOrder/>
+            <LeftSideNavBar/>
+          </div>
+        ) 
+      } else {
+        return (
+          <div className="App">
+            <DashBoardTopNavBar/>
+            <LeftSideNavBar/>
+          </div>
+        ) 
+      }
+      //end of check condition fater login, for inbound outbound ... tabs
   } else if(view === "createAcc"){
     return (
       <div className="App">
