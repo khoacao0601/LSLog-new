@@ -6,6 +6,8 @@ import Help from './components/help';
 import Login from './components/loginPage';
 import Welcome from './components/welcome';
 import CreateUser from './components/createUser';
+import DashBoardTopNavBar from './components/dashBoardTopNavBar';
+import LeftSideNavBar from './components/leftSideNavBar';
 import {useSelector} from 'react-redux';
 import {viewsSelector} from './store/reducer/viewsControlSlice';
 //import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
@@ -45,8 +47,8 @@ function App() {
   } else if(view === "welcome"){
     return (
       <div className="App">
-        <Header/>
-        <Welcome/>
+        <DashBoardTopNavBar/>
+        <LeftSideNavBar/>
       </div>
     )
   } else if(view === "createAcc"){
