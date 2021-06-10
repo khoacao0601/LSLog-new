@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 
 
 const viewsControlSlice = createSlice({
-    name: 'views',
+    name: 'views',//name must be unique
     initialState: {
         allViews: 'login'
     },

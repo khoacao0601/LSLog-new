@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Radium from 'radium'; //CSS-in-JS library support :hover
+import {useDispatch} from 'react-redux';
+import {setViews} from '../store/reducer/topNavBarViewsControl';
 
 const DashBoardTopNavBar = () => {
+
+    const dispatch = useDispatch();
 
     const onClickInbound = () => {
         delete styles.inventory.backgroundColor;
         delete styles.outBound.backgroundColor;
         delete styles.notifications.backgroundColor;
         styles.inBound.backgroundColor = "white";
+        dispatch(setViews('inbound'));
     } 
 
     const onClickInventory = () => {
@@ -16,6 +21,7 @@ const DashBoardTopNavBar = () => {
         delete styles.outBound.backgroundColor;
         delete styles.notifications.backgroundColor;
         styles.inventory.backgroundColor = "white";
+        dispatch(setViews('invetory'));
     } 
 
     const onClickOutbound = () => {
@@ -23,6 +29,7 @@ const DashBoardTopNavBar = () => {
         delete styles.inBound.backgroundColor;
         delete styles.notifications.backgroundColor;
         styles.outBound.backgroundColor = "white";
+        dispatch(setViews('outbound'));
     } 
 
     const onClickNotification = () => {
@@ -30,6 +37,7 @@ const DashBoardTopNavBar = () => {
         delete styles.outBound.backgroundColor;
         delete styles.inBound.backgroundColor;
         styles.notifications.backgroundColor = "white";
+        dispatch(setViews('notification'));
     } 
 
     return (
@@ -44,7 +52,7 @@ const DashBoardTopNavBar = () => {
                 </div>
                 <div className="" style={styles.notifications} onClick={onClickNotification}>NOTIFICATIONS</div>
                 <div className="w3-dropdown-hover" style={styles.settings}>
-                    SETTINGS
+                    SETTINGS &darr;
                     <div className="w3-dropdown-content w3-bar-block w3-border">
                         <div className="w3-bar-item w3-button">Users Info</div>
                         <div className="w3-bar-item w3-button">DarkMode</div>
@@ -61,13 +69,13 @@ const DashBoardTopNavBar = () => {
 const styles = {
     container: {
         width: "100%",
-        height: "18vh",
+        height: "11vh",
         backgroundColor: "lightgray",
         zIndex: -1
     },
     buttonDiv: {
         position: "absolute",
-        top: "12%",
+        top: "6vh",
         left: "20%",
         width: "75%"
     },

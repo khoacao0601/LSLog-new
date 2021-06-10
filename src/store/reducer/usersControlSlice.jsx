@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 
 
 const usersControlSlice = createSlice({
-    name: 'users',
+    name: 'users',//name must be unique
     initialState: {
         allUsers: [],
         onlyUserName: '',
