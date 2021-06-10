@@ -14,23 +14,23 @@ const Orders = () => {
     <div style={styles.constainer}>
         <h1>Inbound / Orders</h1>
         <div style={styles.buttonDiv}>
-            <button class="w3-button w3-light-grey" style={styles.createOrder} onClick={onClickCreateOrder}>CREATE ORDER</button>
-            <button class="w3-button w3-light-grey" style={styles.actions}>ACTIONS</button>
+            <button className="w3-button w3-light-grey" style={styles.createOrder} onClick={onClickCreateOrder}>CREATE ORDER</button>
+            <button className="w3-button w3-light-grey" style={styles.actions}>ACTIONS</button>
             <input type="text" placeholder="SEARCH INBOUND ORDERS" style={styles.searchBar} />
-            <div class="w3-dropdown-hover" style={{ marginLeft: "4vh"}}>
-                <button class="w3-button w3-light-grey" style={styles.filter}>FILTER &darr;</button>
-                <div style={{ marginLeft: "4vh"}} class="w3-dropdown-content w3-bar-block w3-card-4">
-                    <div href="#" class="w3-bar-item w3-button">Filter 1</div>
-                    <div href="#" class="w3-bar-item w3-button">Filter 2</div>
-                    <div href="#" class="w3-bar-item w3-button">Filter 3</div>
+            <div className="w3-dropdown-hover" style={{ marginLeft: "4vh"}}>
+                <button className="w3-button w3-light-grey" style={styles.filter}>FILTER &darr;</button>
+                <div style={{ marginLeft: "4vh"}} className="w3-dropdown-content w3-bar-block w3-card-4">
+                    <div href="#" className="w3-bar-item w3-button">Filter 1</div>
+                    <div href="#" className="w3-bar-item w3-button">Filter 2</div>
+                    <div href="#" className="w3-bar-item w3-button">Filter 3</div>
                 </div>          
             </div>
-            <div class="w3-dropdown-hover" style={{ marginLeft: "4vh"}}>
-                <button class="w3-button w3-light-grey" style={styles.filter}>SORT &darr;</button>
-                <div style={{ marginLeft: "4vh"}} class="w3-dropdown-content w3-bar-block w3-card-4">
-                    <div href="#" class="w3-bar-item w3-button">Sort 1</div>
-                    <div href="#" class="w3-bar-item w3-button">Sort 2</div>
-                    <div href="#" class="w3-bar-item w3-button">Sort 3</div>
+            <div className="w3-dropdown-hover" style={{ marginLeft: "4vh"}}>
+                <button className="w3-button w3-light-grey" style={styles.filter}>SORT &darr;</button>
+                <div style={{ marginLeft: "4vh"}} className="w3-dropdown-content w3-bar-block w3-card-4">
+                    <div href="#" className="w3-bar-item w3-button">Sort 1</div>
+                    <div href="#" className="w3-bar-item w3-button">Sort 2</div>
+                    <div href="#" className="w3-bar-item w3-button">Sort 3</div>
                 </div>          
             </div>
         </div>
