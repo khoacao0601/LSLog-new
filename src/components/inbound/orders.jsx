@@ -1,6 +1,6 @@
 import React from 'react';
 import {useDispatch} from 'react-redux';
-import {setViews} from '/home/dev/lslog-workplace/LSLog-new/src/store/reducer/topNavBarViewsControl';
+import {setViews} from '../../store/reducer/topNavBarViewsControl';
 
 const Orders = () => {
 
