@@ -12,6 +12,7 @@ import {useSelector} from 'react-redux';
 import {viewsSelector} from './store/reducer/viewsControlSlice';
 import SideNav from './components/SideNav';
 import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
+import CreateOrder from './components/CreateOrder';
 
 function App() {
   const view = useSelector(viewsSelector);
@@ -59,8 +60,15 @@ function App() {
         <CreateUser/>
       </div>
     )
+  } else if(view === "inbound"){
+    return (
+      <div className="App">
+        <DashBoardTopNavBar />
+        <SideNav />
+        <CreateOrder/>
+      </div>
+    )
   }
-   
 }
 
 export default App;

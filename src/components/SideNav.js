@@ -7,11 +7,16 @@ const SideNav = () => {
         <div className='container'>
             <nav className='sidebar-links'>
                 <ul className='sidebar-links__one'>
-                    <li ><Link className='sidebar-link' to='/orders'>Orders</Link></li>
-                    {/* <li className='sidebar-link'><Link to='/orders'>Receiving</Link></li>
-                    <li className='sidebar-link'><Link to='/orders'>Outbounds</Link></li> */}
+                    <li className='text'>
+                        <Link className='sidebar-link' to='/orders'>
+                            Orders
+                        </Link>
+                    </li>
                 </ul>
-            </nav>                
+            </nav>
+
+                    {/* <li className='text'><Link to='/receiving'>Receiving</Link></li>
+                    <li className='text'><Link to='/outbounds'>Outbounds</Link></li> */}
         </div>
     )
 }

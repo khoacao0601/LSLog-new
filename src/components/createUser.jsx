@@ -51,7 +51,7 @@ const CreateUser = () => {
     return(
         <form className="w3-container" style={styles.container}>
             <img src={createUserPic} alt='front' style={styles.pic} className="w3-margin-top"/>
-            <h3 className="w3-margin">Rigistration Info </h3> 
+            <h3 className="w3-margin">Registration Info </h3> 
             <label className="font-weight-bold w3-margin">Full Name: <i style={styles.iTag}>*</i></label> 
                 <input type="text" className="w3-input" name="fullName" onChange={updateField} value={newUser.fullName}></input>
             <label className="font-weight-bold w3-margin">UserName: <i style={styles.iTag}>*</i></label>
