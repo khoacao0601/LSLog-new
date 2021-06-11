@@ -5,9 +5,9 @@ const CreateOrder = () => {
     const testData = [
         {
             line: "1",
-            item: "hydrocodone",
+            item: "Hydrocodone",
             qty: "1",
-            uom: "pallet",
+            uom: "PALLET",
             totalEach: 1,
             sku: "A1B1C1",
             dateEx: "05/10/21 12:01 AM"
@@ -43,14 +43,14 @@ const CreateOrder = () => {
     ];
 
     const table = testData.map((object, indexArray) =>             
-        <tr className="d-flex justify-content-between" style={styles.table}>
-          <td className="text-center">{object.line}</td>
-          <td className="">{object.item}</td>
-          <td className="">{object.qty}</td>
-          <td className="">{object.uom}</td>
-          <td className="">{object.totalEach}</td>
-          <td className="">{object.sku}</td>
-          <td className="">{object.dateEx}</td>
+        <tr className="d-flex justify-content-between text-center" style={{ width: "150vh"}}>
+          <td className="col-1 col-xl-1 col-lg-1 col-md-1 col-sm-1">{object.line}</td>
+          <td className="col-1 col-xl-1 col-lg-1 col-md-1 col-sm-1">{object.item}</td>
+          <td className="col-1 col-xl-1 col-lg-1 col-md-1 col-sm-1">{object.qty}</td>
+          <td className="col-1 col-xl-1 col-lg-1 col-md-1 col-sm-1">{object.uom}</td>
+          <td className="col-1 col-xl-1 col-lg-1 col-md-1 col-sm-1">{object.totalEach}</td>
+          <td className="col-1 col-xl-1 col-lg-1 col-md-1 col-sm-1">{object.sku}</td>
+          <td className="col-2 col-xl-2 col-lg-2 col-md-2 col-sm-2">{object.dateEx}</td>
         </tr>       
     );
 
@@ -61,21 +61,27 @@ const CreateOrder = () => {
             ITEM: <input type="text" placeholder="SEARCH BY SKU OR DESCRIPTION" style={styles.searchBar} /> <br/>
             <div style={{ marginTop: "3vh" }}>
                 QUANTITY: <input type="text" style={styles.quantityBar} />
-                UOM: <input type="text" style={styles.quantityBar} />
+                UOM: <select>
+                        <option value="" disabled selected>Options</option>
+                        <option value="PALLET">PALLET</option>
+                        <option value="CASES">CASES</option>
+                        <option value="KITS">KITS</option>
+                        <option value="EACHES">EACHES</option>
+                    </select>
             </div>   
             DATE EXPECTED: <input type="date" style={styles.dateExpected} /> <br/>
             <button className="w3-button w3-light-grey" style={styles.addLine}>ADD LINE</button>  
             <hr/> 
             <h5>Lines in Order</h5> 
-            <table className="w3-table w3-bordered w3-hoverable">
-            <tr className="d-flex justify-content-between" style={styles.table}>
-                <th>LINES</th>
-                <th>ITEM</th>
-                <th>QTY</th>
-                <th>UOM</th>
-                <th>TOTAL EA</th>
-                <th>SKU</th>
-                <th>DATE EXPECTED</th>
+            <table className="w3-table w3-bordered w3-hoverable w3-striped">
+            <tr className="d-flex justify-content-between" style={{ width: "150vh"}}>
+                <th className="col-1 col-xl-1 col-lg-1 col-md-1 col-sm-1">LINES</th>
+                <th className="col-1 col-xl-1 col-lg-1 col-md-1 col-sm-1">ITEM</th>
+                <th className="col-1 col-xl-1 col-lg-1 col-md-1 col-sm-1">QTY</th>
+                <th className="col-1 col-xl-1 col-lg-1 col-md-1 col-sm-1">UOM</th>
+                <th className="col-1 col-xl-1 col-lg-1 col-md-1 col-sm-1">TOTAL EA</th>
+                <th className="col-1 col-xl-1 col-lg-1 col-md-1 col-sm-1">SKU</th>
+                <th className="col-2 col-xl-2 col-lg-2 col-md-2 col-sm-2">DATE EXPECTED</th>
             </tr>
             <tbody>{table}</tbody>
         </table>
