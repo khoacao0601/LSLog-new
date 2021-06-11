@@ -64,7 +64,7 @@ const styles ={
         marginTop: "2vh"
     },
     createOrder:{
-        width: "15vh"
+        width: "19vh"
     },
     actions:{
         width: "15vh",
