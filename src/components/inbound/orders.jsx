@@ -44,7 +44,7 @@ const Orders = () => {
                 <th>DATE EXPECTED</th>
                 <th>DATE COMPLETED</th>
             </tr>
-            <tbody></tbody>
+            <tbody ></tbody>
         </table>
     </div>
     )
