@@ -44,7 +44,7 @@ const CreateOrder = () => {
 
     const table = testData.map((object, indexArray) =>             
         <tr className="d-flex justify-content-between" style={styles.table}>
-          <td className="">{object.line}</td>
+          <td className="text-center">{object.line}</td>
           <td className="">{object.item}</td>
           <td className="">{object.qty}</td>
           <td className="">{object.uom}</td>
@@ -88,7 +88,7 @@ const CreateOrder = () => {
 const styles = {
     constainer: {
         position: "relative",
-        left: "39vh",
+        left: "41vh",
         top: "3vh"
     },
     searchBar: {
