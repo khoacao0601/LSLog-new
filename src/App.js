@@ -10,7 +10,8 @@ import DashBoardTopNavBar from './components/dashBoardTopNavBar';
 import LeftSideNavBar from './components/leftSideNavBar';
 import {useSelector} from 'react-redux';
 import {viewsSelector} from './store/reducer/viewsControlSlice';
-//import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
+import SideNav from './components/SideNav';
+import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
 
 function App() {
   const view = useSelector(viewsSelector);
@@ -48,7 +49,8 @@ function App() {
     return (
       <div className="App">
         <DashBoardTopNavBar/>
-        <LeftSideNavBar/>
+        <SideNav />
+        {/* <LeftSideNavBar/> */}
       </div>
     )
   } else if(view === "createAcc"){

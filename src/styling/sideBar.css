@@ -1,0 +1,35 @@
+.container{
+    width: 18%;
+    height: 100vh;
+    position: absolute;
+    /* opacity: 0.3; */
+    z-index: 2;
+    background-color: #D3D3D3;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    color: black;
+
+}
+
+.sidebar-links{
+    width: 100%;
+}
+
+.sidebar-link:hover{
+    color: black;
+    cursor: pointer;
+}
+.sidebar-links__one{
+    list-style: none;
+    text-transform: uppercase;
+    color: black;
+    position: fixed;
+    background-color: white;
+    height: 4vh;
+    width: 100%;
+}
+
+.sidebar-link{
+    color: black;
+}
