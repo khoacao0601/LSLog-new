@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {setViews} from '../../store/reducer/topNavBarViewsControl';
 
@@ -6,9 +6,13 @@ const Orders = () => {
 
     const dispatch = useDispatch();
 
+    const [allOrders, setAllorders] = useState();
+
     const onClickCreateOrder = () => {
         dispatch(setViews("createOrder"));
     }
+
+
 
     return(
     <div style={styles.constainer}>
