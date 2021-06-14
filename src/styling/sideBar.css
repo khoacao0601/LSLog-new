@@ -34,11 +34,6 @@
     text-decoration: none;
 }
 
-.sidebar-link:hover{
-    color: black;
-    cursor: pointer;
-}
-
 .text{
     list-style: none;
     text-transform: uppercase;
@@ -53,12 +48,17 @@
     border-bottom-left-radius: 10px;
     font-weight: bolder;
     display: flex;
-    width: 31vh;
+    /* width: 15.18%; */
+    /* width: 15.18vw; */
+    width: 29.10vh;
     padding-top: 10px;
     /* margin-left: 200px; */
 }
 
 .text:hover{
+    background-color: black;
+    color: white;
+    cursor: pointer;
 }
 
 
