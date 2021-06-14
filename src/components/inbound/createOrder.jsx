@@ -56,7 +56,7 @@ const CreateOrder = () => {
 
 
     return(
-        <div style={styles.constainer}>
+        <div style={styles.container}>
             <h1>Inbound / Create Order</h1>
             ITEM: <input type="text" placeholder="SEARCH BY SKU OR DESCRIPTION" style={styles.searchBar} /> <br/>
             <div style={{ marginTop: "3vh" }}>
@@ -92,7 +92,7 @@ const CreateOrder = () => {
 }
 
 const styles = {
-    constainer: {
+    container: {
         position: "relative",
         left: "41vh",
         top: "3vh"
