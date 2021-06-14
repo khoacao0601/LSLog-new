@@ -8,14 +8,9 @@ const SideNav = () => {
             <nav className='sidebar-links'>
                 <ul className='sidebar-links__one'>
                     <li className='text'>
-                        <Link className='sidebar-link' to='/orders'>
+                        <div className='sidebar-link' to='/orders'>
                             Orders
-                        </Link>
-                    </li>
-                    <li className='text'>
-                        <a className='sidebar-link' to='/orders'>
-                            Orders
-                        </a>
+                        </div>
                     </li>
                 </ul>
             </nav>

@@ -2,11 +2,9 @@
     width: 18%;
     height: 100vh;
     position: absolute;
-    opacity: 0.3;
-    background-color: rgba(51,51,51,0.5);
+    background-color: rgba(51,51,51,0.3);
     top: 0vh;
     z-index: 2;
-    background-color: gray;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
