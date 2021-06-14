@@ -12,6 +12,11 @@ const SideNav = () => {
                             Orders
                         </Link>
                     </li>
+                    <li className='text'>
+                        <a className='sidebar-link' to='/orders'>
+                            Orders
+                        </a>
+                    </li>
                 </ul>
             </nav>
 
