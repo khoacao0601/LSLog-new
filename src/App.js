@@ -75,7 +75,8 @@ function App() {
           <div className="App">
             <DashBoardTopNavBar/>
             <CreateOrder/>
-            <LeftSideNavBar/>
+            <SideNav />
+            {/* <LeftSideNavBar/> */}
           </div>
         ) 
       } else {
