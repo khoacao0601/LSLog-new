@@ -52,6 +52,7 @@
     display: flex;
     width: 17.5%;
     padding-top: 10px;
+    /* margin-left: 200px; */
 }
 
 .text:hover{
@@ -63,4 +64,7 @@
     color: black;
     align-self:stretch;
     text-align: end;
+    /* margin-left: 190px; */
+    margin-left: 10vw;
+    letter-spacing: 3px;
 }
