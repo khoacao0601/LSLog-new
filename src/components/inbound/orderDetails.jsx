@@ -5,7 +5,7 @@ const OrderDetails = () => {
     return (
         <div className='container-order'>
             <h1>Inbound / Orders / R0005 </h1>
-            <div>
+            <div className='component-top'>
                 <button className='actions'>
                     ACTIONS &darr;
                 </button>
