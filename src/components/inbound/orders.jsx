@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {setViews} from '../../store/reducer/topNavBarViewsControl';
 
 const Orders = () => {
 
     const dispatch = useDispatch();
+
+    const [allOrders, setAllorders] = useState();
 
     const onClickCreateOrder = () => {
         dispatch(setViews("createOrder"));
@@ -15,7 +17,7 @@ const Orders = () => {
     }
 
     return(
-    <div style={styles.constainer}>
+    <div style={styles.container}>
         <h1>Inbound / Orders</h1>
         <div style={styles.buttonDiv}>
             <button className="w3-button w3-light-grey" style={styles.createOrder} onClick={onClickCreateOrder}>CREATE ORDER</button>
@@ -48,14 +50,23 @@ const Orders = () => {
                 <th>DATE EXPECTED</th>
                 <th>DATE COMPLETED</th>
             </tr>
-            <tbody onClick={changeViewToOrderDetail} >This is an order</tbody>
+            <tr className="d-flex justify-content-between" style={styles.table} onClick={changeViewToOrderDetail}>
+                <td>HIGH</td>
+                <td>R0005</td>
+                <td>10</td>
+                <td>STATUS</td>
+                <td>06/15/2021</td>
+                <td>06/25/2021</td>
+                <td>n/a</td>
+            </tr>
+            <tbody ></tbody>
         </table>
     </div>
     )
 }
 
 const styles ={
-    constainer: {
+    container: {
         position: "relative",
         left: "39vh",
         top: "3vh"
