@@ -30,15 +30,15 @@ const CreateUser = () => {
       setAge(e.target.value);
     };
     const [newUser, setNewUser] = useState({
-        //fullName: "",
-        //userName: "",
-        //email: "",
-        //password: "",
-        //phoneNumber: "",
-        //skype: "",
-        //office: "",
-        //dept: "",
-        //gender: ""
+        // fullName: "",
+        // userName: "",
+        // email: "",
+        // password: "",
+        // phoneNumber: "",
+        // skype: "",
+        // office: "",
+        // dept: "",
+        // gender: ""
     })
 
     const [sendValue, setSendValue] = useState();
