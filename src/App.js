@@ -4,7 +4,7 @@ import About from './components/about';
 import Contact from './components/contact';
 import Help from './components/help';
 import Login from './components/loginPage';
-import Welcome from './components/welcome';
+//import Welcome from './components/welcome';
 import CreateUser from './components/createUser';
 import DashBoardTopNavBar from './components/dashBoardTopNavBar';
 import LeftSideNavBar from './components/inbound/leftSideNavBar';
@@ -14,6 +14,7 @@ import {useSelector} from 'react-redux';
 import {viewsSelector} from './store/reducer/viewsControlSlice';
 import {topNavBarViewsSelector} from './store/reducer/topNavBarViewsControl';
 import SideNav from './components/SideNav';
+import OrderDetails from './components/inbound/orderDetails';
 //import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
 
 function App() {
@@ -79,7 +80,16 @@ function App() {
             {/* <LeftSideNavBar/> */}
           </div>
         ) 
-      } else {
+      } else if(viewFromTopNavBar === "orderDetails"){
+        return (
+          <div className="App">
+            <DashBoardTopNavBar/>
+            <OrderDetails/>
+            <SideNav />
+            {/* <LeftSideNavBar/> */}
+          </div>
+        ) 
+      }  else {
         return (
           <div className="App">
             <DashBoardTopNavBar/>
@@ -91,9 +101,44 @@ function App() {
   } else if(view === "createAcc"){
     return (
       <div className="App">
+        <Header/>
         <CreateUser/>
       </div>
     )
+  } else if(view === "welcome"){
+    //check condition fater login, for inbound outbound ... tabs
+      if(viewFromTopNavBar === ""){
+        return (
+          <div className="App">
+            <DashBoardTopNavBar/>
+            <LeftSideNavBar/>
+          </div>
+        ) 
+      } else if (viewFromTopNavBar === "inbound"){
+        return (
+          <div className="App">
+            <DashBoardTopNavBar/>
+            <Orders/>
+            <LeftSideNavBar/>
+          </div>
+        ) 
+      } else if(viewFromTopNavBar === "createOrder"){
+        return (
+          <div className="App">
+            <DashBoardTopNavBar/>
+            <CreateOrder/>
+            <LeftSideNavBar/>
+          </div>
+        ) 
+      } else {
+        return (
+          <div className="App">
+            <DashBoardTopNavBar/>
+            <LeftSideNavBar/>
+          </div>
+        ) 
+      }
+      //end of check condition fater login, for inbound outbound ... tabs
   }
    
 }
