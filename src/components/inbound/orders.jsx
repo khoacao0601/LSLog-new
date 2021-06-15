@@ -48,6 +48,15 @@ const Orders = () => {
                 <th>DATE EXPECTED</th>
                 <th>DATE COMPLETED</th>
             </tr>
+            <tr className="d-flex justify-content-between" style={styles.table}>
+                <td>HIGH</td>
+                <td>R0005</td>
+                <td>10</td>
+                <td>STATUS</td>
+                <td>06/15/2021</td>
+                <td>06/25/2021</td>
+                <td>n/a</td>
+            </tr>
             <tbody ></tbody>
         </table>
     </div>
