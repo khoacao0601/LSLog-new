@@ -1,20 +1,44 @@
 import React, {useEffect, useState} from 'react';
 import createUserPic from '../images/LSLCreateUser1.png';
-
 //included CSS, Boostrap, and W3.CSS library
 
-const CreateUser = () => {
+import { makeStyles } from '@material-ui/core/styles';
+//import { spacing } from '@material-ui/system';
+import {useDispatch, useSelector} from 'react-redux';
+import {setViews} from '../store/reducer/viewsControlSlice';
+import Button from '@material-ui/core/Button';
+import InputLabel from '@material-ui/core/InputLabel';
+import TextField from '@material-ui/core/TextField';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Grid from '@material-ui/core/Grid';
 
+const useStyles = makeStyles((theme) => ({
+    root: {
+        '& > *': {margin: theme.spacing(1),marginLeft: theme.spacing(2),},flexGrow: 1,},
+        paper: {height: 40,width: 100,},
+        page: {marginTop: 20,},
+        control: {padding: theme.spacing(2),},
+    }));
+
+const CreateUser = () => {
+    const classes = useStyles();
+
+    const [age, setAge] = useState('');
+    const handleChange = (e) => {
+      setAge(e.target.value);
+    };
     const [newUser, setNewUser] = useState({
-        fullName: "",
-        userName: "",
-        email: "",
-        password: "",
-        phoneNumber: "",
-        skype: "",
-        office: "",
-        dept: "",
-        gender: ""
+        //fullName: "",
+        //userName: "",
+        //email: "",
+        //password: "",
+        //phoneNumber: "",
+        //skype: "",
+        //office: "",
+        //dept: "",
+        //gender: ""
     })
 
     const [sendValue, setSendValue] = useState();
@@ -34,7 +58,7 @@ const CreateUser = () => {
             username: newUser.userName,
             email: newUser.email
         })
-    }, [newUser.email, newUser.fullName, newUser.userName])
+    }, [newUser.email, newUser.userName, newUser.fullName])
 
     const sendInfos = (e) => {
         console.log(JSON.stringify(sendValue));
@@ -45,41 +69,154 @@ const CreateUser = () => {
           });
     }
 
+    const dispatch = useDispatch();
+    const setLogin = (event) => {
+        event.preventDefault();
+        dispatch(setViews('login'));
+    }
+
     return(
-        <form className="w3-container" style={styles.container}>
-            <img src={createUserPic} alt='front' style={styles.pic} className="w3-margin-top"/>
-            <h3 className="w3-margin">Rigistration Info </h3> 
-            <label className="font-weight-bold w3-margin">Full Name: <i style={styles.iTag}>*</i></label> 
-                <input type="text" className="w3-input" name="fullName" onChange={updateField} value={newUser.fullName}></input>
-            <label className="font-weight-bold w3-margin">UserName: <i style={styles.iTag}>*</i></label>
-                <input className="w3-input" type="text" name="userName" onChange={updateField} value={newUser.userName}></input>
-            <label className="font-weight-bold w3-margin">Email: <i style={styles.iTag}>*</i></label> 
-                <input type="text" className="w3-input" name="email" onChange={updateField} value={newUser.email}></input>
-            <label className="font-weight-bold w3-margin">Password: <i style={styles.iTag}>*</i></label>
-                <input type="password" className="w3-input" name="password" onChange={updateField} value={newUser.password}></input>
-            <label className="font-weight-bold w3-margin">Phone Number: <i style={styles.iTag}>*</i></label>
-                <input className="w3-input" type="number" name="phoneNumber" onChange={updateField} value={newUser.phoneNumber}></input>
-            <label className="font-weight-bold w3-margin">SkypeID:</label>
-                <input className="w3-input" type="text" name="skype" onChange={updateField} value={newUser.skype}></input>
-            <label className="font-weight-bold w3-margin">Office:</label>
-                <input className="w3-input" type="text" name="office" onChange={updateField} value={newUser.office}></input>
-            <label className="font-weight-bold w3-margin">Department: </label>
-                <select className="w3-select w3-border" name="dept" onChange={updateField} value={newUser.dept}>
-                    <option value="" disabled defaultValue>Choose your option</option>
-                    <option value="Dep. 1">Dep. 1</option>
-                    <option value="Dep. 2">Dep. 2</option>
-                    <option value="Dep. 3">Dep. 3</option>
-                </select>
-            <label className="font-weight-bold w3-margin">Gender:</label>
-                <select className="w3-select w3-border" name="gender" onChange={updateField} value={newUser.gender}>
-                    <option value="" disabled defaultValue>Choose your option</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                </select>
-            <p></p>
-            <h5 style={styles.iTag}>* required </h5>
-            <p><button className="w3-button w3-green w3-margin" onClick={sendInfos}>Submit</button></p>
-        </form>
+        <div className="create-form w-50 mx-auto">
+            <form>
+                <Grid container spacing={3} className={classes.page}>
+                    <Grid item xs={12}>
+                        <img src={createUserPic} alt='front' style={styles.pic} className="w3-margin-top"/>
+                    </Grid>
+                    <Grid item xs={12}>
+                    <h2 className="text-center">Create New User</h2>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Grid container justify="center" width={1}>
+                            <TextField fullWidth={true}
+                                id="fullName"
+                                label="Full Name"
+                                variant="outlined"
+                                value={newUser.fullName}
+                                onChange={updateField}
+                                required
+                            />
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Grid container justify="center" width={1}>
+                            <TextField fullWidth={true}
+                                id="username"
+                                label="Username"
+                                variant="outlined"
+                                value={newUser.username}
+                                onChange={updateField}
+                                required
+                            />
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Grid container justify="center" width={1}>
+                            <TextField fullWidth={true}
+                                id="email"
+                                label="Email"
+                                variant="outlined"
+                                value={newUser.email}
+                                onChange={updateField}
+                                required
+                            />
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Grid container justify="center" width={1}>
+                            <TextField fullWidth={true}
+                                id="password"
+                                label="Password"
+                                variant="outlined"
+                                value={newUser.password}
+                                onChange={updateField}
+                                required
+                            />
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Grid container justify="center" width={1}>
+                            <TextField fullWidth={true}
+                                id="phone"
+                                label="Phone Number"
+                                variant="outlined"
+                                value={newUser.phoneNumber}
+                                onChange={updateField}
+                                required
+                            />
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Grid container justify="center" width={1}>
+                            <TextField fullWidth={true}
+                                id="skype"
+                                label="Skype ID"
+                                variant="outlined"
+                                value={newUser.skype}
+                                onChange={updateField}
+                            />
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Grid container justify="center" width={1}>
+                            <TextField fullWidth={true}
+                                id="office"
+                                label="Office"
+                                variant="outlined"
+                                value={newUser.office}
+                                onChange={updateField}
+                            />
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Grid container justify="center" width={1}>
+                        <FormControl fullWidth={true} variant="outlined" className={classes.formControl}>
+                            <InputLabel id="dept-select-outlined-label">Department</InputLabel>
+                            <Select
+                                labelId="dept-select-outlined-label"
+                                label="Department"
+                                id="dept-select-outlined"
+                                value={age.dept}
+                                onChange={handleChange}
+                            >
+                                <MenuItem value=""><em>None</em></MenuItem>
+                                <MenuItem value={"Dep1"}>Dep. 1</MenuItem>
+                                <MenuItem value={"Dep2"}>Dep. 2</MenuItem>
+                                <MenuItem value={"Dep3"}>Dep. 3</MenuItem>
+                            </Select>
+                        </FormControl>
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Grid container justify="center" width={1}>
+                         <FormControl variant="outlined" className={classes.formControl} fullWidth={true}>
+                            <InputLabel id="gender-select-outlined-label">Gender</InputLabel>
+                            <Select
+                                labelId="gender-select-outlined-label"
+                                label="Gender"
+                                id="gender-select-outlined"
+                                value={age.gender}
+                                defaultValue=""
+                            >
+                                <MenuItem value=""><em>None</em></MenuItem>
+                                <MenuItem value={"Male"}>Male</MenuItem>
+                                <MenuItem value={"Female"}>Female</MenuItem>
+                            </Select>
+                        </FormControl>
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Grid container justify="center" width={1}>
+                        <a href="login" onClick={setLogin}>Cancel</a>
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Grid container justify="center" width={1}>
+                            <Button fullWidth={true} type="button" onClick={sendInfos} variant="contained" color="primary">Submit</Button>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </form>
+        </div>
     )
 }
 
