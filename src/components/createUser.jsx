@@ -52,6 +52,7 @@ const CreateUser = () => {
         });
     };
 
+    //setup value for Post request
     useEffect(() => {
         console.log(newUser.fullName);
         setSendValue({
@@ -60,6 +61,8 @@ const CreateUser = () => {
         })
     }, [newUser.email, newUser.userName, newUser.fullName])
 
+
+    //do Post request
     const sendInfos = (e) => {
         console.log(JSON.stringify(sendValue));
         fetch('http://18.218.0.232:8110/uaa/users', {

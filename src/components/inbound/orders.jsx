@@ -39,7 +39,7 @@ const Orders = () => {
             </div>
         </div>
         <table className="w3-table w3-bordered">
-        <tr className="d-flex justify-content-between" style={styles.table}>
+            <tr className="d-flex justify-content-between" style={styles.table}>
                 <th>PRTY</th>
                 <th>ORDER ID</th>
                 <th>LINES</th>

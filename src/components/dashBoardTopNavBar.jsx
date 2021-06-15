@@ -21,7 +21,7 @@ const DashBoardTopNavBar = () => {
         delete styles.outBound.backgroundColor;
         delete styles.notifications.backgroundColor;
         styles.inventory.backgroundColor = "white";
-        dispatch(setViews('invetory'));
+        dispatch(setViews('inventory'));
     } 
 
     const onClickOutbound = () => {
