@@ -1,0 +1,20 @@
+.container-order{
+    position: relative;
+    left: 41vh;
+    top: 3vh;
+}
+
+.actions{
+    width: 15vh;
+}
+
+.searchbar{
+    margin-left: 45vh;
+    width: 45vh;
+    text-transform: uppercase;
+}
+
+.filter{
+    width: 11vh;
+    margin-left: 4vh;
+}
