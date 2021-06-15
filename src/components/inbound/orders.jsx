@@ -10,6 +10,10 @@ const Orders = () => {
         dispatch(setViews("createOrder"));
     }
 
+    const changeViewToOrderDetail = () => {
+        dispatch(setViews("orderDetails"));
+    }
+
     return(
     <div style={styles.constainer}>
         <h1>Inbound / Orders</h1>
@@ -44,7 +48,7 @@ const Orders = () => {
                 <th>DATE EXPECTED</th>
                 <th>DATE COMPLETED</th>
             </tr>
-            <tbody ></tbody>
+            <tbody onClick={changeViewToOrderDetail} >This is an order</tbody>
         </table>
     </div>
     )

@@ -14,6 +14,7 @@ import {useSelector} from 'react-redux';
 import {viewsSelector} from './store/reducer/viewsControlSlice';
 import {topNavBarViewsSelector} from './store/reducer/topNavBarViewsControl';
 import SideNav from './components/SideNav';
+import OrderDetails from './components/inbound/orderDetails';
 //import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
 
 function App() {
@@ -79,7 +80,16 @@ function App() {
             {/* <LeftSideNavBar/> */}
           </div>
         ) 
-      } else {
+      } else if(viewFromTopNavBar === "orderDetails"){
+        return (
+          <div className="App">
+            <DashBoardTopNavBar/>
+            <OrderDetails/>
+            <SideNav />
+            {/* <LeftSideNavBar/> */}
+          </div>
+        ) 
+      }  else {
         return (
           <div className="App">
             <DashBoardTopNavBar/>
