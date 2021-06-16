@@ -21,8 +21,9 @@
 
 .table-container,
 .table-body {
-    margin-top: 2vh;
-    width: 150vh;
+    /* margin-top: 2vh;
+    width: 150vh; */
+    padding-top: 20px;
 }
 
 .table-row{
