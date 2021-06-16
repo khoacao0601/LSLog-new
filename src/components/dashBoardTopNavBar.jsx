@@ -1,145 +1,164 @@
 import React from 'react';
-import Radium from 'radium'; //CSS-in-JS library support :hover
+import LSLLogo from '../images/LSL Logo.png';
+import Radium from 'radium'; //CSS-in-JS library support '&:hover'
 import {useDispatch} from 'react-redux';
 import {setViews} from '../store/reducer/topNavBarViewsControl';
 
-const DashBoardTopNavBar = () => {
+import Link from '@material-ui/core/Link';
+import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuList from '@material-ui/core/MenuList';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Grow from '@material-ui/core/Grow';
+import Paper from '@material-ui/core/Paper';
+import Popper from '@material-ui/core/Popper';
 
-    const dispatch = useDispatch();
-
-    const onClickInbound = () => {
-        delete styles.inventory.backgroundColor;
-        delete styles.outBound.backgroundColor;
-        delete styles.notifications.backgroundColor;
-        styles.inBound.backgroundColor = "white";
-        dispatch(setViews('inbound'));
-    } 
-
-    const onClickInventory = () => {
-        //debugger;
-        delete styles.inBound.backgroundColor;
-        delete styles.outBound.backgroundColor;
-        delete styles.notifications.backgroundColor;
-        styles.inventory.backgroundColor = "white";
-        dispatch(setViews('inventory'));
-    } 
-
-    const onClickOutbound = () => {
-        delete styles.inventory.backgroundColor;
-        delete styles.inBound.backgroundColor;
-        delete styles.notifications.backgroundColor;
-        styles.outBound.backgroundColor = "white";
-        dispatch(setViews('outbound'));
-    } 
-
-    const onClickNotification = () => {
-        delete styles.inventory.backgroundColor;
-        delete styles.outBound.backgroundColor;
-        delete styles.inBound.backgroundColor;
-        styles.notifications.backgroundColor = "white";
-        dispatch(setViews('notification'));
-    } 
-
-    return (
-        <div style={styles.container}>
-            <div className="d-flex justify-content-between" style={styles.buttonDiv}>
-                {/* key for using one style in multiple div*/}
-                <div className="" style={styles.inBound} key="key1" onClick={onClickInbound}>INBOUND</div>
-                <div className="" style={styles.inventory} key="key2" onClick={onClickInventory}>INVENTORY</div>
-                <div className="" style={styles.outBound} key="key3" onClick={onClickOutbound}>OUTBOUND</div>
-                <div className="" style={styles.divGlobalSearchBar}>
-                    <input type="text" placeholder="GLOBAL SEARCH" style={styles.globalSearchBar} />
-                </div>
-                <div className="" style={styles.notifications} onClick={onClickNotification}>NOTIFICATIONS</div>
-                <div className="w3-dropdown-hover" style={styles.settings}>
-                    SETTINGS &darr;
-                    <div className="w3-dropdown-content w3-bar-block w3-border">
-                        <div className="w3-bar-item w3-button">Users Info</div>
-                        <div className="w3-bar-item w3-button">DarkMode</div>
-                        <div className="w3-bar-item w3-button">Logout</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    )
-}
-
-
-//CSS-in-JS style 
-const styles = {
-    container: {
-        width: "100%",
-        height: "11vh",
-        backgroundColor: "lightgray",
-        zIndex: -1
+const useStyles = makeStyles((theme) => ({
+    appBar: {
+        flexGrow: 1,
+        background: '#f8f9fa ',
+        //paddingTop:'20px',
+        zIndex: theme.zIndex.drawer + 1,
+      },
+    grow: {
+        flexGrow: 1,
+      },
+    root: {
+      flexGrow: 1,
     },
-    buttonDiv: {
-        position: "absolute",
-        top: "6vh",
-        left: "20%",
-        width: "75%"
+    searchBar: {
+      marginRight: "24px",
+      marginBottom: "24px",
+      minWidth: "300px",
+      height: "8.5px",
+      "& >label": {
+          transform: "translate(14px, 10px) scale(1)",
+      },
+      "& >div>input": {
+          padding: "8.5px 14px",
+      },
     },
-    inBound: {
-        height: "6vh",
-        width: "8vw",
+    menuButton: {
+        marginRight: theme.spacing(3),
+        color: "#000000",
+        fontWeight: "bold",
+        padding: "0 20px",
+        height: "4vh",
         textAlign: "center",
         borderRadius: "20px 20px 0px 0px",
-        lineHeight: "5vh",
-        fontWeight: "bold",
-        ":hover": {
-            cursor: "pointer",
-            backgroundColor: "white"
+        lineHeight: "3vh",
+        background: "#f8f9fa",
+        marginTop: "auto",
+        '&:hover': {
+            color: "#000000",
+            background: "#FFFFFF",
+            textDecoration: "none",
         }
     },
-    inventory: {
-        height: "6vh",
-        width: "8vw",
-        textAlign: "center",
-        borderRadius: "20px 20px 0px 0px",
-        lineHeight: "5vh",
-        fontWeight: "bold",
-        ":hover": {
-            cursor: "pointer",
-            backgroundColor: "white"
-        }
-    },
-    outBound: {
-        height: "6vh",
-        width: "8vw",
-        textAlign: "center",
-        borderRadius: "20px 20px 0px 0px",
-        lineHeight: "5vh",
-        fontWeight: "bold",
-        ":hover": {
-            cursor: "pointer",
-            backgroundColor: "white"
-        }
-    },
+    title: {
+        marginRight: theme.spacing(4),
+        //flexGrow: 1,
+        color: "#000000",
+      },
+    black: {
+        color: "#000000",
+      },
     globalSearchBar: {
         width: "20vw",
         marginTop: "1vh"
     },
-    notifications: {
-        height: "6vh",
-        width: "8vw",
-        textAlign: "center",
-        borderRadius: "20px 20px 0px 0px",
-        lineHeight: "5vh",
-        fontWeight: "bold",
-        ":hover": {
-            cursor: "pointer",
-            backgroundColor: "white",
-        }
-    },
-    settings: {
-        height: "6vh",
-        width: "8vw",
-        textAlign: "center",
-        borderRadius: "20px 20px 0px 0px",
-        lineHeight: "5vh",
-        fontWeight: "bold",
-    }
-}
+}));
 
+const DashBoardTopNavBar = () => {
+    const classes = useStyles();
+
+    const homeView = (event) => {
+        dispatch(setViews('login'));
+    };
+
+    const dispatch = useDispatch();
+
+    const onClickInbound = () => {dispatch(setViews('inbound'));};
+    const onClickInventory = () => {dispatch(setViews('inventory'));};
+    const onClickOutbound = () => {dispatch(setViews('outbound'));};
+    const onClickNotifications = () => {dispatch(setViews('outbound'));};
+
+    const [open, setOpen] = React.useState(false);
+    const anchorRef = React.useRef(null);
+
+    const handleToggle = () => {
+      setOpen((prevOpen) => !prevOpen);
+    };
+  
+    const handleClose = (event) => {
+      if (anchorRef.current && anchorRef.current.contains(event.target)) {
+        return;
+      }
+  
+      setOpen(false);
+    };
+  
+    function handleListKeyDown(event) {
+      if (event.key === 'Tab') {
+        event.preventDefault();
+        setOpen(false);
+      }
+    }
+  
+    // return focus to the button when we transitioned from !open -> open
+    const prevOpen = React.useRef(open);
+    React.useEffect(() => {
+      if (prevOpen.current === true && open === false) {
+        anchorRef.current.focus();
+      }
+  
+      prevOpen.current = open;
+    }, [open]);
+
+    return (
+        <AppBar className={classes.appBar} position="fixed" elevation={0}>
+            <Toolbar>
+                <img src={LSLLogo} style={{width:"3%"}} alt="" onClick={homeView}></img>
+                <a href="Home" onClick={homeView}><Typography variant="h6" className={classes.title} onClick={homeView}>
+                LifeScience Logistics
+                </Typography></a>
+                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span className="navbar-toggler-icon"></span>
+                </button>
+                <Link className={classes.menuButton} href="#" key="key1" onClick={onClickInbound}>INBOUND <span className="sr-only">(current)</span></Link>
+                <Link className={classes.menuButton} href="#" key="key2" onClick={onClickInventory}>INVENTORY</Link>
+                <Link className={classes.menuButton} href="#" key="key3" onClick={onClickOutbound}>OUTBOUND</Link>
+                <div className={classes.grow} />
+                <TextField className={classes.searchBar} id="globalSearchBar" label="Global Search" variant="outlined" type="globalSearchBar"/>
+                <Link className={classes.menuButton} href="#" key="key4" onClick={onClickNotifications}>NOTIFICATIONS</Link>
+                <Link className={classes.menuButton} href="#" ref={anchorRef} aria-controls={open ? 'menu-list-grow' : undefined} aria-haspopup="true" onClick={handleToggle}>
+                SETTINGS
+                </Link>
+                <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
+                {({ TransitionProps, placement }) => (
+                    <Grow
+                    {...TransitionProps}
+                    style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+                    >
+                    <Paper>
+                        <ClickAwayListener onClickAway={handleClose}>
+                        <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
+                            <MenuItem onClick={handleClose}>Profile</MenuItem>
+                            <MenuItem onClick={handleClose}>My account</MenuItem>
+                            <MenuItem onClick={handleClose}>Logout</MenuItem>
+                        </MenuList>
+                        </ClickAwayListener>
+                    </Paper>
+                    </Grow>
+                )}
+                </Popper>
+            </Toolbar>
+        </AppBar>
+    )
+}
 
 export default Radium(DashBoardTopNavBar);
