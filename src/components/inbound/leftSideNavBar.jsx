@@ -16,7 +16,7 @@ const style = {
         top: '0vh',
         opacity: 0.3,
         backgroundColor: "gray",
-        zIndex: 2
+        zIndex: -1
     }
 }
 
