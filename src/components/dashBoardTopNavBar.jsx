@@ -1,145 +1,120 @@
-import React from 'react';
+import React, {useState} from 'react';
+import LSLLogo from '../images/LSL Logo.png';
 import Radium from 'radium'; //CSS-in-JS library support :hover
 import {useDispatch} from 'react-redux';
 import {setViews} from '../store/reducer/topNavBarViewsControl';
 
-const DashBoardTopNavBar = () => {
+import Link from '@material-ui/core/Link';
+import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 
-    const dispatch = useDispatch();
-
-    const onClickInbound = () => {
-        delete styles.inventory.backgroundColor;
-        delete styles.outBound.backgroundColor;
-        delete styles.notifications.backgroundColor;
-        styles.inBound.backgroundColor = "white";
-        dispatch(setViews('inbound'));
-    } 
-
-    const onClickInventory = () => {
-        //debugger;
-        delete styles.inBound.backgroundColor;
-        delete styles.outBound.backgroundColor;
-        delete styles.notifications.backgroundColor;
-        styles.inventory.backgroundColor = "white";
-        dispatch(setViews('inventory'));
-    } 
-
-    const onClickOutbound = () => {
-        delete styles.inventory.backgroundColor;
-        delete styles.inBound.backgroundColor;
-        delete styles.notifications.backgroundColor;
-        styles.outBound.backgroundColor = "white";
-        dispatch(setViews('outbound'));
-    } 
-
-    const onClickNotification = () => {
-        delete styles.inventory.backgroundColor;
-        delete styles.outBound.backgroundColor;
-        delete styles.inBound.backgroundColor;
-        styles.notifications.backgroundColor = "white";
-        dispatch(setViews('notification'));
-    } 
-
-    return (
-        <div style={styles.container}>
-            <div className="d-flex justify-content-between" style={styles.buttonDiv}>
-                {/* key for using one style in multiple div*/}
-                <div className="" style={styles.inBound} key="key1" onClick={onClickInbound}>INBOUND</div>
-                <div className="" style={styles.inventory} key="key2" onClick={onClickInventory}>INVENTORY</div>
-                <div className="" style={styles.outBound} key="key3" onClick={onClickOutbound}>OUTBOUND</div>
-                <div className="" style={styles.divGlobalSearchBar}>
-                    <input type="text" placeholder="GLOBAL SEARCH" style={styles.globalSearchBar} />
-                </div>
-                <div className="" style={styles.notifications} onClick={onClickNotification}>NOTIFICATIONS</div>
-                <div className="w3-dropdown-hover" style={styles.settings}>
-                    SETTINGS &darr;
-                    <div className="w3-dropdown-content w3-bar-block w3-border">
-                        <div className="w3-bar-item w3-button">Users Info</div>
-                        <div className="w3-bar-item w3-button">DarkMode</div>
-                        <div className="w3-bar-item w3-button">Logout</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    )
-}
-
-
-//CSS-in-JS style 
-const styles = {
-    container: {
-        width: "100%",
-        height: "11vh",
-        backgroundColor: "lightgray",
-        zIndex: -1
+const useStyles = makeStyles((theme) => ({
+    root: {
+      flexGrow: 1,
     },
-    buttonDiv: {
-        position: "absolute",
-        top: "6vh",
-        left: "20%",
-        width: "75%"
+    searchBar: {
+        marginRight: "24px",
+        minWidth: "130px",
     },
-    inBound: {
+    menuButton: {
+        marginRight: theme.spacing(3),
+        color: "#000000",
+        fontWeight: "bold",
+        padding: "0 20px",
+        height: "6vh",
+        textAlign: "center",
+        borderRadius: "20px 20px 0px 0px",
+        lineHeight: "5vh",
+        background: "#f8f9fa",
+        '&:hover': {
+            color: "#000000",
+            background: "#FFFFFF",
+            textDecoration: "none",
+        }
+    },
+    title: {
+        marginRight: theme.spacing(4),
+        //flexGrow: 1,
+        color: "#000000",
+      },
+    black: {
+        color: "#000000",
+      },
+
+      navButton: {
+        color: "black",
         height: "6vh",
         width: "8vw",
         textAlign: "center",
         borderRadius: "20px 20px 0px 0px",
         lineHeight: "5vh",
         fontWeight: "bold",
-        ":hover": {
-            cursor: "pointer",
-            backgroundColor: "white"
-        }
-    },
-    inventory: {
-        height: "6vh",
-        width: "8vw",
-        textAlign: "center",
-        borderRadius: "20px 20px 0px 0px",
-        lineHeight: "5vh",
-        fontWeight: "bold",
-        ":hover": {
-            cursor: "pointer",
-            backgroundColor: "white"
-        }
-    },
-    outBound: {
-        height: "6vh",
-        width: "8vw",
-        textAlign: "center",
-        borderRadius: "20px 20px 0px 0px",
-        lineHeight: "5vh",
-        fontWeight: "bold",
-        ":hover": {
-            cursor: "pointer",
-            backgroundColor: "white"
-        }
     },
     globalSearchBar: {
         width: "20vw",
         marginTop: "1vh"
     },
-    notifications: {
-        height: "6vh",
-        width: "8vw",
-        textAlign: "center",
-        borderRadius: "20px 20px 0px 0px",
-        lineHeight: "5vh",
-        fontWeight: "bold",
-        ":hover": {
-            cursor: "pointer",
-            backgroundColor: "white",
-        }
-    },
-    settings: {
-        height: "6vh",
-        width: "8vw",
-        textAlign: "center",
-        borderRadius: "20px 20px 0px 0px",
-        lineHeight: "5vh",
-        fontWeight: "bold",
-    }
-}
+}));
 
+const DashBoardTopNavBar = () => {
+    const classes = useStyles();
+
+    const homeView = (event) => {
+        dispatch(setViews('login'));
+    };
+
+    const dispatch = useDispatch();
+
+    const onClickInbound = () => {
+        dispatch(setViews('inbound'));
+    };
+
+    const onClickInventory = () => {
+        dispatch(setViews('inventory'));
+    };
+
+    const onClickOutbound = () => {
+        dispatch(setViews('outbound'));
+    };
+
+    const [anchorEl, setAnchorEl] = useState();
+
+    const handleClick = (event) => {
+      setAnchorEl(event.currentTarget);
+    };
+  
+    const handleClose = () => {
+      setAnchorEl();
+    };
+    return (
+        <AppBar position="static" style={{ background: '#f8f9fa ', paddingTop:'20px'}} elevation={0}>
+            <Toolbar>
+                <img src={LSLLogo} style={{width:"3%"}} alt="" onClick={homeView}></img>
+                <a href="Home" onClick={homeView}><Typography variant="h6" className={classes.title} onClick={homeView}>
+                LifeScience Logistics
+                </Typography></a>
+                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span className="navbar-toggler-icon"></span>
+                </button>
+                <Link className={classes.menuButton} href="#" key="key1" onClick={onClickInbound}>INBOUND <span className="sr-only">(current)</span></Link>
+                <Link className={classes.menuButton} href="#" key="key2" onClick={onClickInventory}>INVENTORY</Link>
+                <Link className={classes.menuButton} href="#" key="key3" onClick={onClickOutbound}>OUTBOUND</Link>
+                <TextField className={classes.searchBar} id="globalSearchBar" label="Global Search" variant="outlined" type="globalSearchBar"/>
+                <Link aria-controls="simple-menu" aria-haspopup="true" className={classes.menuButton} href="#" onClick={handleClick}>NOTIFICATIONS</Link>
+                <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
+                    <MenuItem onClick={handleClose}>Users Info</MenuItem>
+                    <MenuItem onClick={handleClose}>DarkMode</MenuItem>
+                    <MenuItem onClick={handleClose}>Logout</MenuItem>
+                </Menu>
+            </Toolbar>
+        </AppBar>
+    )
+}
 
 export default Radium(DashBoardTopNavBar);
