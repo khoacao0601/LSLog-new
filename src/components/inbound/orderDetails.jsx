@@ -1,7 +1,14 @@
-import React from 'react'
-import './../../styling/orderDetails.css'
+import React from 'react';
+import './../../styling/orderDetails.css';
+import {useSelector} from 'react-redux';
+import {orderIdSelector} from '../../store/reducer/orderIDCslice';
 
 const OrderDetails = () => {
+
+    const orderId = useSelector(orderIdSelector);
+
+    console.log(orderId);
+
     return (
         <div className='container-order'>
             <h1>Inbound / Orders / R0005 </h1>

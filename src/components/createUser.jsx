@@ -4,7 +4,7 @@ import createUserPic from '../images/LSLCreateUser1.png';
 
 import { makeStyles } from '@material-ui/core/styles';
 //import { spacing } from '@material-ui/system';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {setViews} from '../store/reducer/viewsControlSlice';
 import Button from '@material-ui/core/Button';
 import InputLabel from '@material-ui/core/InputLabel';
