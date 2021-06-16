@@ -25,20 +25,16 @@ const useStyles = makeStyles((theme) => ({
 const CreateUser = () => {
     const classes = useStyles();
 
-    const [age, setAge] = useState('');
-    const handleChange = (e) => {
-      setAge(e.target.value);
-    };
     const [newUser, setNewUser] = useState({
-        // fullName: "",
-        // userName: "",
-        // email: "",
-        // password: "",
-        // phoneNumber: "",
-        // skype: "",
-        // office: "",
-        // dept: "",
-        // gender: ""
+        fullName: "",
+        userName: "",
+        email: "",
+        password: "",
+        phoneNumber: "",
+        skype: "",
+        office: "",
+        dept: "",
+        gender: ""
     })
 
     const [sendValue, setSendValue] = useState();
@@ -80,7 +76,7 @@ const CreateUser = () => {
 
     return(
         <div className="create-form w-50 mx-auto">
-            <form>
+            <form onSubmit={sendInfos}>
                 <Grid container spacing={3} className={classes.page}>
                     <Grid item xs={12}>
                         <img src={createUserPic} alt='front' style={styles.pic} className="w3-margin-top"/>
@@ -92,11 +88,11 @@ const CreateUser = () => {
                         <Grid container justify="center" width={1}>
                             <TextField fullWidth={true}
                                 id="fullName"
-                                label="Full Name"
+                                label="FullName"
                                 variant="outlined"
+                                name="fullName"
                                 value={newUser.fullName}
                                 onChange={updateField}
-                                required
                             />
                         </Grid>
                     </Grid>
@@ -106,7 +102,8 @@ const CreateUser = () => {
                                 id="username"
                                 label="Username"
                                 variant="outlined"
-                                value={newUser.username}
+                                name="userName"
+                                value={newUser.userName}
                                 onChange={updateField}
                                 required
                             />
@@ -118,6 +115,7 @@ const CreateUser = () => {
                                 id="email"
                                 label="Email"
                                 variant="outlined"
+                                name="email"
                                 value={newUser.email}
                                 onChange={updateField}
                                 required
@@ -127,12 +125,13 @@ const CreateUser = () => {
                     <Grid item xs={6}>
                         <Grid container justify="center" width={1}>
                             <TextField fullWidth={true}
+                                type="password"
                                 id="password"
                                 label="Password"
                                 variant="outlined"
+                                name="password"
                                 value={newUser.password}
                                 onChange={updateField}
-                                required
                             />
                         </Grid>
                     </Grid>
@@ -142,9 +141,9 @@ const CreateUser = () => {
                                 id="phone"
                                 label="Phone Number"
                                 variant="outlined"
+                                name="phoneNumber"
                                 value={newUser.phoneNumber}
                                 onChange={updateField}
-                                required
                             />
                         </Grid>
                     </Grid>
@@ -154,6 +153,7 @@ const CreateUser = () => {
                                 id="skype"
                                 label="Skype ID"
                                 variant="outlined"
+                                name="skype"
                                 value={newUser.skype}
                                 onChange={updateField}
                             />
@@ -165,6 +165,7 @@ const CreateUser = () => {
                                 id="office"
                                 label="Office"
                                 variant="outlined"
+                                name="office"
                                 value={newUser.office}
                                 onChange={updateField}
                             />
@@ -178,8 +179,9 @@ const CreateUser = () => {
                                 labelId="dept-select-outlined-label"
                                 label="Department"
                                 id="dept-select-outlined"
-                                value={age.dept}
-                                onChange={handleChange}
+                                name="dept"
+                                value={newUser.dept}
+                                onChange={updateField}
                             >
                                 <MenuItem value=""><em>None</em></MenuItem>
                                 <MenuItem value={"Dep1"}>Dep. 1</MenuItem>
@@ -197,8 +199,9 @@ const CreateUser = () => {
                                 labelId="gender-select-outlined-label"
                                 label="Gender"
                                 id="gender-select-outlined"
-                                value={age.gender}
-                                defaultValue=""
+                                name="gender"
+                                value={newUser.gender}
+                                onChange={updateField}
                             >
                                 <MenuItem value=""><em>None</em></MenuItem>
                                 <MenuItem value={"Male"}>Male</MenuItem>
@@ -214,7 +217,7 @@ const CreateUser = () => {
                     </Grid>
                     <Grid item xs={6}>
                         <Grid container justify="center" width={1}>
-                            <Button fullWidth={true} type="button" onClick={sendInfos} variant="contained" color="primary">Submit</Button>
+                            <Button fullWidth={true} type="submit" variant="contained" color="primary">Submit</Button>
                         </Grid>
                     </Grid>
                 </Grid>

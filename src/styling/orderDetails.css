@@ -18,3 +18,16 @@
     width: 11vh;
     margin-left: 4vh;
 }
+
+.table-container,
+.table-body {
+    margin-top: 2vh;
+    width: 150vh;
+}
+
+.table-row{
+    /* width: 50vh; */
+}
+
+
+
