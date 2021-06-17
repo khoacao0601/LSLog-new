@@ -21,9 +21,16 @@ const useStyles = makeStyles((theme) => ({
         overflowX: 'auto',
         display: 'flex',
     },
+    componentTop: {
+        display: "flex",
+        marginTop: "3vh",
+    },
+    grow: {
+        flexGrow: 1,
+    },
     table: {
         minWidth: 700,
-        marginTop: "2vh"
+        //marginTop: "2vh"
     },
     tableHead: {
         backgroundColor: "#eee",
@@ -33,17 +40,14 @@ const useStyles = makeStyles((theme) => ({
             backgroundColor: theme.palette.background.default,
         },
         '&:hover': {
-            backgroundColor: "#eee",
+            backgroundColor: "#ccc",
             cursor: "pointer",
         },
     },
     button:{
         marginRight: theme.spacing(3),
         marginBottom: theme.spacing(1),
-        backgroundColor: "rgba(51,51,51,0.2)"
-    },
-    buttonDiv:{
-        marginTop: "2vh"
+        backgroundColor: "#E0E0E0"
     },
     searchBar: {
         marginRight: "24px",
@@ -56,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
             padding: "8.5px 14px",
         },
     },
-   filter: {
+    filter: {
         width: "11vh",
         marginLeft: "4vh"
     },
@@ -68,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
         padding: theme.spacing(3),
         background: "white",
-        marginTop: "20px",
+        marginTop: "60px",
     },
 }));
 
@@ -136,9 +140,17 @@ const Orders = () => {
             <Toolbar />
             <div className={classes.container}>
                 <h1>Inbound / Orders</h1>
-                <div className={classes.buttonDiv}>
+                <div className={classes.componentTop}>
                     <Button variant="outlined" className={classes.button} onClick={onClickCreateOrder}>CREATE ORDER</Button>
-                    <Button variant="outlined" className={classes.button}>ACTIONS</Button>
+                    <div className="w3-dropdown-hover">
+                    <Button variant="outlined" className={classes.button}>ACTIONS &darr;</Button>
+                        <div className="w3-dropdown-content w3-bar-block w3-card-4">
+                            <div href="#" className="w3-bar-item w3-button">Action 1</div>
+                            <div href="#" className="w3-bar-item w3-button">Action 2</div>
+                            <div href="#" className="w3-bar-item w3-button">Action 3</div>
+                        </div>          
+                    </div>
+                    <div className={classes.grow} />
                     <TextField 
                         className={classes.searchBar} 
                         id="globalSearchBar" 

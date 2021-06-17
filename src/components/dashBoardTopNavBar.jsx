@@ -20,8 +20,8 @@ import Popper from '@material-ui/core/Popper';
 const useStyles = makeStyles((theme) => ({
     appBar: {
         flexGrow: 1,
-        background: '#f8f9fa ',
-        //paddingTop:'20px',
+        background: '#E0E0E0 ',
+        paddingTop:'40px',
         zIndex: theme.zIndex.drawer + 1,
       },
     grow: {
@@ -38,23 +38,26 @@ const useStyles = makeStyles((theme) => ({
       "& >label": {
           transform: "translate(14px, 10px) scale(1)",
       },
-      "& >div>input": {
-          padding: "8.5px 14px",
+      "& >div": {
+        background: "white",
       },
-    },
+      "& >div>input": {
+        padding: "8.5px 14px",
+  },
+},
     menuButton: {
         marginRight: theme.spacing(3),
-        color: "#000000",
-        fontWeight: "bold",
+        color: "#5D5D5D",
+        fontWeight: "600",
         padding: "0 20px",
         height: "4vh",
         textAlign: "center",
         borderRadius: "20px 20px 0px 0px",
         lineHeight: "3vh",
-        background: "#f8f9fa",
+        background: "#E0E0E0",
         marginTop: "auto",
         '&:hover': {
-            color: "#000000",
+            color: "#5D5D5D",
             background: "#FFFFFF",
             textDecoration: "none",
         }
@@ -129,7 +132,7 @@ const DashBoardTopNavBar = () => {
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
                 </button>
-                <Link className={classes.menuButton} href="#" key="key1" onClick={onClickInbound}>INBOUND <span className="sr-only">(current)</span></Link>
+                <Link className={classes.menuButton} href="#" key="key1" onClick={onClickInbound}>INBOUND</Link>
                 <Link className={classes.menuButton} href="#" key="key2" onClick={onClickInventory}>INVENTORY</Link>
                 <Link className={classes.menuButton} href="#" key="key3" onClick={onClickOutbound}>OUTBOUND</Link>
                 <div className={classes.grow} />
