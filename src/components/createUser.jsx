@@ -4,7 +4,7 @@ import createUserPic from '../images/LSLCreateUser1.png';
 
 import { makeStyles } from '@material-ui/core/styles';
 //import { spacing } from '@material-ui/system';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {setViews} from '../store/reducer/viewsControlSlice';
 import Button from '@material-ui/core/Button';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -16,11 +16,20 @@ import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        '& > *': {margin: theme.spacing(1),marginLeft: theme.spacing(2),},flexGrow: 1,},
-        paper: {height: 40,width: 100,},
-        page: {marginTop: 20,},
-        control: {padding: theme.spacing(2),},
-    }));
+        '& > *': {margin: theme.spacing(1),marginLeft: theme.spacing(2),},
+        flexGrow: 1,
+    },
+    paper: {
+        height: 40,
+        width: 100,
+    },
+    page: {
+        marginTop: 20,
+    },
+    control: {
+        padding: theme.spacing(2),
+    },
+}));
 
 const CreateUser = () => {
     const classes = useStyles();

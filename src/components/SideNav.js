@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+//import { Link } from 'react-router-dom'
 import '../styling/sideBar.css'
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,7 +9,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
-const drawerWidth = 240;
+const drawerWidth = 270;
 const useStyles = makeStyles((theme) => ({
     drawer: {
         width: drawerWidth,
@@ -17,22 +17,28 @@ const useStyles = makeStyles((theme) => ({
     },
     drawerPaper: {
         width: drawerWidth,
-        backgroundColor: "rgba(51,51,51,0.2)",
+        backgroundColor: "#E0E0E0",
         border: "none",
         marginTop: "20px",
     },
     drawerContainer: {
         overflow: 'auto',
     },
+    sidebarList: {
+        paddingTop: "100px",
+    },
     sidebarItem: {
         paddingRight: "0",
-    lineHeight: "5vh",
+        lineHeight: "5vh",
         height: "6vh",
+        '&:hover': {
+            background: "none",
+        },
     },
     sidebarText: {
-        backgroundColor: "#FFFFFF",
-        color: "#000000",
-        fontWeight: "bold",
+        backgroundColor: "#E0E0E0",
+        color: "#5D5D5D",
+        fontWeight: "600",
         padding: "20px",
         marginLeft: "24px",
         textAlign: "center",
@@ -40,8 +46,8 @@ const useStyles = makeStyles((theme) => ({
         background: "#f8f9fa",
         cursor: "pointer",
         '&:hover': {
-            color: "white",
-            background: "black",
+            color: "#5D5D5D",
+            background: "#FFFFFF",
             textDecoration: "none",
         },
         "& span": {
@@ -57,7 +63,7 @@ const SideNav = () => {
         <Drawer className={classes.drawer} variant="permanent" classes={{ paper: classes.drawerPaper, }}>
           <Toolbar />
           <div>
-            <List>
+          <List className={classes.sidebarList}>
               {['ORDERS'].map((text, index) => (
                 <ListItem button key={text} className={classes.sidebarItem}>
                   <ListItemText className={classes.sidebarText} primary={text} to='/orders' />
