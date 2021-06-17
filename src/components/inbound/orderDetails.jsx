@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux'
+import { orderIdSelector } from '../../store/reducer/orderIDCslice';
 //import './../../styling/orderDetails.css';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -89,7 +91,9 @@ const useStyles = makeStyles((theme) => ({
 const OrderDetails = () => {
     const classes = useStyles();
 
-    const url = 'http://18.118.27.219:8141/v1/receiving-orders/?orderId=1025'
+    const orderId = useSelector(orderIdSelector)
+    console.log(`Order ID:`, orderId)
+    const url = `http://18.118.27.219:8141/v1/receiving-orders/?orderId=${orderId}`
 
     const [orderDetail, setOrderDetail] = useState([])
 
@@ -144,7 +148,7 @@ const OrderDetails = () => {
         <main className={classes.content}>
             <Toolbar />
             <div className='container-order'>
-                <h1>Inbound / Orders / R0005 </h1>
+                <h1>Inbound / Orders / {orderId} </h1>
                 <div className={classes.componentTop}>
                     <div className=""></div>
                     <div className="w3-dropdown-hover">
@@ -155,7 +159,7 @@ const OrderDetails = () => {
                             <div href="#" className="w3-bar-item w3-button">Action 3</div>
                         </div>          
                     </div>                    <div className={classes.grow} />
-                    <TextField className={classes.searchBar} id="globalSearchBar" label="Search Order R0005" variant="outlined" type="globalSearchBar"/>
+                    <TextField className={classes.searchBar} id="globalSearchBar" label={"Search Order "+orderId} variant="outlined" type="globalSearchBar"/>
                     <div className="w3-dropdown-hover">
                     <Button variant="outlined" className={classes.button}>FILTER &darr;</Button>
                         <div className="w3-dropdown-content w3-bar-block w3-card-4">
