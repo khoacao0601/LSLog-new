@@ -19,15 +19,15 @@ const useStyles = makeStyles((theme) => ({
         //paddingTop:'20px',
         zIndex: theme.zIndex.drawer + 1,
       },
-    menuButton: {
+      menuButton: {
         marginRight: theme.spacing(3),
         color: "#000000",
         fontWeight: "bold",
         padding: "0 20px",
-        height: "5vh",
+        height: "4vh",
         textAlign: "center",
         borderRadius: "20px 20px 0px 0px",
-        lineHeight: "4vh",
+        lineHeight: "3vh",
         background: "#f8f9fa",
         marginTop: "auto",
         '&:hover': {
