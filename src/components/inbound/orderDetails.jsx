@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import './../../styling/orderDetails.css'
+import React, { useEffect, useState } from 'react';
+import './../../styling/orderDetails.css';
 
 const OrderDetails = () => {
-    const url = 'http://3.14.130.41:8141/v1/receiving-orders/?orderId=1025'
+    const url = 'http://18.118.27.219:8141/v1/receiving-orders/?orderId=1025'
 
     const [orderDetail, setOrderDetail] = useState([])
 
@@ -28,7 +28,7 @@ const OrderDetails = () => {
     }, []);
 
     let tableBody = orderDetail.map((order) => 
-        <tr className='table-row'>
+        <tr className='table-row' key={order.positionId}>
             <td className="col-1 col-xl-1 col-lg-1 col-md-1 col-sm-1">
                 {order.positionId}
             </td>

@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {setViews} from '../../store/reducer/topNavBarViewsControl';
+import { setOrderId } from '../../store/reducer/orderIDCslice';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -16,7 +17,7 @@ import Paper from '@material-ui/core/Paper';
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
-        marginTop: theme.spacing.unit * 3,
+        marginTop: theme.spacing(3),
         overflowX: 'auto',
         display: 'flex',
     },
@@ -71,31 +72,63 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-let id = 0;
-function createData(prty, orderid, lines, status, created, expected, completed) {
-  id += 1;
-  return { id, prty, orderid, lines, status, created, expected, completed };
-}
 
-const rows = [
-    createData('1', "R0005", "10", "Incomplete", "06/15/2021", "06/25/2021", "n/a"),
-    createData('2', "R0006", "3", "Incomplete", "06/13/2021", "06/20/2021", "n/a"),
-    createData('3', "R0007", "7", "Complete", "06/10/2021", "06/18/2021", "06/18/2021"),
-];
  
 const Orders = () => {
     const classes = useStyles();
 
     const dispatch = useDispatch();
 
-    const [allOrders, setAllorders] = useState();
+    const [allOrders, setAllorders] = useState([]);
 
     const onClickCreateOrder = () => {
         dispatch(setViews("createOrder"));
     }
 
-    const changeViewToOrderDetail = () => {
+    const api_url = `http://18.118.27.219:8141/v1/receiving-orders`;
+
+    useEffect(() => {
+        async function fetchPostList(){
+            try {
+                const requestUrl = api_url;
+                const response = await fetch(requestUrl);
+                //console.log(response);
+            
+                const responseJSON = await response.json();
+                
+                //console.log(responseJSON);
+                setAllorders(responseJSON);
+                
+                
+            } catch (error) {
+                console.log('Failed to Fetch', error);
+            } 
+        }
+        fetchPostList();
+    
+    }, []);
+
+    //change Format of Date and Time 
+    const convertDateTime = (dateTime) => {
+        if(dateTime) {
+            let hour = null;
+            const date = new Date(dateTime);
+            if(date.getUTCHours() >= 12){
+                hour = date.getUTCHours() - 12 + ":" + date.getUTCMinutes() + " AM";
+            } else {
+                hour = date.getUTCHours + ":" + date.getUTCMinutes() + " AM";
+            }
+            const datePrint = date.getMonth() + "/" + date.getDate() + "/" + date.getFullYear() + "  " + hour;
+            return datePrint;
+        } else {
+            return "N/A"
+        }
+    }
+
+    //store OrderID to Redux Store and Change View to Order Details
+    const storeOrderId = (orderId) => {
         dispatch(setViews("orderDetails"));
+        dispatch(setOrderId(orderId));
     }
 
     return(
@@ -106,7 +139,12 @@ const Orders = () => {
                 <div className={classes.buttonDiv}>
                     <Button variant="outlined" className={classes.button} onClick={onClickCreateOrder}>CREATE ORDER</Button>
                     <Button variant="outlined" className={classes.button}>ACTIONS</Button>
-                    <TextField className={classes.searchBar} id="globalSearchBar" label="Search Inbound Orders" variant="outlined" type="globalSearchBar"/>
+                    <TextField 
+                        className={classes.searchBar} 
+                        id="globalSearchBar" 
+                        label="Search Inbound Orders" 
+                        variant="outlined" 
+                        type="globalSearchBar"/>
                     <div className="w3-dropdown-hover">
                     <Button variant="outlined" className={classes.button}>FILTER &darr;</Button>
                         <div className="w3-dropdown-content w3-bar-block w3-card-4">
@@ -139,15 +177,15 @@ const Orders = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                    {rows.map(row => (
-                        <TableRow key={row.id} onClick={changeViewToOrderDetail} className={classes.row}>
-                            <TableCell component="th" scope="row">{row.prty}</TableCell>
-                            <TableCell align="center">{row.orderid}</TableCell>
-                            <TableCell align="center">{row.lines}</TableCell>
-                            <TableCell align="center">{row.status}</TableCell>
-                            <TableCell align="center">{row.created}</TableCell>
-                            <TableCell align="center">{row.expected}</TableCell>
-                            <TableCell align="center">{row.completed}</TableCell>
+                    {allOrders.map(object=> (
+                        <TableRow key={object.orderId}  className={classes.row} onClick={() => {storeOrderId(object.orderId)}}>
+                            <TableCell component="th" scope="row">{object.priority}</TableCell>
+                            <TableCell align="center">{object.orderId}</TableCell>
+                            <TableCell align="center">{object.positions[0].positionId}</TableCell>
+                            <TableCell align="center">{object.state}</TableCell>
+                            <TableCell align="center">{convertDateTime(object.createdDate)}</TableCell>
+                            <TableCell align="center">{convertDateTime(object.expectedDate)}</TableCell>
+                            <TableCell align="center">{convertDateTime(object.completedDate)}</TableCell>
                         </TableRow>
                     ))}
                     </TableBody>

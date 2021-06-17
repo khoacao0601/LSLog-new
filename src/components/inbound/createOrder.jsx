@@ -1,22 +1,22 @@
-import React, {useState} from 'react';
-import {useDispatch} from 'react-redux';
-import {setViews} from '../../store/reducer/topNavBarViewsControl';
+import React from 'react';
+//import {useDispatch} from 'react-redux';
+//import {setViews} from '../../store/reducer/topNavBarViewsControl';
 
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
+//import Button from '@material-ui/core/Button';
+//import TextField from '@material-ui/core/TextField';
 import Toolbar from '@material-ui/core/Toolbar';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+//import Table from '@material-ui/core/Table';
+//import TableBody from '@material-ui/core/TableBody';
+//import TableCell from '@material-ui/core/TableCell';
+//import TableHead from '@material-ui/core/TableHead';
+//import TableRow from '@material-ui/core/TableRow';
+//import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
-        marginTop: theme.spacing.unit * 3,
+        marginTop: theme.spacing(3),
         overflowX: 'auto',
         display: 'flex',
     },
@@ -115,7 +115,7 @@ const CreateOrder = () => {
     ];
 
     const table = testData.map((object, indexArray) =>             
-        <tr className="d-flex justify-content-between text-center" style={{ width: "75vh"}}>
+        <tr className="d-flex justify-content-between text-center" style={{ width: "75vh"}} key={object.line}>
           <td className="col-1 col-xl-1 col-lg-1 col-md-1 col-sm-1">{object.line}</td>
           <td className="col-1 col-xl-1 col-lg-1 col-md-1 col-sm-1">{object.item}</td>
           <td className="col-1 col-xl-1 col-lg-1 col-md-1 col-sm-1">{object.qty}</td>
