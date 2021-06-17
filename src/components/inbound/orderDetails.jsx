@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux'
+import { orderIdSelector } from '../../store/reducer/orderIDCslice';
 import './../../styling/orderDetails.css';
 
 const OrderDetails = () => {
-    const url = 'http://18.118.27.219:8141/v1/receiving-orders/?orderId=1025'
+    const orderId = useSelector(orderIdSelector)
+    console.log(`Order ID:`, orderId)
+    const url = `http://18.118.27.219:8141/v1/receiving-orders/?orderId=${orderId}`
 
     const [orderDetail, setOrderDetail] = useState([])
 
