@@ -16,7 +16,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
-        marginTop: theme.spacing.unit * 3,
+        marginTop: theme.spacing(3),
         overflowX: 'auto',
         display: 'flex',
     },
@@ -115,7 +115,7 @@ const CreateOrder = () => {
     ];
 
     const table = testData.map((object, indexArray) =>             
-        <tr className="d-flex justify-content-between text-center" style={{ width: "75vh"}}>
+        <tr className="d-flex justify-content-between text-center" style={{ width: "75vh"}} key={object.line}>
           <td className="col-1 col-xl-1 col-lg-1 col-md-1 col-sm-1">{object.line}</td>
           <td className="col-1 col-xl-1 col-lg-1 col-md-1 col-sm-1">{object.item}</td>
           <td className="col-1 col-xl-1 col-lg-1 col-md-1 col-sm-1">{object.qty}</td>

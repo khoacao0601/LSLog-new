@@ -139,7 +139,12 @@ const Orders = () => {
                 <div className={classes.buttonDiv}>
                     <Button variant="outlined" className={classes.button} onClick={onClickCreateOrder}>CREATE ORDER</Button>
                     <Button variant="outlined" className={classes.button}>ACTIONS</Button>
-                    <TextField className={classes.searchBar} id="globalSearchBar" label="Search Inbound Orders" variant="outlined" type="globalSearchBar"/>
+                    <TextField 
+                        className={classes.searchBar} 
+                        id="globalSearchBar" 
+                        label="Search Inbound Orders" 
+                        variant="outlined" 
+                        type="globalSearchBar"/>
                     <div className="w3-dropdown-hover">
                     <Button variant="outlined" className={classes.button}>FILTER &darr;</Button>
                         <div className="w3-dropdown-content w3-bar-block w3-card-4">
