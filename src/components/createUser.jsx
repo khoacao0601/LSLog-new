@@ -70,7 +70,7 @@ const CreateUser = () => {
     //do Post request
     const sendInfos = (e) => {
         console.log(JSON.stringify(sendValue));
-        fetch('http://13.58.33.68:8110/uaa/users', {
+        fetch('http://3.139.83.37:8110/uaa/users', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(sendValue)
