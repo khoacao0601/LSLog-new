@@ -15,26 +15,29 @@ const useStyles = makeStyles((theme) => ({
     },
     appBar: {
         flexGrow: 1,
-        background: '#f8f9fa ',
-        //paddingTop:'20px',
+        background: '#E0E0E0 ',
+        paddingTop:'40px',
         zIndex: theme.zIndex.drawer + 1,
       },
-    menuButton: {
+      menuButton: {
         marginRight: theme.spacing(3),
-        color: "#000000",
-        fontWeight: "bold",
+        color: "#5D5D5D",
+        fontWeight: "600",
         padding: "0 20px",
-        height: "5vh",
+        height: "4vh",
         textAlign: "center",
         borderRadius: "20px 20px 0px 0px",
-        lineHeight: "4vh",
-        background: "#f8f9fa",
+        lineHeight: "3vh",
+        background: "#E0E0E0",
         marginTop: "auto",
         '&:hover': {
-            color: "#000000",
+            color: "#5D5D5D",
             background: "#FFFFFF",
             textDecoration: "none",
         }
+    },
+    active: {
+        background: "white",
     },
     title: {
         marginRight: theme.spacing(4),
@@ -50,6 +53,12 @@ const useStyles = makeStyles((theme) => ({
 
     const dispatch = useDispatch();
 
+    // const navView = (e) => (event) => {
+    //     event.preventDefault();
+    //     if (e == "login"){
+    //         alert("login");
+    //     }
+    // };
     const loginView = (event) => {
         event.preventDefault();
         dispatch(setViews('login'));
@@ -76,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
             </button>
-                <Link className={classes.menuButton} href="Home" onClick={loginView}>HOME <span className="sr-only">(current)</span></Link>
+                <Link className={classes.menuButton} href="Home" onClick={loginView}>HOME</Link>
                 <Link className={classes.menuButton} href="About" onClick={aboutView}>ABOUT</Link>
                 <Link className={classes.menuButton} href="Contact" onClick={contactView}>CONTACT</Link>
                 <Link className={classes.menuButton} href="Help" onClick={helpView}>HELP</Link>

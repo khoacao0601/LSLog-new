@@ -16,11 +16,20 @@ import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        '& > *': {margin: theme.spacing(1),marginLeft: theme.spacing(2),},flexGrow: 1,},
-        paper: {height: 40,width: 100,},
-        page: {marginTop: 20,},
-        control: {padding: theme.spacing(2),},
-    }));
+        '& > *': {margin: theme.spacing(1),marginLeft: theme.spacing(2),},
+        flexGrow: 1,
+    },
+    paper: {
+        height: 40,
+        width: 100,
+    },
+    page: {
+        marginTop: 20,
+    },
+    control: {
+        padding: theme.spacing(2),
+    },
+}));
 
 const CreateUser = () => {
     const classes = useStyles();
@@ -61,7 +70,7 @@ const CreateUser = () => {
     //do Post request
     const sendInfos = (e) => {
         console.log(JSON.stringify(sendValue));
-        fetch('http://3.139.83.37:8110/uaa/users', {
+        fetch('http://13.58.33.68:8110/uaa/users', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(sendValue)
