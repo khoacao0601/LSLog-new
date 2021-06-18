@@ -102,7 +102,7 @@ const Orders = () => {
             
                 const responseJSON = await response.json();
                 
-                //console.log(responseJSON);
+                console.log(responseJSON[0].positions[0]);
                     setAllorders(responseJSON);
 
             } catch (error) {
@@ -149,8 +149,6 @@ const Orders = () => {
     const orderIdState = (e) => {
         //debugger;
         console.log(e.target.value);
-        
-        
     }
 
 
@@ -216,7 +214,7 @@ const Orders = () => {
                         <TableRow key={object.orderId}  className={classes.row} onClick={() => {storeOrderId(object.orderId)}}>
                             <TableCell component="th" scope="row">{object.priority}</TableCell>
                             <TableCell align="center">{object.orderId}</TableCell>
-                            <TableCell align="center">{object.positions[0].positionId}</TableCell>
+                            <TableCell align="center">{}</TableCell>
                             <TableCell align="center">{object.state}</TableCell>
                             <TableCell align="center">{convertDateTime(object.createdDate)}</TableCell>
                             <TableCell align="center">{convertDateTime(object.expectedDate)}</TableCell>
