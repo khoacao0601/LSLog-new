@@ -1,10 +1,11 @@
-import React from 'react';
-//import {useDispatch} from 'react-redux';
-//import {setViews} from '../../store/reducer/topNavBarViewsControl';
+import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {setInventory, inventorySelector} from '../../store/reducer/inventorySlice';
 
 import { makeStyles } from '@material-ui/core/styles';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 //import Button from '@material-ui/core/Button';
-//import TextField from '@material-ui/core/TextField';
+import TextField from '@material-ui/core/TextField';
 import Toolbar from '@material-ui/core/Toolbar';
 //import Table from '@material-ui/core/Table';
 //import TableBody from '@material-ui/core/TableBody';
@@ -74,47 +75,64 @@ const useStyles = makeStyles((theme) => ({
 const CreateOrder = () => {
     const classes = useStyles();
 
-    const testData = [
-        {
-            line: "1",
-            item: "Hydrocodone",
-            qty: "1",
-            uom: "PALLET",
-            totalEach: 1,
-            sku: "A1B1C1",
-            dateEx: "05/10/21 12:01 AM"
-        },
-        {
-            line: "2",
-            item: "Simvastatin",
-            qty: "30",
-            uom: "CASES",
-            totalEach: 30,
-            sku: "D4E5A1",
-            dateEx: "05/11/21 12:10 AM"
-        },
-        {
-            line: "3",
-            item: "Metformin",
-            qty: "64",
-            uom: "KITS",
-            totalEach: 64,
-            sku: "B2F6G7",
-            dateEx: "05/11/21 12:21 AM"
-        },
-        {
-            line: "4",
-            item: "Amlodipine",
-            qty: "1000",
-            uom: "EACHES",
-            totalEach: 1000,
-            sku: "J9H8G7",
-            dateEx: "05/11/21 12:22 AM"
-        },
+    const allInventory = useSelector(inventorySelector);
+
+    const orderData = [
+        
 
     ];
 
-    const table = testData.map((object, indexArray) =>             
+    const [eachLine, setEachLines] = useState({
+        item: '',
+        quanity: '',
+        uom: '',
+        dateEx: ''
+    });
+
+    const [addToOrder, setAddToOrder] = useState();
+
+    const api_url = `http://3.129.210.227:8140/v1/products`;
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+
+        async function fetchPostList(){
+            try {
+                const requestUrl = api_url;
+                const response = await fetch(requestUrl);
+                //console.log(response);
+            
+                const responseJSON = await response.json();
+                
+                //console.log(responseJSON);
+                dispatch(setInventory(responseJSON));
+
+            } catch (error) {
+                console.log('Failed to Fetch', error);
+            } 
+        }
+        fetchPostList();
+
+
+        setAddToOrder({
+            item: eachLine.item,
+            quanity: eachLine.quanity,
+            uom: eachLine.uom,
+            dateEx: eachLine.dateEx
+        })
+
+    }, []);
+
+
+    const getValue= (e) => {
+        setEachLines({
+            ...eachLine,
+            [e.target.name]: e.target.value
+        });
+    }
+
+    const table = orderData.map((object, indexArray) =>             
         <tr className="d-flex justify-content-between text-center" style={{ width: "75vh"}} key={object.line}>
           <td className="col-1 col-xl-1 col-lg-1 col-md-1 col-sm-1">{object.line}</td>
           <td className="col-1 col-xl-1 col-lg-1 col-md-1 col-sm-1">{object.item}</td>
@@ -132,7 +150,24 @@ const CreateOrder = () => {
             <Toolbar />
             <div style={styles.container}>
                 <h1>Inbound / Create Order</h1>
-                ITEM: <input type="text" placeholder="SEARCH BY SKU OR DESCRIPTION" style={styles.searchBar} /> <br/>
+                ITEM: 
+                <Autocomplete
+                    value={eachLine.item}
+                    id="combo-box-demo"
+                    options={allInventory}
+                    getOptionLabel={(option) => option.description}
+                    style={{ width: 300 }}
+                    onChange={(event, value) => getValue(value.description)}
+                    renderInput={(params) => 
+                    <TextField {...params} 
+                        abel="Combo box" 
+                        variant="outlined" 
+                        name="item"
+                        value={eachLine.item}
+                        onChange={getValue}
+                        />}
+                />
+                 <br/>
                 <div style={{ marginTop: "3vh" }}>
                     QUANTITY: <input type="text" style={styles.quantityBar} />
                     UOM: <select>

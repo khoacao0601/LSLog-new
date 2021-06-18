@@ -12,10 +12,10 @@ const OrderDetails = () => {
                 const requestUrl = url
 
                 const res = await fetch(requestUrl);
-                console.log(`Response before JSON Conversion`, res);
+                //console.log(`Response before JSON Conversion`, res);
 
                 const resJSON = await res.json()
-                console.log(`Response AFTER JSON Conversion`, resJSON)
+                //console.log(`Response AFTER JSON Conversion`, resJSON)
 
                 setOrderDetail(resJSON.positions)
             }
