@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import React, {useState, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {setViews} from '../../store/reducer/topNavBarViewsControl';
@@ -92,6 +93,7 @@ const Orders = () => {
     const api_url = `http://18.118.27.219:8141/v1/receiving-orders`;
 
     useEffect(() => {
+
         async function fetchPostList(){
             try {
                 const requestUrl = api_url;
@@ -100,32 +102,40 @@ const Orders = () => {
             
                 const responseJSON = await response.json();
                 
-                //console.log(responseJSON);
-                setAllorders(responseJSON);
-                
-                
+                console.log(responseJSON[0].positions[0].positionId);
+                    setAllorders(responseJSON);
+
             } catch (error) {
                 console.log('Failed to Fetch', error);
             } 
         }
         fetchPostList();
-    
+
     }, []);
 
     //change Format of Date and Time 
     const convertDateTime = (dateTime) => {
         if(dateTime) {
             let hour = null;
+            let minutes = null;
             const date = new Date(dateTime);
-            if(date.getUTCHours() >= 12){
-                hour = date.getUTCHours() - 12 + ":" + date.getUTCMinutes() + " AM";
+            //format minutes
+            if(date.getUTCMinutes() === 0){
+                minutes = date.getUTCMinutes() + "0";
             } else {
-                hour = date.getUTCHours + ":" + date.getUTCMinutes() + " AM";
+                minutes = date.getUTCMinutes();
+            }   
+            //format hours
+            if(date.getUTCHours() >= 12){
+                hour = date.getUTCHours() - 12 + ":" + minutes + " AM";
+            } else {
+                hour = date.getUTCHours + ":" + minutes + " AM";
             }
+            //full formate for date time 
             const datePrint = date.getMonth() + "/" + date.getDate() + "/" + date.getFullYear() + "  " + hour;
             return datePrint;
         } else {
-            return "N/A"
+            return "N/A";
         }
     }
 
@@ -134,6 +144,14 @@ const Orders = () => {
         dispatch(setViews("orderDetails"));
         dispatch(setOrderId(orderId));
     }
+
+    //store OrderId from user input to Search Bar
+    const orderIdState = (e) => {
+        //debugger;
+        console.log(e.target.value);
+    }
+
+
 
     return(
         <main className={classes.content}>
@@ -156,7 +174,10 @@ const Orders = () => {
                         id="globalSearchBar" 
                         label="Search Inbound Orders" 
                         variant="outlined" 
-                        type="globalSearchBar"/>
+                        type="globalSearchBar"
+                        name="orderId"
+                        
+                        onChange={orderIdState}/>
                     <div className="w3-dropdown-hover">
                     <Button variant="outlined" className={classes.button}>FILTER &darr;</Button>
                         <div className="w3-dropdown-content w3-bar-block w3-card-4">

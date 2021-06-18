@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from 'react';
 //import {useDispatch} from 'react-redux';
 //import {setViews} from '../../store/reducer/topNavBarViewsControl';
-
+//import {useDispatch, useSelector} from 'react-redux';
+//import {setInventory, inventorySelector} from '../../store/reducer/inventorySlice';
+import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
+//import Autocomplete from '@material-ui/lab/Autocomplete';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
-import TextField from '@material-ui/core/TextField';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';

@@ -5,6 +5,7 @@ import viewReducer from './reducer/viewsControlSlice';
 import usersReducer from './reducer/usersControlSlice';
 import topNavViewReducer from './reducer/topNavBarViewsControl';
 import orderIdReducer from './reducer/orderIDCslice';
+import inventoryReducer from './reducer/inventorySlice';
 
 //Store
 const store = configureStore({
@@ -12,7 +13,8 @@ const store = configureStore({
         viewReducer,
         usersReducer,
         topNavViewReducer,
-        orderIdReducer
+        orderIdReducer,
+        inventoryReducer
     }
 })
 
