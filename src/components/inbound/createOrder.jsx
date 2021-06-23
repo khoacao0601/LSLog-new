@@ -3,9 +3,11 @@ import React, {useEffect, useState} from 'react';
 //import {setViews} from '../../store/reducer/topNavBarViewsControl';
 //import {useDispatch, useSelector} from 'react-redux';
 //import {setInventory, inventorySelector} from '../../store/reducer/inventorySlice';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
-//import Autocomplete from '@material-ui/lab/Autocomplete';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -90,93 +92,176 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CreateOrder = () => {
+
+    const [testData, setTestData] = useState(
+        [
+            {
+                line: "1",
+                item: "Hydrocodone",
+                qty: "1",
+                uom: "PALLET",
+                totalEach: 1,
+                sku: "A1B1C1",
+                dateEx: "05/10/21 12:01 AM"
+            },
+            {
+                line: "2",
+                item: "Simvastatin",
+                qty: "30",
+                uom: "CASES",
+                totalEach: 30,
+                sku: "D4E5A1",
+                dateEx: "05/11/21 12:10 AM"
+            },
+            {
+                line: "3",
+                item: "Metformin",
+                qty: "64",
+                uom: "KITS",
+                totalEach: 64,
+                sku: "B2F6G7",
+                dateEx: "05/11/21 12:21 AM"
+            },
+            {
+                line: "4",
+                item: "Amlodipine",
+                qty: "1000",
+                uom: "EACHES",
+                totalEach: 1000,
+                sku: "J9H8G7",
+                dateEx: "05/11/21 12:22 AM"
+            }
+    ]);
+   
+
+
     const classes = useStyles();
 
-    const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
+    const api_url = `http://3.129.210.227:8140/v1/products`;
 
-    const handleDateChange = (date) => {
-      setSelectedDate(date);
-    };
+    const [inventory, setInventory] = useState();
     
-    const [newUser, setNewUser] = useState({
-        fullName: "",
-        userName: "",
-        email: "",
-        password: "",
-        phoneNumber: "",
-        skype: "",
-        office: "",
-        dept: "",
-        gender: ""
+    //warning Empty input user
+    const [warning, setWarning] = useState("");
+
+    //const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
+
+    /*const handleDateChange = (date) => {
+      setSelectedDate(date);
+    };*/
+    
+    const [eachLine, setEachLine] = useState({
+        item: "",
+        quantity: "",
+        UOM: "",
+        dateAndTime: "",
+        sku:" "
+
     });
     
     const [sendValue, setSendValue] = useState();
 
+    //set value for Autocomplete Marterial Desisgn
+    const getValueAutoComplete = (description, sku) => {
+            setEachLine({
+                ...eachLine,
+                item: description,
+                sku: sku
+            })
+            setWarning("");
+    }
+
     const updateField = (e) => {
-        setNewUser({
-            ...newUser,
+        setEachLine({
+            ...eachLine,
             [e.target.name]: e.target.value
         });
     };
 
+    const setItemOnly = (value) => {
+        setEachLine({
+            ...eachLine,
+            item: value
+        })
+    }
     //setup value for Post request
     useEffect(() => {
-        console.log(newUser.fullName);
+        async function fetchInventoryList(){
+            try {
+                const requestUrl = api_url;
+                const response = await fetch(requestUrl);
+                //console.log(response);
+            
+                const responseJSON = await response.json();
+                //store Inventory info to state
+                setInventory(responseJSON);
+                //console.log(responseJSON);
+ 
+            } catch (error) {
+                console.log('Failed to Fetch', error);
+            } 
+        }
+        fetchInventoryList();
+
+        //console.log();
         setSendValue({
-            username: newUser.userName,
-            email: newUser.email
+            line: (testData.length+1).toString(),
+            item: eachLine.item,
+            qty: eachLine.quantity,
+            uom: eachLine.UOM,
+            totalEach: eachLine.quantity,
+            sku: eachLine.sku,
+            dateEx: eachLine.dateAndTime
         })
-    }, [newUser.email, newUser.userName, newUser.fullName])
+    }, [api_url, eachLine.UOM, eachLine.dateAndTime, eachLine.item, eachLine.quantity, eachLine.sku, testData, testData.length])
     
-    const testData = [
-        {
-            line: "1",
-            item: "Hydrocodone",
-            qty: "1",
-            uom: "PALLET",
-            totalEach: 1,
-            sku: "A1B1C1",
-            dateEx: "05/10/21 12:01 AM"
-        },
-        {
-            line: "2",
-            item: "Simvastatin",
-            qty: "30",
-            uom: "CASES",
-            totalEach: 30,
-            sku: "D4E5A1",
-            dateEx: "05/11/21 12:10 AM"
-        },
-        {
-            line: "3",
-            item: "Metformin",
-            qty: "64",
-            uom: "KITS",
-            totalEach: 64,
-            sku: "B2F6G7",
-            dateEx: "05/11/21 12:21 AM"
-        },
-        {
-            line: "4",
-            item: "Amlodipine",
-            qty: "1000",
-            uom: "EACHES",
-            totalEach: 1000,
-            sku: "J9H8G7",
-            dateEx: "05/11/21 12:22 AM"
-        },
+    
+    const pushToTestData = () => {
+        if(eachLine.item && eachLine.quantity && eachLine.UOM && eachLine.dateAndTime && eachLine.sku){
+            setTestData([...testData, sendValue]);
+            console.log(testData);
+            setEachLine({
+                item: "",
+                quantity: "",
+                UOM: "",
+                dateAndTime: "",
+                sku:" "
+            });
+        } else {
+            setWarning("Can not be Empty")
+        }
+    }
 
-    ];
+  
+    //take value from Property for order number
+    const takeLineNum = (value) => {
+        return testData.findIndex((object) => {
+            return object.item === value;
+        });
+    }
 
-    const table = testData.map((object, indexArray) =>
-        <TableRow key={object.line}  className={classes.row}>
-            <TableCell component="th" scope="row">{object.line}</TableCell>
+    //remove Item from order
+    const removeItem = (value) =>{
+        const index = testData.findIndex((object) => {
+            return object.item === value;
+        });
+        testData.splice(index,1);
+        //console.log(testData);
+        setTestData(testData.filter(item => item.line !== index));
+    }
+
+    console.log(testData);
+    const table = testData.map((object) =>
+        <TableRow key={object.sku}  className={classes.row}>
+            <TableCell align="center">{object.line}</TableCell>
             <TableCell align="center">{object.item}</TableCell>
             <TableCell align="center">{object.qty}</TableCell>
             <TableCell align="center">{object.uom}</TableCell>
             <TableCell align="center">{object.totalEach}</TableCell>
             <TableCell align="center">{object.sku}</TableCell>
             <TableCell align="center">{object.dateEx}</TableCell>
+            <TableCell align="center"><IconButton aria-label="delete" onClick={removeItem}><DeleteIcon /></IconButton>
+            </TableCell>
         </TableRow>
     );
     return(
@@ -187,13 +272,33 @@ const CreateOrder = () => {
                 <Grid container spacing={3} className={classes.page}>
                     <Grid item xs={8}>
                         <Grid container justify="left" width={1}>
-                            <TextField id="dateExpected" label="ITEM" variant="outlined" fullWidth placeholder="SEARCH BY SKU OR DESCRIPTION" />
+                            <Autocomplete
+                                id="combo-box-demo"
+                                options={inventory}
+                                getOptionLabel={(option) => option.description}
+                                style={{ width: 300 }}
+                                onChange={(event, value) => value ? getValueAutoComplete(value.description, value.sku) : setWarning("Can not be Empty")}
+                                renderInput={(params) => 
+                                    <TextField {...params} 
+                                    id="dateExpected" 
+                                    label="ITEM" 
+                                    variant="outlined" 
+                                    fullWidth placeholder="SEARCH BY DESCRIPTION" 
+                                    />}
+                                />
                         </Grid>
                     </Grid>
                     <Grid item xs={4}></Grid>
                     <Grid item xs={4}>
                         <Grid container justify="left" width={1}>
-                            <TextField fullWidth id="dateExpected" label="QUANTITY" variant="outlined" />
+                            <TextField fullWidth 
+                            id="dateExpected" 
+                            label="QUANTITY" 
+                            variant="outlined" 
+                            name="quantity"
+                            value={eachLine.quantity}
+                            onChange={updateField}
+                            />
                         </Grid>
                     </Grid>
                     <Grid item xs={4}>
@@ -204,8 +309,8 @@ const CreateOrder = () => {
                                     labelId="dept-select-outlined-label"
                                     label="Department"
                                     id="dept-select-outlined"
-                                    name="dept"
-                                    value={newUser.dept}
+                                    name="UOM"
+                                    value={eachLine.UOM}
                                     onChange={updateField}
                                 >
                                     <MenuItem value=""><em>None</em></MenuItem>
@@ -220,20 +325,28 @@ const CreateOrder = () => {
                     <Grid item xs={4}></Grid>
                     <Grid item xs={4}>
                         <Grid container justify="left" width={1}>
-                            <TextField fullWidth id="dateExpected" label="DATE EXPECTED" variant="outlined"
-        
-        type="date"
-        //placeholder="MM/DD/YYYY"
-        className={classes.textField}
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />                        </Grid>
+                        <TextField
+                                name="dateAndTime"
+                                value={eachLine.dateAndTime}
+                                onChange={updateField}
+                                id="datetime-local"
+                                label="Date - Time Expected"
+                                type="datetime-local"
+                                defaultValue="2017-05-24T10:30"
+                                className={classes.textField}
+                                InputLabelProps={{
+                                shrink: true,
+                                }}
+                            />                     
+                        </Grid>
                     </Grid>
                     <Grid item xs={8}></Grid>
                     <Grid item xs={2}>
                         <Grid container justify="left" width={1}>
-                            <Button fullWidth variant="outlined" className={classes.button}>ADD LINE</Button>
+                            <Button fullWidth 
+                                    variant="outlined" 
+                                    className={classes.button} 
+                                    onClick={pushToTestData}>ADD LINE</Button>
                         </Grid>
                     </Grid>
                     <Grid item xs={10}></Grid>
@@ -251,6 +364,7 @@ const CreateOrder = () => {
                                 <TableCell align="center">TOTAL EA</TableCell>
                                 <TableCell align="center">SKU</TableCell>
                                 <TableCell align="center">DATE EXPECTED</TableCell>
+                                <TableCell align="center">Delete</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
