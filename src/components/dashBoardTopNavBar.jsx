@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import LSLLogo from '../images/LSL Logo.png';
 import Radium from 'radium'; //CSS-in-JS library support '&:hover'
 import {useDispatch} from 'react-redux';
@@ -91,6 +91,7 @@ const DashBoardTopNavBar = () => {
     const onClickNotifications = () => {dispatch(setViews('outbound'));};
 
     const [open, setOpen] = React.useState(false);
+    // const [tabToggle, setTabToggle] = useState(true);
     const anchorRef = React.useRef(null);
 
     const handleToggle = () => {
