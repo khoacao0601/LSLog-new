@@ -90,7 +90,7 @@ const Orders = () => {
         dispatch(setViews("createOrder"));
     }
 
-    const api_url = `http://3.128.200.22:8141/v1/receiving-orders`;
+    const api_url = `http://18.116.49.99:8141/v1/receiving-orders`;
 
     useEffect(() => {
 
@@ -127,9 +127,9 @@ const Orders = () => {
             }   
             //format hours
             if(date.getUTCHours() >= 12){
-                hour = date.getUTCHours() - 12 + ":" + minutes + " AM";
+                hour = date.getUTCHours() - 12 + ":" + minutes + " PM";
             } else {
-                hour = date.getUTCHours + ":" + minutes + " AM";
+                hour = date.getUTCHours() + ":" + minutes + " AM";
             }
             //full formate for date time 
             const datePrint = date.getMonth() + "/" + date.getDate() + "/" + date.getFullYear() + "  " + hour;
