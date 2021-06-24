@@ -20,9 +20,11 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
+import{ DataGrid } from '@material-ui/data-grid';
+
 const useStyles = makeStyles((theme) => ({
     root: {
-        '& > *': {margin: theme.spacing(1),marginLeft: theme.spacing(2),},flexGrow: 1,
+        '& > *': {margin: theme.spacing(1),margincenter: theme.spacing(2),},flexGrow: 1,
 
         width: '100%',
         marginTop: theme.spacing(3),
@@ -75,11 +77,11 @@ const useStyles = makeStyles((theme) => ({
     },
    filter: {
         width: "11vh",
-        marginLeft: "4vh"
+        margincenter: "4vh"
     },
     sort: {
         width: "15vh",
-        marginLeft: "4vh"
+        margincenter: "4vh"
     },
     content: {
         flexGrow: 1,
@@ -93,6 +95,7 @@ const CreateOrder = () => {
     const classes = useStyles();
 
     const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
+
 
     const handleDateChange = (date) => {
       setSelectedDate(date);
@@ -168,9 +171,9 @@ const CreateOrder = () => {
 
     ];
 
-    const table = testData.map((object, indexArray) =>
+    const rows = testData.map((object, indexArray) =>
         <TableRow key={object.line}  className={classes.row}>
-            <TableCell component="th" scope="row">{object.line}</TableCell>
+            <TableCell component="th" scope="row">{object.line} </TableCell>
             <TableCell align="center">{object.item}</TableCell>
             <TableCell align="center">{object.qty}</TableCell>
             <TableCell align="center">{object.uom}</TableCell>
@@ -179,6 +182,31 @@ const CreateOrder = () => {
             <TableCell align="center">{object.dateEx}</TableCell>
         </TableRow>
     );
+
+    const columns = [
+        { field: 'LINE', headerName: 'LINE', width: 70 },
+        { field: 'ITEM', headerName: 'ITEM', width: 130 },
+        { field: 'QTY', headerName: 'QTY', width: 130 },
+        { field: 'UOM', headerName: 'UOM', width: 90,},
+        {
+          field: 'TOTAL EA',
+          headerName: 'TOTAL EA',
+          width: 160,
+        },
+    ];
+
+    const rows_two = [
+        { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
+        { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
+        { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
+        { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
+        { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
+        { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
+        { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
+        { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
+        { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
+    ];
+    
     return(
         <main className={classes.content}>
             <Toolbar />
@@ -186,13 +214,13 @@ const CreateOrder = () => {
                 <h1>Inbound / Create Order</h1>
                 <Grid container spacing={3} className={classes.page}>
                     <Grid item xs={8}>
-                        <Grid container justify="left" width={1}>
+                        <Grid container justify="center" width={1}>
                             <TextField id="dateExpected" label="ITEM" variant="outlined" fullWidth placeholder="SEARCH BY SKU OR DESCRIPTION" />
                         </Grid>
                     </Grid>
                     <Grid item xs={4}></Grid>
                     <Grid item xs={4}>
-                        <Grid container justify="left" width={1}>
+                        <Grid container justify="center" width={1}>
                             <TextField fullWidth id="dateExpected" label="QUANTITY" variant="outlined" />
                         </Grid>
                     </Grid>
@@ -219,7 +247,7 @@ const CreateOrder = () => {
                     </Grid>
                     <Grid item xs={4}></Grid>
                     <Grid item xs={4}>
-                        <Grid container justify="left" width={1}>
+                        <Grid container justify="center" width={1}>
                             <TextField fullWidth id="dateExpected" label="DATE EXPECTED" variant="outlined"
         
         type="date"
@@ -232,7 +260,7 @@ const CreateOrder = () => {
                     </Grid>
                     <Grid item xs={8}></Grid>
                     <Grid item xs={2}>
-                        <Grid container justify="left" width={1}>
+                        <Grid container justify="center" width={1}>
                             <Button fullWidth variant="outlined" className={classes.button}>ADD LINE</Button>
                         </Grid>
                     </Grid>
@@ -240,7 +268,7 @@ const CreateOrder = () => {
                 </Grid>
                 <hr/> 
                 <h5>Lines in Order</h5>
-                <Paper className={classes.root}>
+            <Paper className={classes.root}>
                     <Table className={classes.table}>
                         <TableHead className={classes.tableHead}>
                             <TableRow>
@@ -254,23 +282,31 @@ const CreateOrder = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                        {table}
+                        {rows}
                         </TableBody>
                     </Table>
                 </Paper>
                 <Grid container spacing={3} className={classes.page}>
                     <Grid item xs={2}>
-                        <Grid container justify="left" width={1}>
+                        <Grid container justify="center" width={1}>
                             <Button fullWidth variant="outlined" className={classes.button}>CANCEL</Button>
                         </Grid>
                     </Grid>
                     <Grid item xs={2}>
-                        <Grid container justify="left" width={1}>
+                        <Grid container justify="center" width={1}>
                             <Button fullWidth variant="outlined" className={classes.button}>SUBMIT</Button>
                         </Grid>
                     </Grid>
                     <Grid item xs={8}></Grid>
                 </Grid>
+            </div>    
+            
+            
+            <h1>TESTING</h1>
+            <div style={{ height: 400, width: '100%' }}>
+                <DataGrid rows={rows} columns={columns} pageSize={5} checkboxSelection >
+                    <TableCell rows={rows} />
+                </DataGrid>
             </div>
         </main>
     )
