@@ -156,14 +156,7 @@ const Login = () => {
                 <DialogContentText>
                 Please enter your email address and we will send instructions to retreive or create a new password.
                 </DialogContentText>
-                <TextField
-                autoFocus
-                margin="dense"
-                id="name"
-                label="Email Address"
-                type="email"
-                fullWidth
-                />
+                <TextField autoFocus margin="dense" id="name" label="Email Address" type="email" fullWidth />
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose} color="primary">
