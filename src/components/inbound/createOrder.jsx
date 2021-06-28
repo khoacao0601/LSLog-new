@@ -19,8 +19,12 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-
 import{ DataGrid } from '@material-ui/data-grid';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Icon from '@material-ui/core/Icon';
+
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -30,6 +34,15 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(3),
         overflowX: 'auto',
         display: 'flex',
+    },
+    // Data Grid Column Header Styling Class
+    root_two: {
+        '& .datagrid-header': {
+            backgroundColor: '#eee',
+            width: '100%',
+            display: 'flex',
+            margin: theme.spacing(4)
+        }
     },
         
     paper: {height: 40,width: 100,},
@@ -131,82 +144,121 @@ const CreateOrder = () => {
         })
     }, [newUser.email, newUser.userName, newUser.fullName])
     
+    // Test Data to display until inventory api is ready
+    // This data should be display in the DataGrid below the column header
     const testData = [
         {
+            id: '1',
             line: "1",
             item: "Hydrocodone",
             qty: "1",
             uom: "PALLET",
             totalEach: 1,
             sku: "A1B1C1",
-            dateEx: "05/10/21 12:01 AM"
+            dateEx: "05/10/21 12:01 AM",
         },
         {
+            id: '2,',
             line: "2",
             item: "Simvastatin",
             qty: "30",
             uom: "CASES",
             totalEach: 30,
             sku: "D4E5A1",
-            dateEx: "05/11/21 12:10 AM"
+            dateEx: "05/11/21 12:10 AM",
+
         },
         {
+            id: '3',
             line: "3",
             item: "Metformin",
             qty: "64",
             uom: "KITS",
             totalEach: 64,
             sku: "B2F6G7",
-            dateEx: "05/11/21 12:21 AM"
+            dateEx: "05/11/21 12:21 AM",
+
         },
         {
+            id: '4',
             line: "4",
             item: "Amlodipine",
             qty: "1000",
             uom: "EACHES",
             totalEach: 1000,
             sku: "J9H8G7",
-            dateEx: "05/11/21 12:22 AM"
+            dateEx: "05/11/21 12:22 AM",
+
         },
 
     ];
-
+    // Mapping over the testdata array to create a new row for each element in t
     const rows = testData.map((object, indexArray) =>
-        <TableRow key={object.line}  className={classes.row}>
-            <TableCell component="th" scope="row">{object.line} </TableCell>
+        <TableRow key={object.line}  className={classes.row} >
+            <TableCell component="th" scope="row">{object.line}</TableCell>
             <TableCell align="center">{object.item}</TableCell>
-            <TableCell align="center">{object.qty}</TableCell>
+            <TableCell align="center">{object.qty} {object.delete}</TableCell>
             <TableCell align="center">{object.uom}</TableCell>
             <TableCell align="center">{object.totalEach}</TableCell>
             <TableCell align="center">{object.sku}</TableCell>
             <TableCell align="center">{object.dateEx}</TableCell>
+            <TableCell><Icon>delete</Icon></TableCell>
         </TableRow>
     );
 
+    // Converted the column headers into an array of objs and passing in to the DataGrid tag to display
     const columns = [
-        { field: 'LINE', headerName: 'LINE', width: 70 },
-        { field: 'ITEM', headerName: 'ITEM', width: 130 },
-        { field: 'QTY', headerName: 'QTY', width: 130 },
-        { field: 'UOM', headerName: 'UOM', width: 90,},
+        { field: 'delete', headerName: 'DELETE', width: 190, headerAlign: 'center', headerClassName: 'datagrid-header' },
+        { field: 'line', headerName: 'LINES', width: 190, headerAlign: 'center', headerClassName: 'datagrid-header', hide: false },
+        { field: 'item', headerName: 'ITEM', width: 130, headerAlign: 'center', headerClassName: 'datagrid-header', hide: false},
+        { field: 'qty', headerName: 'QTY', width: 130, headerAlign: 'center', headerClassName: 'datagrid-header', hide: false },
+        { field: 'uom', headerName: 'UOM', width: 190, headerAlign: 'center', headerClassName: 'datagrid-header', hide: false},
         {
-          field: 'TOTAL EA',
-          headerName: 'TOTAL EA',
-          width: 160,
+            field: 'totalEach',
+            headerName: 'TOTAL EA',
+            width: 150,
+            headerAlign: 'center',
+            headerClassName: 'datagrid-header',
         },
+        { field: 'sku', headerName: 'SKU', width: 190, headerAlign: 'center', headerClassName: 'datagrid-header'},
+        { field: 'dateEx', headerName: 'DATE EXPECTED', width: 180, headerAlign: 'center', headerClassName: 'datagrid-header'},
+    ];
+    const columns_two = [
+        {
+            field: 'deletion',
+            headerName: 'DELETE',
+            width: 150,
+            renderCell: (id) => (
+                <>
+                    <Button
+                    style={{
+                      backgroundColor: "#ffcc00",
+                      marginRight: 40,
+                      padding: "3px 35px"
+                    }}
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                  >
+                    Edit
+                  </Button>
+        
+                  <Button
+                    style={{
+                      backgroundColor: "#e8605d",
+                      padding: "3px 35px"
+                    }}
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                  >
+                    Delete
+                  </Button>
+                </>
+              )
+            },
     ];
 
-    const rows_two = [
-        { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-        { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-        { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-        { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-        { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-        { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-        { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-        { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-        { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
-    ];
-    
     return(
         <main className={classes.content}>
             <Toolbar />
@@ -268,7 +320,16 @@ const CreateOrder = () => {
                 </Grid>
                 <hr/> 
                 <h5>Lines in Order</h5>
-            <Paper className={classes.root}>
+                <div style={{ height: 350, width: '100%' }}>
+                    <DataGrid className={classes.root_two} align='center' rows={testData} columns={columns} pageSize={20} checkboxSelection>
+                        {rows}
+                    </DataGrid>
+                    <Icon style={{ fontSize: 35}}>delete</Icon>
+                    <Icon style={{ fontSize: 35}}>delete_outline</Icon>
+                    <Icon style={{ fontSize: 35}}>delete_forever</Icon>
+                    <Icon style={{ fontSize: 35}}>remove</Icon>
+                </div>
+            {/* <Paper className={classes.root}>
                     <Table className={classes.table}>
                         <TableHead className={classes.tableHead}>
                             <TableRow>
@@ -285,7 +346,7 @@ const CreateOrder = () => {
                         {rows}
                         </TableBody>
                     </Table>
-                </Paper>
+                </Paper> */}
                 <Grid container spacing={3} className={classes.page}>
                     <Grid item xs={2}>
                         <Grid container justify="center" width={1}>
@@ -302,12 +363,6 @@ const CreateOrder = () => {
             </div>    
             
             
-            <h1>TESTING</h1>
-            <div style={{ height: 400, width: '100%' }}>
-                <DataGrid rows={rows} columns={columns} pageSize={5} checkboxSelection >
-                    <TableCell rows={rows} />
-                </DataGrid>
-            </div>
         </main>
     )
 }

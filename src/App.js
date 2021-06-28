@@ -15,6 +15,9 @@ import {viewsSelector} from './store/reducer/viewsControlSlice';
 import {topNavBarViewsSelector} from './store/reducer/topNavBarViewsControl';
 import SideNav from './components/SideNav';
 import OrderDetails from './components/inbound/orderDetails';
+import Dashboard from './components/dashboard';
+import Inventory from './components/inventory/inventory';
+import Outbound from './components/outbound/outbound';
 //import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -82,7 +85,8 @@ function App() {
           <div className={classes.app}>
             <CssBaseline/>
             <DashBoardTopNavBar/>
-            <LeftSideNavBar/>
+            <SideNav/>
+            <Orders/>
           </div>
         ) 
       } else if (viewFromTopNavBar === "inbound"){
@@ -112,12 +116,31 @@ function App() {
             <OrderDetails/>
           </div>
         ) 
-      }  else {
+      } else if (viewFromTopNavBar === "outbound"){
         return (
           <div className={classes.app}>
             <CssBaseline/>
             <DashBoardTopNavBar/>
             <LeftSideNavBar/>
+            <Outbound/>
+          </div>
+        ) 
+      } else if (viewFromTopNavBar === "inventory"){
+        return (
+          <div className={classes.app}>
+            <CssBaseline/>
+            <DashBoardTopNavBar/>
+            <LeftSideNavBar/>
+            <Inventory/>
+          </div>
+        ) 
+      } else {
+        return (
+          <div className={classes.app}>
+            <CssBaseline/>
+            <DashBoardTopNavBar/>
+            <LeftSideNavBar/>
+            <Dashboard/>
           </div>
         ) 
       }

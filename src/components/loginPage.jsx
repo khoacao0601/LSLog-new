@@ -17,6 +17,11 @@ import Grid from '@material-ui/core/Grid';
 //import Box from '@material-ui/core/Box';
 //import Link from '@material-ui/core/Link';
 //import Typography from '@material-ui/core/Typography';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -29,7 +34,15 @@ const useStyles = makeStyles((theme) => ({
 
 const Login = () => {
     const classes = useStyles();
-
+    const [open, setOpen] = useState(false);
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+    
+    const handleClose = () => {
+        setOpen(false);
+    };
+    
     const [inputUserName, setInputUserName] = useState('');
     const [userName, setUserName] = useState([]);
     const [userStatus, setUserStatus] = useState('');
@@ -126,18 +139,35 @@ const Login = () => {
                     <Grid item xs={12}><Grid container justify="center">
                             <Button fullWidth={true} type="submit" variant="contained" color="primary">Log in</Button>
                     </Grid></Grid>
-                    <Grid item xs={12}><Grid container justify="center">
+                    <Grid item xs={12}><Grid container justify="left">
                             <FormControlLabel onChange={handleChange} control={<Checkbox checked={state.checkedB} name="checkedB" color="primary" />}label="Remember me"/>
                     </Grid></Grid>
                     <Grid item xs={6}><Grid container justify="center">
-                            <a href="password">Forgot password?</a>
+                            <a href="#" onClick={handleClickOpen}>Forgot password?</a>
                     </Grid></Grid>
                     <Grid item xs={6}><Grid container justify="center">
                             <a href="createAccount" onClick={setCreateAcc}>Create an Account</a>
                     </Grid></Grid>
                 </Grid>
             </form>
-        </div>
+            <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+            <DialogTitle id="form-dialog-title">Forgot Your Password?</DialogTitle>
+            <DialogContent>
+                <DialogContentText>
+                Please enter your email address and we will send instructions to retreive or create a new password.
+                </DialogContentText>
+                <TextField autoFocus margin="dense" id="name" label="Email Address" type="email" fullWidth />
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={handleClose} color="primary">
+                Cancel
+                </Button>
+                <Button onClick={handleClose} color="primary">
+                Submit
+                </Button>
+            </DialogActions>
+        </Dialog>
+      </div>
     )
 }
 

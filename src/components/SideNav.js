@@ -1,6 +1,9 @@
-import React from 'react'
+import React, {useEffect, useState, useRef} from 'react';
 //import { Link } from 'react-router-dom'
 import '../styling/sideBar.css'
+
+import {useDispatch} from 'react-redux';
+import {setViews} from '../store/reducer/topNavBarViewsControl';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -8,6 +11,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import ToggleButton from '@material-ui/lab/ToggleButton';
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 
 const drawerWidth = 270;
 const useStyles = makeStyles((theme) => ({
@@ -50,26 +55,73 @@ const useStyles = makeStyles((theme) => ({
             background: "#FFFFFF",
             textDecoration: "none",
         },
-        "& span": {
-            fontWeight: "bold",
+        "& >span": {
+            fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+            fontWeight: "500",
+            fontSize: "1rem",
         },
+        "&.Mui-selected": {
+            backgroundColor: "#FFFFFF",
+            '&:hover': {
+              background: "#FFFFFF",
+            },
+          }
     },
-}));
+    menuGroupVert: {
+      width: "100%",
+      paddingTop: "45px",
+    },
+    menuButtonVert: {
+        textAlign: "center",
+        border: "none",
+        margin: "10px 0 10px 40px",
+        borderRadius: "20px 0 0 20px !important",
+        lineHeight: "3vh",
+        background: "#E0E0E0",
+        color: "#5D5D5D",
+        fontWeight: "600",
+        padding: "0 20px",
+        height: "7vh",
+        '&:hover': {
+          color: "#5D5D5D",
+          background: "#FFFFFF",
+          textDecoration: "none",
+        },
+        '&:focus': {
+          outline: "none",
+        },
+        "& >span": {
+          fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+          fontWeight: "500",
+          fontSize: "1rem",
+        },
+        "&.Mui-selected": {
+          backgroundColor: "#FFFFFF",
+          '&:hover': {
+            background: "#FFFFFF",
+          },
+        }
+      },}));
 
 const SideNav = () => {
     const classes = useStyles();
+    
+    const dispatch = useDispatch();
 
+    const [view, setView] = useState('inbound');
+    const handleView = (event, newView) => {
+      if (newView !== null) {
+        setView(newView);
+        dispatch(setViews(newView));
+      };
+    };
     return (
         <Drawer className={classes.drawer} variant="permanent" classes={{ paper: classes.drawerPaper, }}>
           <Toolbar />
           <div>
-          <List className={classes.sidebarList}>
-              {['ORDERS'].map((text, index) => (
-                <ListItem button key={text} className={classes.sidebarItem}>
-                  <ListItemText className={classes.sidebarText} primary={text} to='/orders' />
-                </ListItem>
-              ))}
-            </List>
+            <ToggleButtonGroup className={classes.menuGroupVert} value={view} exclusive orientation="vertical" onChange={handleView} aria-label="text alignment">
+                <ToggleButton className={classes.menuButtonVert} value="inbound">ORDERS</ToggleButton>
+            </ToggleButtonGroup>
           </div>
         </Drawer>
     )
