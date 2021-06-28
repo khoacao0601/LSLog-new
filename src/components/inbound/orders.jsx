@@ -218,6 +218,46 @@ const Orders = () => {
             DateExpected: '06/30/21 09:30AM',
             DateCompleted: '07/07/21 10:45PM',
         },
+        {
+            id: '5',
+            prty: '2',
+            orderID: 'R00220',
+            lines: '3',
+            Status: 'PENDING',
+            DateCreated: '05/11/21 12:30AM',
+            DateExpected: '06/30/21 09:30AM',
+            DateCompleted: '07/07/21 10:45PM',
+        },
+        {
+            id: '6',
+            prty: '3',
+            orderID: 'R00110',
+            lines: '33',
+            Status: 'PENDING',
+            DateCreated: '05/11/21 12:30AM',
+            DateExpected: '06/30/21 09:30AM',
+            DateCompleted: '07/07/21 10:45PM',
+        },
+        {
+            id: '7',
+            prty: '7',
+            orderID: 'R00010',
+            lines: '19',
+            Status: 'PENDING',
+            DateCreated: '05/11/21 12:30AM',
+            DateExpected: '06/30/21 09:30AM',
+            DateCompleted: '07/07/21 10:45PM',
+        },
+        {
+            id: '8',
+            prty: '8',
+            orderID: 'R00550',
+            lines: '303',
+            Status: 'PENDING',
+            DateCreated: '05/11/21 12:30AM',
+            DateExpected: '06/30/21 09:30AM',
+            DateCompleted: '07/07/21 10:45PM',
+        },
     ]
 
 
@@ -266,8 +306,8 @@ const Orders = () => {
                 </div>
             </div>
             
-            <div style={{ height: 400, width: 'auto', display:'flex', justifyContent:'center', }}>
-                    <DataGrid className={classes.root_two} align='center' rows={testData} columns={columns} pageSize={20}>
+            <div style={{ height: 700, width: 'auto', display:'flex', justifyContent:'center', }}>
+                    <DataGrid className={classes.root_two} align='center' rows={testData} columns={columns} pageSize={20} checkboxSelection>
                         {/* {rows} */}
                         <h1>TESTING</h1>
                     </DataGrid>
