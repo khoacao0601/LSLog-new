@@ -1,10 +1,8 @@
 import React, {useEffect, useState} from 'react';
-//import {useDispatch} from 'react-redux';
-//import {setViews} from '../../store/reducer/topNavBarViewsControl';
-//import {useDispatch, useSelector} from 'react-redux';
-//import {setInventory, inventorySelector} from '../../store/reducer/inventorySlice';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
+import {useDispatch} from 'react-redux';
+import {setViews} from '../../store/reducer/topNavBarViewsControl';
 //import Autocomplete from '@material-ui/lab/Autocomplete';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -19,6 +17,55 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Link from '@material-ui/core/Link';
+
+import { DataGrid } from '@material-ui/data-grid';
+
+const columns = [
+  { field: 'id', headerName: 'ID', width: 90 },
+  {
+    field: 'firstName',
+    headerName: 'First name',
+    width: 150,
+    editable: true,
+  },
+  {
+    field: 'lastName',
+    headerName: 'Last name',
+    width: 150,
+    editable: true,
+  },
+  {
+    field: 'age',
+    headerName: 'Age',
+    type: 'number',
+    width: 110,
+    editable: true,
+  },
+  {
+    field: 'fullName',
+    headerName: 'Full name',
+    description: 'This column has a value getter and is not sortable.',
+    sortable: false,
+    width: 160,
+    valueGetter: (params) =>{return <Button>Click</Button>;},
+  },
+];
+
+const rows = [
+  { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
+  { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
+  { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
+  { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
+  { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
+  { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
+  { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
+  { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
+  { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
+];
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -86,6 +133,12 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(3),
         background: "white",
         marginTop: "60px",
+    },
+    breadcrumbs: {
+        fontSize: "2.5rem",
+        "& >ol>li>p": {
+            fontSize: "2.5rem",
+        },
     },
 }));
 
@@ -169,7 +222,7 @@ const CreateOrder = () => {
     ];
 
     const table = testData.map((object, indexArray) =>
-        <TableRow key={object.line}  className={classes.row}>
+        <TableRow key={object.line} className={classes.row}>
             <TableCell component="th" scope="row">{object.line}</TableCell>
             <TableCell align="center">{object.item}</TableCell>
             <TableCell align="center">{object.qty}</TableCell>
@@ -179,11 +232,22 @@ const CreateOrder = () => {
             <TableCell align="center">{object.dateEx}</TableCell>
         </TableRow>
     );
+
+    //Breabcrumbs
+    const dispatch = useDispatch();
+    const handleView = (newView, event) => {
+        event.preventDefault();
+        dispatch(setViews(newView));
+    };
+
     return(
         <main className={classes.content}>
             <Toolbar />
             <div style={styles.container}>
-                <h1>Inbound / Create Order</h1>
+                <Breadcrumbs className={classes.breadcrumbs} aria-label="breadcrumb">
+                    <Link color="inherit" href="/" onClick={(event)=>handleView("inbound", event)}>Inbound Orders</Link>
+                    <Typography color="textPrimary">Create Order</Typography>
+                </Breadcrumbs>
                 <Grid container spacing={3} className={classes.page}>
                     <Grid item xs={8}>
                         <Grid container justify="left" width={1}>
@@ -272,6 +336,15 @@ const CreateOrder = () => {
                     <Grid item xs={8}></Grid>
                 </Grid>
             </div>
+            <div style={{ height: 400, width: '100%' }}>
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        pageSize={5}
+        checkboxSelection
+        disableSelectionOnClick
+      />
+    </div>
         </main>
     )
 }

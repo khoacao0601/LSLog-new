@@ -36,11 +36,14 @@ const useStyles = makeStyles((theme) => ({
         color: "#5D5D5D",
         fontWeight: "600",
         padding: "0 20px",
-        height: "6vh",
+        height: "4rem",
         '&:hover': {
             color: "#5D5D5D",
             background: "#FFFFFF",
             textDecoration: "none",
+        },
+        '&:focus': {
+          outline: "none",
         },
         "& >span": {
             fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
@@ -61,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
       black: {
         color: "#000000",
       },
-      }));
+}));
 const Header = () => {
     const classes = useStyles();
 
@@ -69,6 +72,7 @@ const Header = () => {
 
     const [alignment, setAlignment] = useState('login');
     const handleAlignment = (event, newAlignment) => {
+        debugger;
         setAlignment(newAlignment);
         dispatch(setViews(newAlignment));
     };
@@ -77,12 +81,8 @@ const Header = () => {
         <AppBar className={classes.appBar} position="static" elevation={0}>
             <Toolbar>
                 <img src={LSLLogo} style={{width:"3%"}} alt=""></img>
-                    <Typography variant="h6" className={classes.title}>
-                    LifeScience Logistics
-                    </Typography>
-                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                    <span className="navbar-toggler-icon"></span>
-                </button>
+                <Typography variant="h6" className={classes.title}>LifeScience Logistics</Typography>
+                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation"><span className="navbar-toggler-icon"></span></button>
                 <ToggleButtonGroup className={classes.menuGroup} value={alignment} exclusive onChange={handleAlignment} aria-label="text alignment">
                     <ToggleButton className={classes.menuButton} value="login">HOME</ToggleButton>
                     <ToggleButton className={classes.menuButton} value="about">ABOUT</ToggleButton>
@@ -92,8 +92,6 @@ const Header = () => {
             </Toolbar>
         </AppBar>
     )
-}
+};
 
 export default Header;
-
-

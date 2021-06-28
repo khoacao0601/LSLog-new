@@ -14,6 +14,9 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Link from '@material-ui/core/Link';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -75,6 +78,12 @@ const useStyles = makeStyles((theme) => ({
         background: "white",
         marginTop: "60px",
     },
+    breadcrumbs: {
+        fontSize: "2.5rem",
+        "& >ol>li>p": {
+            fontSize: "2.5rem",
+        },
+    },
 }));
 
 
@@ -82,15 +91,9 @@ const useStyles = makeStyles((theme) => ({
 const Orders = () => {
     const classes = useStyles();
 
-    const dispatch = useDispatch();
-
     const [allOrders, setAllorders] = useState([]);
 
-    const onClickCreateOrder = () => {
-        dispatch(setViews("createOrder"));
-    }
-
-    const api_url = `http://18.118.27.219:8141/v1/receiving-orders`;
+    const api_url = `http://3.17.181.84:8141/v1/receiving-orders`;
 
     useEffect(() => {
 
@@ -151,15 +154,22 @@ const Orders = () => {
         console.log(e.target.value);
     }
 
-
+    //Breabcrumbs
+    const dispatch = useDispatch();
+    const handleView = (newView, event) => {
+        event.preventDefault();
+        dispatch(setViews(newView));
+    };
 
     return(
         <main className={classes.content}>
             <Toolbar />
             <div className={classes.container}>
-                <h1>Inbound / Orders</h1>
+                <Breadcrumbs className={classes.breadcrumbs} aria-label="breadcrumb">
+                    <Typography color="textPrimary">Inbound Orders</Typography>
+                </Breadcrumbs>
                 <div className={classes.componentTop}>
-                    <Button variant="outlined" className={classes.button} onClick={onClickCreateOrder}>CREATE ORDER</Button>
+                    <Button variant="outlined" className={classes.button} onClick={(event)=>handleView("createOrder", event)}>CREATE ORDER</Button>
                     <div className="w3-dropdown-hover">
                     <Button variant="outlined" className={classes.button}>ACTIONS &darr;</Button>
                         <div className="w3-dropdown-content w3-bar-block w3-card-4">
