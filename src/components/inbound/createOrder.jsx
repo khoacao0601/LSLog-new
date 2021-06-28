@@ -19,6 +19,9 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import{ DataGrid } from '@material-ui/data-grid';
 import Icon from '@material-ui/core/Icon';
+import Typography from '@material-ui/core/Typography';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Link from '@material-ui/core/Link';
 
 
 
