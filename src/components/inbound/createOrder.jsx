@@ -20,8 +20,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import{ DataGrid } from '@material-ui/data-grid';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
 import Icon from '@material-ui/core/Icon';
 
 
@@ -39,10 +37,12 @@ const useStyles = makeStyles((theme) => ({
     root_two: {
         '& .datagrid-header': {
             backgroundColor: '#eee',
-            width: '100%',
-            display: 'flex',
-            margin: theme.spacing(4)
-        }
+        },
+        '& > *': {margin: theme.spacing(1),},
+        width: 'auto',
+        marginTop: theme.spacing(3),
+        overflowX: 'auto',
+        display: 'flex',
     },
         
     paper: {height: 40,width: 100,},
@@ -58,12 +58,12 @@ const useStyles = makeStyles((theme) => ({
     },
     table: {
         minWidth: 700,
-        //marginTop: "2vh"
+        //marginTop: "2vh",
     },
     tableHead: {
         backgroundColor: "#eee",
     },
-    row: {
+    row: { align: 'center',
         '&:nth-of-type(even)': {
             backgroundColor: theme.palette.background.default,
         },
@@ -207,56 +207,26 @@ const CreateOrder = () => {
     );
 
     // Converted the column headers into an array of objs and passing in to the DataGrid tag to display
+    // Note: Flex overrides width, so the width property isn't actually doing anything currently
+    // align key aligns the cells l/r/c
     const columns = [
-        { field: 'delete', headerName: 'DELETE', width: 190, headerAlign: 'center', headerClassName: 'datagrid-header' },
-        { field: 'line', headerName: 'LINES', width: 190, headerAlign: 'center', headerClassName: 'datagrid-header', hide: false },
-        { field: 'item', headerName: 'ITEM', width: 130, headerAlign: 'center', headerClassName: 'datagrid-header', hide: false},
-        { field: 'qty', headerName: 'QTY', width: 130, headerAlign: 'center', headerClassName: 'datagrid-header', hide: false },
-        { field: 'uom', headerName: 'UOM', width: 190, headerAlign: 'center', headerClassName: 'datagrid-header', hide: false},
+        { field: 'line', headerName: 'LINES', description: '# of Lines', width: 190, headerAlign: 'center', headerClassName: 'datagrid-header', hide: false, flex: 1, type:'number', align: 'right', },
+        { field: 'item', headerName: 'ITEM', description: 'Item Name', width: 130, headerAlign: 'center', headerClassName: 'datagrid-header', hide: false, flex: 1, align: 'center',},
+        { field: 'qty', headerName: 'QTY', description: 'Quantity', width: 130, headerAlign: 'center', headerClassName: 'datagrid-header', hide: false, flex: 1, type: 'number', align: 'center',},
+        { field: 'uom', headerName: 'UOM', width: 190, description: 'Unit of Measurement', headerAlign: 'center', headerClassName: 'datagrid-header', hide: false, flex: 1, align: 'center',},
         {
             field: 'totalEach',
             headerName: 'TOTAL EA',
+            description: 'Total Eaches',
             width: 150,
             headerAlign: 'center',
             headerClassName: 'datagrid-header',
+            flex: 1,
+            align: 'center',
         },
-        { field: 'sku', headerName: 'SKU', width: 190, headerAlign: 'center', headerClassName: 'datagrid-header'},
-        { field: 'dateEx', headerName: 'DATE EXPECTED', width: 180, headerAlign: 'center', headerClassName: 'datagrid-header'},
-    ];
-    const columns_two = [
-        {
-            field: 'deletion',
-            headerName: 'DELETE',
-            width: 150,
-            renderCell: (id) => (
-                <>
-                    <Button
-                    style={{
-                      backgroundColor: "#ffcc00",
-                      marginRight: 40,
-                      padding: "3px 35px"
-                    }}
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                  >
-                    Edit
-                  </Button>
-        
-                  <Button
-                    style={{
-                      backgroundColor: "#e8605d",
-                      padding: "3px 35px"
-                    }}
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                  >
-                    Delete
-                  </Button>
-                </>
-              )
-            },
+        { field: 'sku', headerName: 'SKU', description: 'SKU Number', width: 190, headerAlign: 'center', headerClassName: 'datagrid-header', flex: 1, type: 'number', align: 'center',},
+        { field: 'dateEx', headerName: 'DATE EXPECTED', description: 'Date Expected', width: 180, headerAlign: 'center', headerClassName: 'datagrid-header', flex: 1, type: 'dateTime', align: 'right',},
+        { field: '', headerName: 'DELETE', sortable: false, width: 100, description: 'Delete Line', headerAlign: 'center', headerClassName: 'datagrid-header', flex: 1, align: 'center', renderCell: (params) => { return <Icon style={{ fontSize: 35}}> delete</Icon>} },
     ];
 
     return(
@@ -320,14 +290,14 @@ const CreateOrder = () => {
                 </Grid>
                 <hr/> 
                 <h5>Lines in Order</h5>
-                <div style={{ height: 350, width: '100%' }}>
-                    <DataGrid className={classes.root_two} align='center' rows={testData} columns={columns} pageSize={20} checkboxSelection>
+                <div style={{ height: 400, width: 'auto', display:'flex', justifyContent:'center', }}>
+                    <DataGrid className={classes.root_two} align='center' rows={testData} columns={columns} pageSize={20}>
                         {rows}
                     </DataGrid>
-                    <Icon style={{ fontSize: 35}}>delete</Icon>
+                    {/* <Icon style={{ fontSize: 35}}>delete</Icon>
                     <Icon style={{ fontSize: 35}}>delete_outline</Icon>
                     <Icon style={{ fontSize: 35}}>delete_forever</Icon>
-                    <Icon style={{ fontSize: 35}}>remove</Icon>
+                    <Icon style={{ fontSize: 35}}>remove</Icon> */}
                 </div>
             {/* <Paper className={classes.root}>
                     <Table className={classes.table}>
