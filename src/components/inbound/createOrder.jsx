@@ -19,12 +19,27 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import{ DataGrid } from '@material-ui/data-grid';
+import Icon from '@material-ui/core/Icon';
+
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        '& > *': {margin: theme.spacing(1),marginLeft: theme.spacing(2),},flexGrow: 1,
+        '& > *': {margin: theme.spacing(1),margincenter: theme.spacing(2),},flexGrow: 1,
 
         width: '100%',
+        marginTop: theme.spacing(3),
+        overflowX: 'auto',
+        display: 'flex',
+    },
+    // Data Grid Column Header Styling Class
+    root_two: {
+        '& .datagrid-header': {
+            backgroundColor: '#eee',
+        },
+        '& > *': {margin: theme.spacing(1),},
+        width: 'auto',
         marginTop: theme.spacing(3),
         overflowX: 'auto',
         display: 'flex',
@@ -43,12 +58,12 @@ const useStyles = makeStyles((theme) => ({
     },
     table: {
         minWidth: 700,
-        //marginTop: "2vh"
+        //marginTop: "2vh",
     },
     tableHead: {
         backgroundColor: "#eee",
     },
-    row: {
+    row: { align: 'center',
         '&:nth-of-type(even)': {
             backgroundColor: theme.palette.background.default,
         },
@@ -75,11 +90,11 @@ const useStyles = makeStyles((theme) => ({
     },
    filter: {
         width: "11vh",
-        marginLeft: "4vh"
+        margincenter: "4vh"
     },
     sort: {
         width: "15vh",
-        marginLeft: "4vh"
+        margincenter: "4vh"
     },
     content: {
         flexGrow: 1,
@@ -93,6 +108,7 @@ const CreateOrder = () => {
     const classes = useStyles();
 
     const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
+
 
     const handleDateChange = (date) => {
       setSelectedDate(date);
@@ -128,57 +144,91 @@ const CreateOrder = () => {
         })
     }, [newUser.email, newUser.userName, newUser.fullName])
     
+    // Test Data to display until inventory api is ready
+    // This data should be display in the DataGrid below the column header
     const testData = [
         {
+            id: '1',
             line: "1",
             item: "Hydrocodone",
             qty: "1",
             uom: "PALLET",
             totalEach: 1,
             sku: "A1B1C1",
-            dateEx: "05/10/21 12:01 AM"
+            dateEx: "05/10/21 12:01 AM",
         },
         {
+            id: '2,',
             line: "2",
             item: "Simvastatin",
             qty: "30",
             uom: "CASES",
             totalEach: 30,
             sku: "D4E5A1",
-            dateEx: "05/11/21 12:10 AM"
+            dateEx: "05/11/21 12:10 AM",
+
         },
         {
+            id: '3',
             line: "3",
             item: "Metformin",
             qty: "64",
             uom: "KITS",
             totalEach: 64,
             sku: "B2F6G7",
-            dateEx: "05/11/21 12:21 AM"
+            dateEx: "05/11/21 12:21 AM",
+
         },
         {
+            id: '4',
             line: "4",
             item: "Amlodipine",
             qty: "1000",
             uom: "EACHES",
             totalEach: 1000,
             sku: "J9H8G7",
-            dateEx: "05/11/21 12:22 AM"
+            dateEx: "05/11/21 12:22 AM",
+
         },
 
     ];
-
-    const table = testData.map((object, indexArray) =>
-        <TableRow key={object.line}  className={classes.row}>
+    // Mapping over the testdata array to create a new row for each element in t
+    const rows = testData.map((object, indexArray) =>
+        <TableRow key={object.line}  className={classes.row} >
             <TableCell component="th" scope="row">{object.line}</TableCell>
             <TableCell align="center">{object.item}</TableCell>
-            <TableCell align="center">{object.qty}</TableCell>
+            <TableCell align="center">{object.qty} {object.delete}</TableCell>
             <TableCell align="center">{object.uom}</TableCell>
             <TableCell align="center">{object.totalEach}</TableCell>
             <TableCell align="center">{object.sku}</TableCell>
             <TableCell align="center">{object.dateEx}</TableCell>
+            <TableCell><Icon>delete</Icon></TableCell>
         </TableRow>
     );
+
+    // Converted the column headers into an array of objs and passing in to the DataGrid tag to display
+    // Note: Flex overrides width, so the width property isn't actually doing anything currently
+    // align key aligns the cells l/r/c
+    const columns = [
+        { field: 'line', headerName: 'LINES', description: '# of Lines', width: 190, headerAlign: 'center', headerClassName: 'datagrid-header', hide: false, flex: 1, type:'number', align: 'right', },
+        { field: 'item', headerName: 'ITEM', description: 'Item Name', width: 130, headerAlign: 'center', headerClassName: 'datagrid-header', hide: false, flex: 1, align: 'center',},
+        { field: 'qty', headerName: 'QTY', description: 'Quantity', width: 130, headerAlign: 'center', headerClassName: 'datagrid-header', hide: false, flex: 1, type: 'number', align: 'center',},
+        { field: 'uom', headerName: 'UOM', width: 190, description: 'Unit of Measurement', headerAlign: 'center', headerClassName: 'datagrid-header', hide: false, flex: 1, align: 'center',},
+        {
+            field: 'totalEach',
+            headerName: 'TOTAL EA',
+            description: 'Total Eaches',
+            width: 150,
+            headerAlign: 'center',
+            headerClassName: 'datagrid-header',
+            flex: 1,
+            align: 'center',
+        },
+        { field: 'sku', headerName: 'SKU', description: 'SKU Number', width: 190, headerAlign: 'center', headerClassName: 'datagrid-header', flex: 1, type: 'number', align: 'center',},
+        { field: 'dateEx', headerName: 'DATE EXPECTED', description: 'Date Expected', width: 180, headerAlign: 'center', headerClassName: 'datagrid-header', flex: 1, type: 'dateTime', align: 'right',},
+        { field: '', headerName: 'DELETE', sortable: false, width: 100, description: 'Delete Line', headerAlign: 'center', headerClassName: 'datagrid-header', flex: 1, align: 'center', renderCell: (params) => { return <Icon style={{ fontSize: 35}}> delete</Icon>} },
+    ];
+
     return(
         <main className={classes.content}>
             <Toolbar />
@@ -186,13 +236,13 @@ const CreateOrder = () => {
                 <h1>Inbound / Create Order</h1>
                 <Grid container spacing={3} className={classes.page}>
                     <Grid item xs={8}>
-                        <Grid container justify="left" width={1}>
+                        <Grid container justify="center" width={1}>
                             <TextField id="dateExpected" label="ITEM" variant="outlined" fullWidth placeholder="SEARCH BY SKU OR DESCRIPTION" />
                         </Grid>
                     </Grid>
                     <Grid item xs={4}></Grid>
                     <Grid item xs={4}>
-                        <Grid container justify="left" width={1}>
+                        <Grid container justify="center" width={1}>
                             <TextField fullWidth id="dateExpected" label="QUANTITY" variant="outlined" />
                         </Grid>
                     </Grid>
@@ -219,7 +269,7 @@ const CreateOrder = () => {
                     </Grid>
                     <Grid item xs={4}></Grid>
                     <Grid item xs={4}>
-                        <Grid container justify="left" width={1}>
+                        <Grid container justify="center" width={1}>
                             <TextField fullWidth id="dateExpected" label="DATE EXPECTED" variant="outlined"
         
         type="date"
@@ -232,7 +282,7 @@ const CreateOrder = () => {
                     </Grid>
                     <Grid item xs={8}></Grid>
                     <Grid item xs={2}>
-                        <Grid container justify="left" width={1}>
+                        <Grid container justify="center" width={1}>
                             <Button fullWidth variant="outlined" className={classes.button}>ADD LINE</Button>
                         </Grid>
                     </Grid>
@@ -240,7 +290,16 @@ const CreateOrder = () => {
                 </Grid>
                 <hr/> 
                 <h5>Lines in Order</h5>
-                <Paper className={classes.root}>
+                <div style={{ height: 400, width: 'auto', display:'flex', justifyContent:'center', }}>
+                    <DataGrid className={classes.root_two} align='center' rows={testData} columns={columns} pageSize={20}>
+                        {rows}
+                    </DataGrid>
+                    {/* <Icon style={{ fontSize: 35}}>delete</Icon>
+                    <Icon style={{ fontSize: 35}}>delete_outline</Icon>
+                    <Icon style={{ fontSize: 35}}>delete_forever</Icon>
+                    <Icon style={{ fontSize: 35}}>remove</Icon> */}
+                </div>
+            {/* <Paper className={classes.root}>
                     <Table className={classes.table}>
                         <TableHead className={classes.tableHead}>
                             <TableRow>
@@ -254,24 +313,26 @@ const CreateOrder = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                        {table}
+                        {rows}
                         </TableBody>
                     </Table>
-                </Paper>
+                </Paper> */}
                 <Grid container spacing={3} className={classes.page}>
                     <Grid item xs={2}>
-                        <Grid container justify="left" width={1}>
+                        <Grid container justify="center" width={1}>
                             <Button fullWidth variant="outlined" className={classes.button}>CANCEL</Button>
                         </Grid>
                     </Grid>
                     <Grid item xs={2}>
-                        <Grid container justify="left" width={1}>
+                        <Grid container justify="center" width={1}>
                             <Button fullWidth variant="outlined" className={classes.button}>SUBMIT</Button>
                         </Grid>
                     </Grid>
                     <Grid item xs={8}></Grid>
                 </Grid>
-            </div>
+            </div>    
+            
+            
         </main>
     )
 }
