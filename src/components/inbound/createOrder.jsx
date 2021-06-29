@@ -21,12 +21,27 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import{ DataGrid } from '@material-ui/data-grid';
+import Icon from '@material-ui/core/Icon';
+
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        '& > *': {margin: theme.spacing(1),marginLeft: theme.spacing(2),},flexGrow: 1,
+        '& > *': {margin: theme.spacing(1),margincenter: theme.spacing(2),},flexGrow: 1,
 
         width: '100%',
+        marginTop: theme.spacing(3),
+        overflowX: 'auto',
+        display: 'flex',
+    },
+    // Data Grid Column Header Styling Class
+    root_two: {
+        '& .datagrid-header': {
+            backgroundColor: '#eee',
+        },
+        '& > *': {margin: theme.spacing(1),},
+        width: 'auto',
         marginTop: theme.spacing(3),
         overflowX: 'auto',
         display: 'flex',
@@ -45,12 +60,12 @@ const useStyles = makeStyles((theme) => ({
     },
     table: {
         minWidth: 700,
-        //marginTop: "2vh"
+        //marginTop: "2vh",
     },
     tableHead: {
         backgroundColor: "#eee",
     },
-    row: {
+    row: { align: 'center',
         '&:nth-of-type(even)': {
             backgroundColor: theme.palette.background.default,
         },
@@ -77,11 +92,11 @@ const useStyles = makeStyles((theme) => ({
     },
    filter: {
         width: "11vh",
-        marginLeft: "4vh"
+        margincenter: "4vh"
     },
     sort: {
         width: "15vh",
-        marginLeft: "4vh"
+        margincenter: "4vh"
     },
     content: {
         flexGrow: 1,
@@ -93,53 +108,15 @@ const useStyles = makeStyles((theme) => ({
 
 const CreateOrder = () => {
 
-    const [testData, setTestData] = useState(
-        [
-            {
-                line: "1",
-                item: "Hydrocodone",
-                qty: "1",
-                uom: "PALLET",
-                totalEach: 1,
-                sku: "A1B1C1",
-                dateEx: "05/10/21 12:01 AM"
-            },
-            {
-                line: "2",
-                item: "Simvastatin",
-                qty: "30",
-                uom: "CASES",
-                totalEach: 30,
-                sku: "D4E5A1",
-                dateEx: "05/11/21 12:10 AM"
-            },
-            {
-                line: "3",
-                item: "Metformin",
-                qty: "64",
-                uom: "KITS",
-                totalEach: 64,
-                sku: "B2F6G7",
-                dateEx: "05/11/21 12:21 AM"
-            },
-            {
-                line: "4",
-                item: "Amlodipine",
-                qty: "1000",
-                uom: "EACHES",
-                totalEach: 1000,
-                sku: "J9H8G7",
-                dateEx: "05/11/21 12:22 AM"
-            }
-    ]);
+    const [testData, setTestData] = useState([]);
    
-
-
     const classes = useStyles();
 
     const api_url = `http://18.223.210.207:8140/v1/products`;
 
     const [inventory, setInventory] = useState();
+
+    const [orders, setOrders] = useState([]);
     
     //warning Empty input user
     const [warning, setWarning] = useState("");
@@ -147,6 +124,8 @@ const CreateOrder = () => {
     //const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
 
     /*const handleDateChange = (date) => {
+
+    const handleDateChange = (date) => {
       setSelectedDate(date);
     };*/
     
@@ -160,6 +139,7 @@ const CreateOrder = () => {
     });
     
     const [sendValue, setSendValue] = useState();
+    
 
     //set value for Autocomplete Marterial Desisgn
     const getValueAutoComplete = (description, sku) => {
@@ -184,8 +164,11 @@ const CreateOrder = () => {
             item: value
         })
     }
-    //setup value for Post request
+    
+
     useEffect(() => {
+
+        /*--Get name of invetory for autoComplete--*/
         async function fetchInventoryList(){
             try {
                 const requestUrl = api_url;
@@ -200,15 +183,39 @@ const CreateOrder = () => {
         }
         fetchInventoryList();
 
-        //console.log();
+        /*--get all info fro orders list to get the biggest order id, so we can generate order id from front-end, 
+            will be removed later--*/
+        async function fetchOrdersList(){
+            try {
+                const requestUrl = (`http://3.141.28.243:8141/v1/receiving-orders`);
+                const response = await fetch(requestUrl);
+                const responseJSON = await response.json();
+                setOrders(responseJSON);
+            } catch (error) {
+                console.log('Failed to Fetch', error);
+            } 
+        }
+        fetchOrdersList();
+
+        /*--set each line value for order--*/
+        
         setSendValue({
-            line: (testData.length+1).toString(),
-            item: eachLine.item,
-            qty: eachLine.quantity,
-            uom: eachLine.UOM,
-            totalEach: eachLine.quantity,
-            sku: eachLine.sku,
-            dateEx: eachLine.dateAndTime
+            name: eachLine.item,
+            positionId: (testData.length+1).toString(),
+            state: "PROSESSING",
+            quantityExpectedUOM: eachLine.UOM,
+            quantityExpectedMagnitude: eachLine.quantity,
+            quantityReceivedUOM: eachLine.UOM,
+            quantityReceivedMagnitude: 0,
+            product: {
+                sku: eachLine.sku               
+            },
+            transportUnitBK: "10001001",
+            details:{
+                transportUnitTypeName: "CASES"
+            },
+            dateEx: eachLine.dateAndTime,
+            sku: eachLine.sku
         })
     }, [api_url, eachLine.UOM, eachLine.dateAndTime, eachLine.item, eachLine.quantity, eachLine.sku, testData, testData.length])
     
@@ -237,30 +244,148 @@ const CreateOrder = () => {
         });
     }
 
-    //remove Item from order
+    /*--remove Item from order--*/
     const removeItem = (value) =>{
-        const index = testData.findIndex((object) => {
-            return object.item === value;
+        //take index value of yor line
+        let index = testData.findIndex((object) => {
+            console.log(object, value)
+            return object.line === value;
         });
-        testData.splice(index,1);
-        //console.log(testData);
-        setTestData(testData.filter(item => item.line !== index));
+        //you can't remove lne from real array, so I make a shallow array from testData to work on
+        const removeArray = [...testData];
+        removeArray.splice(index,1);
+        //reindex array after remove one lement from i
+        for(let i = 0; i < removeArray.length; i++){
+            removeArray[i].line = i+1;
+        }
+        //set new vlaue for testData
+        setTestData(removeArray);
+
+        //setTestData(testData.filter(item => item.id !== value ));
     }
 
     console.log(testData);
-    const table = testData.map((object) =>
-        <TableRow key={object.sku}  className={classes.row}>
-            <TableCell align="center">{object.line}</TableCell>
-            <TableCell align="center">{object.item}</TableCell>
-            <TableCell align="center">{object.qty}</TableCell>
-            <TableCell align="center">{object.uom}</TableCell>
-            <TableCell align="center">{object.totalEach}</TableCell>
-            <TableCell align="center">{object.sku}</TableCell>
-            <TableCell align="center">{object.dateEx}</TableCell>
-            <TableCell align="center"><IconButton aria-label="delete" onClick={removeItem}><DeleteIcon /></IconButton>
-            </TableCell>
+
+    const convertDateTime = (dateTime) => {
+        if(dateTime) {
+            let hour = null;
+            let minutes = null;
+            const date = new Date(dateTime);
+            //format minutes
+            if(date.getUTCMinutes() === 0){
+                minutes = date.getUTCMinutes() + "0";
+            } else {
+                minutes = date.getUTCMinutes();
+            }   
+            //format hours
+            if(date.getUTCHours() >= 12){
+                hour = date.getUTCHours() - 12 + ":" + minutes + " PM";
+            } else {
+                hour = date.getUTCHours() + ":" + minutes + " AM";
+            }
+            //full formate for date time 
+            const datePrint = date.getMonth() + "/" + date.getDate() + "/" + date.getFullYear() + "  " + hour;
+            return datePrint;
+        } else {
+            return "N/A";
+        }
+    }
+   
+
+    //send data to backEnd
+    const submitData = () => {
+
+        //generate orderId, just for now, will be removed later
+        const biggestOrderId = Math.max.apply(Math, orders.map(function(array) { return parseInt(array.orderId)}));
+        //generate priority number, will be removed later
+        const priorityNum = Math.floor(Math.random() * 3) + 1;
+        //generate random vendor, will be removed later
+        const vendors = ["USPS", "UPS", "FedEx", "DHL", "Truck"];
+        const random = Math.floor(Math.random() * vendors.length);
+        const vendorRandom = vendors[random];
+        //get current date and time, convert to ISOtime format
+        var currentdate = new Date(); 
+        var datetime =(currentdate.getMonth()+1)  + " " + currentdate.getDate() +  " "   + currentdate.getFullYear() + " "  + currentdate.getHours() + ":"  + currentdate.getMinutes() + " UTC";  
+        const newdate = new Date(datetime);
+        //Date Expected for now
+        const dateEx = testData[0].dateEx+":00.000Z";
+        //reformat data before send
+        for(let x = 0; x < testData.length; x++){
+            delete testData[x].name;
+            delete testData[x].sku;
+            delete testData[x].dateEx;
+        }
+        console.log(testData[0].dateEx);
+        //object of Data to send
+        const valueToSend = {
+            state: "CREATED",
+            orderId: (biggestOrderId+5).toString(),
+            priority: priorityNum,
+            positions: testData,
+            details:{
+                vendor: vendorRandom
+            },
+            createdDate: newdate.toISOString(),
+            expectedDate: dateEx
+        }
+
+        //do the POST request
+        console.log(valueToSend);
+        fetch('http://3.141.28.243:8141/v1/receiving-orders', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(valueToSend)
+          });
+    }
+   
+    // Mapping over the testdata array to create a new row for each element in t
+    const rows = testData.map((object) =>
+        <TableRow key={object.positionId}  className={classes.row} >
+            <TableCell component="th" scope="row">{object.positionId}</TableCell>
+            <TableCell align="center">{object.name}</TableCell>
+            <TableCell align="center">{object.quantityExpectedMagnitude} </TableCell>
+            <TableCell align="center">{object.quantityExpectedUOM}</TableCell>
+            <TableCell align="center">{object.quantityReceivedMagnitude}</TableCell>
+            <TableCell align="center">{object.product.sku}</TableCell>
+            <TableCell align="center">{convertDateTime(object.dateEx)}</TableCell>
+            <TableCell><Icon>delete</Icon></TableCell>
         </TableRow>
     );
+
+    // Converted the column headers into an array of objs and passing in to the DataGrid tag to display
+    // Note: Flex overrides width, so the width property isn't actually doing anything currently
+    // align key aligns the cells l/r/c
+    const columns = [
+        { field: 'positionId', headerName: 'LINES', description: '# of Lines', width: 190, headerAlign: 'center', headerClassName: 'datagrid-header', hide: false, flex: 1, type:'number', align: 'right', },
+        { field: 'name', headerName: 'ITEM', description: 'Item Name', width: 130, headerAlign: 'center', headerClassName: 'datagrid-header', hide: false, flex: 1, align: 'center',},
+        { field: 'quantityExpectedMagnitude', headerName: 'QTY', description: 'Quantity', width: 130, headerAlign: 'center', headerClassName: 'datagrid-header', hide: false, flex: 1, type: 'number', align: 'center',},
+        { field: 'quantityExpectedUOM', headerName: 'UOM', width: 190, description: 'Unit of Measurement', headerAlign: 'center', headerClassName: 'datagrid-header', hide: false, flex: 1, align: 'center',},
+        {
+            field: 'quantityReceivedMagnitude',
+            headerName: 'TOTAL EA',
+            description: 'Total Eaches',
+            width: 150,
+            headerAlign: 'center',
+            headerClassName: 'datagrid-header',
+            flex: 1,
+            align: 'center',
+        },
+        { field: 'sku', headerName: 'SKU', description: 'SKU Number', width: 190, headerAlign: 'center', headerClassName: 'datagrid-header', flex: 1, type: 'number', align: 'center',},
+        { field: 'dateEx', headerName: 'DATE EXPECTED', description: 'Date Expected', width: 180, headerAlign: 'center', headerClassName: 'datagrid-header', flex: 1, type: 'dateTime', align: 'right',},
+        { 
+            field: '', 
+            headerName: 'DELETE', 
+            sortable: false, 
+            width: 100, 
+            description: 'Delete Line', 
+            headerAlign: 'center', 
+            headerClassName: 'datagrid-header', 
+            flex: 1, 
+            align: 'center', 
+            renderCell: (params) => { return <Icon style={{ fontSize: 35}} onClick={() => removeItem(params.id)}> delete</Icon>} 
+        }   
+    ];
+
     return(
         <main className={classes.content}>
             <Toolbar />
@@ -311,7 +436,7 @@ const CreateOrder = () => {
                                     onChange={updateField}
                                 >
                                     <MenuItem value=""><em>None</em></MenuItem>
-                                    <MenuItem value={"PALLET"}>PALLET</MenuItem>
+                                    <MenuItem value={"PALLETS"}>PALLETS</MenuItem>
                                     <MenuItem value={"CASES"}>CASES</MenuItem>
                                     <MenuItem value={"KITS"}>KITS</MenuItem>
                                     <MenuItem value={"EACHES"}>EACHES</MenuItem>
@@ -350,39 +475,32 @@ const CreateOrder = () => {
                 </Grid>
                 <hr/> 
                 <h5>Lines in Order</h5>
-                <Paper className={classes.root}>
-                    <Table className={classes.table}>
-                        <TableHead className={classes.tableHead}>
-                            <TableRow>
-                                <TableCell align="center">LINES</TableCell>
-                                <TableCell align="center">ITEM</TableCell>
-                                <TableCell align="center">QTY</TableCell>
-                                <TableCell align="center">UOM</TableCell>
-                                <TableCell align="center">TOTAL EA</TableCell>
-                                <TableCell align="center">SKU</TableCell>
-                                <TableCell align="center">DATE EXPECTED</TableCell>
-                                <TableCell align="center">Delete</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                        {table}
-                        </TableBody>
-                    </Table>
-                </Paper>
+                <div style={{ height: 500, width: 'auto', display:'flex', justifyContent:'center', }}>
+                    <DataGrid 
+                        className={classes.root_two} 
+                        align='center' 
+                        rows={testData} 
+                        columns={columns} 
+                        pageSize={5} 
+                        getRowId={(row) => row.positionId}
+                    >
+                        {rows}
+                    </DataGrid>
+                </div>
                 <Grid container spacing={3} className={classes.page}>
                     <Grid item xs={2}>
-                        <Grid container justify="left" width={1}>
+                        <Grid container justify="center" width={1}>
                             <Button fullWidth variant="outlined" className={classes.button}>CANCEL</Button>
                         </Grid>
                     </Grid>
                     <Grid item xs={2}>
-                        <Grid container justify="left" width={1}>
-                            <Button fullWidth variant="outlined" className={classes.button}>SUBMIT</Button>
+                        <Grid container justify="center" width={1}>
+                            <Button fullWidth variant="outlined" className={classes.button} onClick={submitData}>SUBMIT</Button>
                         </Grid>
                     </Grid>
                     <Grid item xs={8}></Grid>
                 </Grid>
-            </div>
+            </div>    
         </main>
     )
 }
