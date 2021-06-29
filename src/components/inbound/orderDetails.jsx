@@ -93,7 +93,7 @@ const OrderDetails = () => {
 
     const orderId = useSelector(orderIdSelector)
     console.log(`Order ID:`, orderId)
-    const url = `http://18.116.49.99:8141/v1/receiving-orders/?orderId=${orderId}`
+    const url = `http://3.141.28.243:8141/v1/receiving-orders/?orderId=${orderId}`
 
     const [orderDetail, setOrderDetail] = useState([])
 

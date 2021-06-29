@@ -137,7 +137,7 @@ const CreateOrder = () => {
 
     const classes = useStyles();
 
-    const api_url = `http://3.129.210.227:8140/v1/products`;
+    const api_url = `http://18.223.210.207:8140/v1/products`;
 
     const [inventory, setInventory] = useState();
     
@@ -189,14 +189,11 @@ const CreateOrder = () => {
         async function fetchInventoryList(){
             try {
                 const requestUrl = api_url;
-                const response = await fetch(requestUrl);
-                //console.log(response);
-            
+                const response = await fetch(requestUrl);   
                 const responseJSON = await response.json();
                 //store Inventory info to state
                 setInventory(responseJSON);
                 //console.log(responseJSON);
- 
             } catch (error) {
                 console.log('Failed to Fetch', error);
             } 

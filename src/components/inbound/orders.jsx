@@ -90,7 +90,7 @@ const Orders = () => {
         dispatch(setViews("createOrder"));
     }
 
-    const api_url = `http://18.116.49.99:8141/v1/receiving-orders`;
+    const api_url = `http://3.141.28.243:8141/v1/receiving-orders`;
 
     useEffect(() => {
 
