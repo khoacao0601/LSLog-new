@@ -181,11 +181,11 @@ const Orders = () => {
     const columns = [
         { field: 'priority', headerName: 'PRTY', description: 'Order Priority', flex: 1,  headerAlign: 'center', align: 'center', headerClassName: 'datagrid-header', hide: false, type: 'number', valueGetter:getPriority,
         sortComparator: (v1, v2) => v1.toString().localeCompare(v2.toString()),},
-        { field: 'orderId', headerName: 'ORDER ID', description: 'Order ID', flex: 1,  headerAlign: 'center', align: 'center',headerClassName: 'datagrid-header', hide: false, },
+        { field: 'orderId', headerName: 'ORDER ID', description: 'Order ID', flex: 1,  headerAlign: 'center', align: 'center',headerClassName: 'datagrid-header', hide: false, resizable: true },
         { field: 'positions', headerName: 'LINES', description: 'Lines in Order', flex: 1,  headerAlign: 'center', align: 'center',headerClassName: 'datagrid-header', hide: false, type: 'number',
         valueFormatter: getLines },
         { field: 'state', headerName: 'STATUS', description: 'Status of Order', flex: 1, headerAlign: 'center', align: 'center',headerClassName: 'datagrid-header', hide: false,},
-        { field: 'createdDate', headerName: 'DATE CREATED', description: 'Date of Order Generation', flex: 1,  align: 'center',headerAlign: 'center', headerClassName: 'datagrid-header', hide: false, type: 'dateTime',
+        { field: 'createdDate', headerName: 'DATE CREATED', description: 'Date of Order Generation', width: 400,  align: 'center',headerAlign: 'center', headerClassName: 'datagrid-header', hide: false, type: 'dateTime',
         valueFormatter: (params) =>{return convertDateTime(params.value)}},
         { field: 'expectedDate', headerName: 'DATE EXPECTED', description: 'Date of Expected Receipt', flex: 1,  align: 'center',headerAlign: 'center', headerClassName: 'datagrid-header', hide: false, type: 'dateTime',
         valueFormatter: (params) =>{return convertDateTime(params.value)}},
@@ -340,36 +340,6 @@ const Orders = () => {
                     {rows}
                 </DataGrid>
             </div>
-
-            
-            {/* <Paper className={classes.root}>
-                <Table className={classes.table}>
-                    <TableHead className={classes.tableHead}>
-                        <TableRow>
-                            <TableCell>PRTY</TableCell>
-                            <TableCell align="center">ORDER ID</TableCell>
-                            <TableCell align="center">LINES</TableCell>
-                            <TableCell align="center">STATUS</TableCell>
-                            <TableCell align="center">DATE CREATED</TableCell>
-                            <TableCell align="center">DATE EXPECTED</TableCell>
-                            <TableCell align="center">DATE COMPLETED</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                    {allOrders.map(object=> (
-                        <TableRow key={object.orderId}  className={classes.row} onClick={() => {storeOrderId(object.orderId)}}>
-                            <TableCell component="th" scope="row">{object.priority}</TableCell>
-                            <TableCell align="center">{object.orderId}</TableCell>
-                            <TableCell align="center">{object.positions[0].positionId}</TableCell>
-                            <TableCell align="center">{object.state}</TableCell>
-                            <TableCell align="center">{convertDateTime(object.createdDate)}</TableCell>
-                            <TableCell align="center">{convertDateTime(object.expectedDate)}</TableCell>
-                            <TableCell align="center">{convertDateTime(object.completedDate)}</TableCell>
-                        </TableRow>
-                    ))}
-                    </TableBody>
-                </Table>
-            </Paper> */}
         </main>
     )
 }
