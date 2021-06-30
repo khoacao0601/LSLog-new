@@ -231,18 +231,13 @@ const CreateOrder = () => {
                 dateAndTime: "",
                 sku:" "
             });
+            setWarning(" ");
         } else {
-            setWarning("Can not be Empty")
+            setWarning("Please Fill all Fields")
         }
     }
 
-  
-    //take value from Property for order number
-    const takeLineNum = (value) => {
-        return testData.findIndex((object) => {
-            return object.item === value;
-        });
-    }
+
 
     /*--remove Item from order--*/
     const removeItem = (value) =>{
@@ -392,7 +387,11 @@ const CreateOrder = () => {
             headerClassName: 'datagrid-header', 
             flex: 1, 
             align: 'center', 
-            renderCell: (params) => { return <Icon style={{ fontSize: 35}} onClick={() => removeItem(params.id)}> delete</Icon>} 
+            renderCell: (params) => { 
+                return <IconButton aria-label="delete" onClick={() => removeItem(params.id)}>
+                            <DeleteIcon />
+                        </IconButton>
+            } 
         }   
     ];
 
@@ -481,6 +480,7 @@ const CreateOrder = () => {
                                     onClick={pushToTestData}>ADD LINE</Button>
                         </Grid>
                     </Grid>
+                    {warning}
                     <Grid item xs={10}></Grid>
                 </Grid>
                 <hr/> 
