@@ -347,7 +347,7 @@ const CreateOrder = () => {
             <TableCell align="center">{object.quantityExpectedUOM}</TableCell>
             <TableCell align="center">{object.quantityReceivedMagnitude}</TableCell>
             <TableCell align="center">{object.product.sku}</TableCell>
-            <TableCell align="center">{convertDateTime(object.dateEx)}</TableCell>
+            <TableCell align="center">{object.dateEx}</TableCell>
             <TableCell><Icon>delete</Icon></TableCell>
         </TableRow>
     );
@@ -371,7 +371,17 @@ const CreateOrder = () => {
             align: 'center',
         },
         { field: 'sku', headerName: 'SKU', description: 'SKU Number', width: 190, headerAlign: 'center', headerClassName: 'datagrid-header', flex: 1, type: 'number', align: 'center',},
-        { field: 'dateEx', headerName: 'DATE EXPECTED', description: 'Date Expected', width: 180, headerAlign: 'center', headerClassName: 'datagrid-header', flex: 1, type: 'dateTime', align: 'right',},
+        { 
+            field: 'dateEx', 
+            headerName: 'DATE EXPECTED', 
+            description: 'Date Expected', 
+            width: 180, headerAlign: 'center', 
+            headerClassName: 'datagrid-header', 
+            flex: 1, 
+            type: 'dateTime', 
+            align: 'right',
+            valueFormatter: (params) =>{return convertDateTime(params.value)}
+        },
         { 
             field: '', 
             headerName: 'DELETE', 
