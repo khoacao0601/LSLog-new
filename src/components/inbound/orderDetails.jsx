@@ -16,10 +16,25 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
+import{ DataGrid } from '@material-ui/data-grid';
+import Icon from '@material-ui/core/Icon';
+
+// STYLING
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
         marginTop: theme.spacing.unit * 3,
+        overflowX: 'auto',
+        display: 'flex',
+    },
+    // Data Grid Column Header Styling Class
+    root_two: {
+        '& .datagrid-header': {
+            backgroundColor: '#eee',
+        },
+        '& > *': {margin: theme.spacing(1),},
+        width: 'auto',
+        marginTop: theme.spacing(3),
         overflowX: 'auto',
         display: 'flex',
     },
@@ -85,8 +100,111 @@ const useStyles = makeStyles((theme) => ({
         },
     },
 }));
+    // FUNCTIONS
+    // Access the Lines in the JSON Object
+    const getLines = (params) => {
+        return params.id
+        // return `${params.row.positions[0].quantityExpectedMagnitude}`
+    }
+
+    const getDesc = params => {
+        return params.row.product.description
+    }
+
+    const getQuantity = params => {
+        return params.row.quantityExpectedMagnitude
+    }
+
+    const getSKU = params => {
+        return params.row.product.sku
+    }
 
 
+    // Datagrid Columns
+    // Field should match exactly as the json object has it(case-sensitive)
+    const columns = [
+        { 
+            field: 'positionId', 
+            headerName: 'LINES', 
+            description: 'Lines in Order', 
+            flex: 1,  
+            headerAlign: 'center', 
+            align: 'center',
+            headerClassName: 'datagrid-header', 
+            hide: false, 
+            type: 'number',
+            valueFormatter: getLines,
+            sortComparator: (v1, v2) => v1.toString().localeCompare(v2.toString()),
+        },
+        { 
+            field: 'description', 
+            headerName: 'DESCRIPTION', 
+            description: 'Product Name', 
+            flex: 1, 
+            headerAlign: 'center',
+            align: 'center',
+            headerClassName: 'datagrid-header', 
+            hide: false, 
+            type: 'string',
+            valueFormatter: getDesc, 
+            sortComparator: (v1, v2) => v1.toString().localeCompare(v2.toString()),
+        },
+        {
+            field: 'quantityExpected',
+            headerName: 'QTY',
+            description: 'Item Quantity',
+            flex: 1,
+            headerAlign: 'center',
+            align: 'center',
+            headerClassName: 'datagrid-header',
+            hide: false,
+            type: 'number',
+            valueFormatter: getQuantity,
+        },
+        {
+            field: 'quantityReceivedUOM',
+            headerName: 'UOM',
+            description: 'Unit of Measurement',
+            flex: 1,
+            headerAlign: 'center',
+            align: 'center',
+            headerClassName: 'datagrid-header',
+            hide: false,
+            type: 'string'
+        },
+        {
+            field: 'state',
+            headerName: 'STATUS',
+            description: 'Order Status',
+            flex: 1,
+            headerAlign: 'center',
+            align: 'center',
+            headerClassName: 'datagrid-header',
+            hide: false,
+        },
+        {
+            field: 'quantityReceivedMagnitude',
+            headerName: 'QTY RCVD',
+            description: 'Quantity Received',
+            flex: 1,
+            headerAlign: 'center',
+            align: 'center',
+            headerClassName: 'datagrid-header',
+            hide: false
+        },
+        { 
+            field: 'sku', 
+            headerName: 'SKU', 
+            description: 'SKU', 
+            flex: 1,  
+            headerAlign: 'center', 
+            align: 'center',
+            headerClassName: 'datagrid-header', 
+            hide: false, 
+            valueFormatter: getSKU,
+        },
+        { field: '', headerName: 'DELETE', sortable: false, width: 100, description: 'Delete Line', headerAlign: 'center', align: 'center', headerClassName: 'datagrid-header', flex: 1, align: 'center', renderCell: (params) => { return <Icon style={{ fontSize: 35}}> delete</Icon>} },
+    ];
 
 const OrderDetails = () => {
     const classes = useStyles();
@@ -125,7 +243,7 @@ const OrderDetails = () => {
 
     }, []);
 
-    let tableBody = orderDetail.map((order) => 
+    let rows = orderDetail.map((order) => 
         <TableRow key={order.positionId} className={classes.row}>
             <TableCell align="center">
                 <FormControlLabel onChange={handleChange} className={classes.tableCheck}
@@ -136,7 +254,6 @@ const OrderDetails = () => {
             <TableCell align="center">{order.product.description}</TableCell>
             <TableCell align="center">{order.quantityExpected}</TableCell>
             <TableCell align="center">{order.quantityReceivedUOM}</TableCell>
-            <TableCell align="center">N/A</TableCell>
             <TableCell align="center">{order.state}</TableCell>
             <TableCell align="center">{order.quantityReceivedMagnitude}</TableCell>
             <TableCell align="center">{order.product.sku}</TableCell>
@@ -178,27 +295,12 @@ const OrderDetails = () => {
                     </div>
                 </div>
             </div>
-            <Paper className={classes.root}>
-                <Table className={classes.table}>
-                    <TableHead className={classes.tableHead}>
-                        <TableRow>
-                            <TableCell align="center"></TableCell>
-                            <TableCell align="center">Line</TableCell>
-                            <TableCell align="center">Item</TableCell>
-                            <TableCell align="center">QTY</TableCell>
-                            <TableCell align="center">UOM</TableCell>
-                            <TableCell align="center">Total Ea</TableCell>
-                            <TableCell align="center">STATUS</TableCell>
-                            <TableCell align="center">Qty Rcvd</TableCell>
-                            <TableCell align="center">SKU</TableCell>
-                            <TableCell align="center">TRANSPORT UNIT BK</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        { tableBody }
-                    </TableBody>
-                </Table>
-            </Paper>
+
+            <div style={{ height: 700, width: 'auto', display:'flex', justifyContent:'center', }}>
+                <DataGrid className={classes.root_two} align='center' rows={orderDetail} columns={columns} pageSize={20} getRowId={(row) => row.positionId } checkboxSelection>
+                    {rows}
+                </DataGrid>
+            </div>
         </main>
     )
 }

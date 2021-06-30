@@ -172,8 +172,8 @@ const Orders = () => {
 
     // Access the Lines in the JSON Object
     const getLines = (params) => {
-        // console.log(params)
-        return `${params.row.positions[0].quantityExpectedMagnitude}`
+        // console.log(params.row.positions.length)
+        return `${params.row.positions.length}`
     }
 
     // Datagrid Columns
@@ -226,7 +226,9 @@ const Orders = () => {
             headerClassName: 'datagrid-header', 
             hide: false, 
             type: 'number',
-            valueFormatter: getLines
+            valueFormatter: getLines,
+            sortComparator: (v1, v2) => v1.toString().localeCompare(v2.toString()),
+
         },
         { field: 'state', headerName: 'STATUS', description: 'Status of Order', flex: 1, headerAlign: 'center', align: 'center',headerClassName: 'datagrid-header', hide: false,},
         { 
@@ -275,7 +277,7 @@ const Orders = () => {
                 onClick={() => {storeOrderId(object.orderId)}}>
                 <TableCell component="th" scope="row">{object.priority}</TableCell>
                 <TableCell align="center">{object.orderId}</TableCell>
-                <TableCell align="center">{object.positions[0].positionId}</TableCell>
+                <TableCell align="center">{object.positions.length}</TableCell>
                 <TableCell align="center">{object.state}</TableCell>
                 <TableCell align="center">{convertDateTime(object.createdDate)}</TableCell>
                 <TableCell align="center">{convertDateTime(object.expectedDate)}</TableCell>
@@ -332,36 +334,6 @@ const Orders = () => {
                     {rows}
                 </DataGrid>
             </div>
-
-            
-            {/* <Paper className={classes.root}>
-                <Table className={classes.table}>
-                    <TableHead className={classes.tableHead}>
-                        <TableRow>
-                            <TableCell>PRTY</TableCell>
-                            <TableCell align="center">ORDER ID</TableCell>
-                            <TableCell align="center">LINES</TableCell>
-                            <TableCell align="center">STATUS</TableCell>
-                            <TableCell align="center">DATE CREATED</TableCell>
-                            <TableCell align="center">DATE EXPECTED</TableCell>
-                            <TableCell align="center">DATE COMPLETED</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                    {allOrders.map(object=> (
-                        <TableRow key={object.orderId}  className={classes.row} onClick={() => {storeOrderId(object.orderId)}}>
-                            <TableCell component="th" scope="row">{object.priority}</TableCell>
-                            <TableCell align="center">{object.orderId}</TableCell>
-                            <TableCell align="center">{object.positions[0].positionId}</TableCell>
-                            <TableCell align="center">{object.state}</TableCell>
-                            <TableCell align="center">{convertDateTime(object.createdDate)}</TableCell>
-                            <TableCell align="center">{convertDateTime(object.expectedDate)}</TableCell>
-                            <TableCell align="center">{convertDateTime(object.completedDate)}</TableCell>
-                        </TableRow>
-                    ))}
-                    </TableBody>
-                </Table>
-            </Paper> */}
         </main>
     )
 }
