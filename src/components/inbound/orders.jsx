@@ -140,12 +140,12 @@ const Orders = () => {
             }   
             //format hours
             if(date.getUTCHours() >= 12){
-                hour = date.getUTCHours() - 12 + ":" + minutes + " AM";
+                hour = date.getUTCHours() - 12 + ":" + minutes + " PM";
             } else {
-                hour = date.getUTCHours + ":" + minutes + " AM";
+                hour = date.getUTCHours() + ":" + minutes + " AM";
             }
             //full formate for date time 
-            const datePrint = date.getMonth() + "/" + date.getDate() + "/" + date.getFullYear() + "  " + hour;
+            const datePrint = (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear() + "  " + hour;
             return datePrint;
         } else {
             return "N/A";
@@ -179,23 +179,100 @@ const Orders = () => {
     // Datagrid Columns
     // Field should match exactly as the json object has it(case-sensitive)
     const columns = [
-        { field: 'priority', headerName: 'PRTY', description: 'Order Priority', flex: 1,  headerAlign: 'center', align: 'center', headerClassName: 'datagrid-header', hide: false, type: 'number', valueGetter:getPriority,
-        sortComparator: (v1, v2) => v1.toString().localeCompare(v2.toString()),},
-        { field: 'orderId', headerName: 'ORDER ID', description: 'Order ID', flex: 1,  headerAlign: 'center', align: 'center',headerClassName: 'datagrid-header', hide: false, },
-        { field: 'positions', headerName: 'LINES', description: 'Lines in Order', flex: 1,  headerAlign: 'center', align: 'center',headerClassName: 'datagrid-header', hide: false, type: 'number',
-        valueFormatter: getLines },
+        { 
+            field: 'priority', 
+            headerName: 'PRTY', 
+            description: 'Order Priority', 
+            flex: 1,  
+            headerAlign: 'center', 
+            align: 'center', 
+            headerClassName: 'datagrid-header', 
+            hide: false, 
+            type: 'number', 
+            valueGetter:getPriority,
+            sortComparator: (v1, v2) => v1.toString().localeCompare(v2.toString()),
+        },
+        { 
+            field: 'orderId', 
+            headerName: 'ORDER ID', 
+            description: 'Order ID', 
+            flex: 1,  
+            headerAlign: 'center', 
+            align: 'center',
+            headerClassName: 'datagrid-header', 
+            hide: false, 
+            renderCell: (params) => (
+                <strong>
+                  {params.formattedValue}
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    style={{ marginLeft: 16 }}
+                    onClick={() => {storeOrderId(params.formattedValue)}}
+                  >
+                    Open
+                  </Button>
+                </strong>
+              )
+        },
+        { 
+            field: 'positions', 
+            headerName: 'LINES', 
+            description: 'Lines in Order', 
+            flex: 1,  
+            headerAlign: 'center', 
+            align: 'center',
+            headerClassName: 'datagrid-header', 
+            hide: false, 
+            type: 'number',
+            valueFormatter: getLines
+        },
         { field: 'state', headerName: 'STATUS', description: 'Status of Order', flex: 1, headerAlign: 'center', align: 'center',headerClassName: 'datagrid-header', hide: false,},
-        { field: 'createdDate', headerName: 'DATE CREATED', description: 'Date of Order Generation', flex: 1,  align: 'center',headerAlign: 'center', headerClassName: 'datagrid-header', hide: false, type: 'dateTime',
-        valueFormatter: (params) =>{return convertDateTime(params.value)}},
-        { field: 'expectedDate', headerName: 'DATE EXPECTED', description: 'Date of Expected Receipt', flex: 1,  align: 'center',headerAlign: 'center', headerClassName: 'datagrid-header', hide: false, type: 'dateTime',
-        valueFormatter: (params) =>{return convertDateTime(params.value)}},
-        { field: 'completedDate', headerName: 'DATE COMPLETED', description: 'Date of Actual Receipt', flex: 1,  align: 'center',headerAlign: 'center', headerClassName: 'datagrid-header', hide: false, type: 'dateTime',
-        valueFormatter: (params) =>{return convertDateTime(params.value)}},
+        { 
+            field: 'createdDate', 
+            headerName: 'DATE CREATED', 
+            description: 'Date of Order Generation', 
+            flex: 1,  
+            align: 'center',
+            headerAlign: 'center', 
+            headerClassName: 'datagrid-header', 
+            hide: false, 
+            type: 'dateTime',
+            valueFormatter: (params) =>{return convertDateTime(params.value)}
+        },
+        { 
+            field: 'expectedDate', 
+            headerName: 'DATE EXPECTED', 
+            description: 'Date of Expected Receipt', 
+            flex: 1,  
+            align: 'center',
+            headerAlign: 'center', 
+            headerClassName: 'datagrid-header', 
+            hide: false, 
+            type: 'dateTime',
+            valueFormatter: (params) =>{return convertDateTime(params.value)}
+        },
+        { 
+            field: 'completedDate', 
+            headerName: 'DATE COMPLETED', 
+            description: 'Date of Actual Receipt', 
+            flex: 1,  
+            align: 'center',
+            headerAlign: 'center', 
+            headerClassName: 'datagrid-header', 
+            hide: false, 
+            type: 'dateTime',
+            valueFormatter: (params) =>{return convertDateTime(params.value)}
+        },
         { field: '', headerName: 'DELETE', sortable: false, width: 100, description: 'Delete Line', headerAlign: 'center', align: 'center', headerClassName: 'datagrid-header', flex: 1, align: 'center', renderCell: (params) => { return <Icon style={{ fontSize: 35}}> delete</Icon>} },
     ];
 
     let rows = allOrders.map(object=> (
-            <TableRow hover='true' className={classes.row} onClick={() => {storeOrderId(object.orderId)}}>
+            <TableRow 
+                hover='true' 
+                className={classes.row} 
+                onClick={() => {storeOrderId(object.orderId)}}>
                 <TableCell component="th" scope="row">{object.priority}</TableCell>
                 <TableCell align="center">{object.orderId}</TableCell>
                 <TableCell align="center">{object.positions[0].positionId}</TableCell>
@@ -205,91 +282,6 @@ const Orders = () => {
                 <TableCell align="center">{convertDateTime(object.completedDate)}</TableCell>
             </TableRow>
     ))
-    // Testing Data SImply to ensure styling is accurate
-    const testData = [
-        {
-            id: '1',
-            prty: '1',
-            orderID: 'R0022',
-            lines: '3',
-            Status: 'PENDING',
-            DateCreated: '05/11/21 12:30AM',
-            DateExpected: '06/30/21 09:30AM',
-            DateCompleted: '07/07/21 10:45PM',
-        },
-        {
-            id: '2',
-            prty: '10',
-            orderID: 'R0011',
-            lines: '33',
-            Status: 'INCOMPLETE',
-            DateCreated: '05/11/21 12:30AM',
-            DateExpected: '06/30/21 09:30AM',
-            DateCompleted: '07/07/21 10:45PM',
-        },
-        {
-            id: '3',
-            prty: '6',
-            orderID: 'R0001',
-            lines: '19',
-            Status: 'PENDING',
-            DateCreated: '05/11/21 12:30AM',
-            DateExpected: '06/30/21 09:30AM',
-            DateCompleted: '07/07/21 10:45PM',
-        },
-        {
-            id: '4',
-            prty: '4',
-            orderID: 'R0055',
-            lines: '303',
-            Status: 'INCOMPLETE',
-            DateCreated: '05/11/21 12:30AM',
-            DateExpected: '06/30/21 09:30AM',
-            DateCompleted: '07/07/21 10:45PM',
-        },
-        {
-            id: '5',
-            prty: '2',
-            orderID: 'R00220',
-            lines: '3',
-            Status: 'PENDING',
-            DateCreated: '05/11/21 12:30AM',
-            DateExpected: '06/30/21 09:30AM',
-            DateCompleted: '07/07/21 10:45PM',
-        },
-        {
-            id: '6',
-            prty: '3',
-            orderID: 'R00110',
-            lines: '33',
-            Status: 'COMPLETE',
-            DateCreated: '05/11/21 12:30AM',
-            DateExpected: '06/30/21 09:30AM',
-            DateCompleted: '07/07/21 10:45PM',
-        },
-        {
-            id: '7',
-            prty: '7',
-            orderID: 'R00010',
-            lines: '19',
-            Status: 'PENDING',
-            DateCreated: '05/11/21 12:30AM',
-            DateExpected: '06/30/21 09:30AM',
-            DateCompleted: '07/07/21 10:45PM',
-        },
-        {
-            id: '8',
-            prty: '8',
-            orderID: 'R00550',
-            lines: '303',
-            Status: 'PENDING',
-            DateCreated: '05/11/21 12:30AM',
-            DateExpected: '06/30/21 09:30AM',
-            DateCompleted: '07/07/21 10:45PM',
-        },
-    ]
-
-
 
     return(
         <main className={classes.content}>
