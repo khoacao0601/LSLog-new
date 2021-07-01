@@ -15,14 +15,25 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
+//import Table from '@material-ui/core/Table';
+//import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
+//import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+//import Paper from '@material-ui/core/Paper';
 import{ DataGrid } from '@material-ui/data-grid';
+import Box from '@material-ui/core/Box';
 import Icon from '@material-ui/core/Icon';
+import Alert from '@material-ui/lab/Alert';
+import Snackbar from '@material-ui/core/Snackbar';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import {useDispatch, useSelector} from 'react-redux';
+import {setViews} from '../../store/reducer/topNavBarViewsControl';
+import {userInfoDataSelector} from '../../store/reducer/usersControlSlice';
 
 
 
@@ -108,6 +119,12 @@ const useStyles = makeStyles((theme) => ({
 
 const CreateOrder = () => {
 
+    const dispatch = useDispatch();
+
+    const whoIn = useSelector(userInfoDataSelector);
+
+    console.log(whoIn);
+
     const [testData, setTestData] = useState([]);
    
     const classes = useStyles();
@@ -117,7 +134,39 @@ const CreateOrder = () => {
     const [inventory, setInventory] = useState();
 
     const [orders, setOrders] = useState([]);
+
+    //orderiId,for now, will be removed when back end is ready
+    const [fakeOrderId, setFakeOrderId] = useState();
+
+    //current Date and Time
+    const [currentDandT, setCurrentDandT] = useState();
+
+    //control the warning of empty order
+    const [openSnackBar, setOpenSnackBar] = useState(false);
+    const handleCloseSnackBar = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
     
+        setOpenSnackBar(false);
+      };
+
+    //control modal Dialog
+    const [openDialog, setOpenDialog] = useState(false);
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
+      };
+      const handleClickOpenDialog = () => {
+        setOpenDialog(true);
+      };
+    
+    
+
+    //Done button to redirect back to list all orders
+    const goBackAllOrders = () => {
+        dispatch(setViews("inbound"));
+        handleCloseDialog();
+    }
     //warning Empty input user
     const [warning, setWarning] = useState("");
 
@@ -157,15 +206,7 @@ const CreateOrder = () => {
             [e.target.name]: e.target.value
         });
     };
-
-    const setItemOnly = (value) => {
-        setEachLine({
-            ...eachLine,
-            item: value
-        })
-    }
     
-
     useEffect(() => {
 
         /*--Get name of invetory for autoComplete--*/
@@ -233,7 +274,7 @@ const CreateOrder = () => {
             });
             setWarning(" ");
         } else {
-            setWarning("Please Fill all Fields")
+            setWarning(<Alert severity="error">Please Fill all Empty Fields!</Alert>)
         }
     }
 
@@ -241,17 +282,19 @@ const CreateOrder = () => {
 
     /*--remove Item from order--*/
     const removeItem = (value) =>{
+        debugger;
+        console.log(value);
         //take index value of yor line
         let index = testData.findIndex((object) => {
-            console.log(object, value)
-            return object.line === value;
+            console.log(object)
+            return object.positionId === value;
         });
         //you can't remove lne from real array, so I make a shallow array from testData to work on
         const removeArray = [...testData];
         removeArray.splice(index,1);
         //reindex array after remove one lement from i
         for(let i = 0; i < removeArray.length; i++){
-            removeArray[i].line = i+1;
+            removeArray[i].positionId = i+1;
         }
         //set new vlaue for testData
         setTestData(removeArray);
@@ -279,7 +322,7 @@ const CreateOrder = () => {
                 hour = date.getUTCHours() + ":" + minutes + " AM";
             }
             //full formate for date time 
-            const datePrint = date.getMonth() + "/" + date.getDate() + "/" + date.getFullYear() + "  " + hour;
+            const datePrint = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear() + "  " + hour;
             return datePrint;
         } else {
             return "N/A";
@@ -290,47 +333,57 @@ const CreateOrder = () => {
     //send data to backEnd
     const submitData = () => {
 
-        //generate orderId, just for now, will be removed later
-        const biggestOrderId = Math.max.apply(Math, orders.map(function(array) { return parseInt(array.orderId)}));
-        //generate priority number, will be removed later
-        const priorityNum = Math.floor(Math.random() * 3) + 1;
-        //generate random vendor, will be removed later
-        const vendors = ["USPS", "UPS", "FedEx", "DHL", "Truck"];
-        const random = Math.floor(Math.random() * vendors.length);
-        const vendorRandom = vendors[random];
-        //get current date and time, convert to ISOtime format
-        var currentdate = new Date(); 
-        var datetime =(currentdate.getMonth()+1)  + " " + currentdate.getDate() +  " "   + currentdate.getFullYear() + " "  + currentdate.getHours() + ":"  + currentdate.getMinutes() + " UTC";  
-        const newdate = new Date(datetime);
-        //Date Expected for now
-        const dateEx = testData[0].dateEx+":00.000Z";
-        //reformat data before send
-        for(let x = 0; x < testData.length; x++){
-            delete testData[x].name;
-            delete testData[x].sku;
-            delete testData[x].dateEx;
-        }
-        console.log(testData[0].dateEx);
-        //object of Data to send
-        const valueToSend = {
-            state: "CREATED",
-            orderId: (biggestOrderId+5).toString(),
-            priority: priorityNum,
-            positions: testData,
-            details:{
-                vendor: vendorRandom
-            },
-            createdDate: newdate.toISOString(),
-            expectedDate: dateEx
-        }
+        if(testData.length !== 0) {
+            //generate orderId, just for now, will be removed later
+            const biggestOrderId = Math.max.apply(Math, orders.map(function(array) { return parseInt(array.orderId)}));
+            setFakeOrderId(biggestOrderId+5);
+            //generate priority number, will be removed later
+            const priorityNum = Math.floor(Math.random() * 3) + 1;
+            //generate random vendor, will be removed later
+            const vendors = ["USPS", "UPS", "FedEx", "DHL", "Truck"];
+            const random = Math.floor(Math.random() * vendors.length);
+            const vendorRandom = vendors[random];
+            //get current date and time, convert to ISOtime format
+            var currentdate = new Date(); 
+            var datetime =(currentdate.getMonth()+1)  + " " + currentdate.getDate() +  " "   + currentdate.getFullYear() + " "  + currentdate.getHours() + ":"  + currentdate.getMinutes() + " UTC";  
+            const newdate = new Date(datetime);
+            setCurrentDandT(newdate.toString());
+            //Date Expected for now
+            let dateEx = null;
+            if(testData.length !== 0) {
+                dateEx = testData[0].dateEx+":00.000Z";
+            }
+            //reformat data before send
+            for(let x = 0; x < testData.length; x++){
+                delete testData[x].name;
+                delete testData[x].sku;
+                delete testData[x].dateEx;
+            }
+            //console.log(testData[0].dateEx);
+            //object of Data to send
+            const valueToSend = {
+                state: "CREATED",
+                orderId: (biggestOrderId+5).toString(),
+                priority: priorityNum,
+                positions: testData,
+                details:{
+                    vendor: vendorRandom
+                },
+                createdDate: newdate.toISOString(),
+                expectedDate: dateEx
+            }
 
-        //do the POST request
-        console.log(valueToSend);
-        fetch('http://3.141.28.243:8141/v1/receiving-orders', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(valueToSend)
-          });
+             //do the POST request
+             fetch('http://3.141.28.243:8141/v1/receiving-orders', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(valueToSend)
+              });
+              
+              handleClickOpenDialog();
+        }  else {
+            setOpenSnackBar(true);
+        } 
     }
    
     // Mapping over the testdata array to create a new row for each element in t
@@ -408,7 +461,7 @@ const CreateOrder = () => {
                                 options={inventory}
                                 getOptionLabel={(option) => option.description}
                                 style={{ width: 300 }}
-                                onChange={(event, value) => value ? getValueAutoComplete(value.description, value.sku) : setWarning("Can not be Empty")}
+                                onChange={(event, value) => value ? getValueAutoComplete(value.description, value.sku) : setWarning("")}
                                 renderInput={(params) => 
                                     <TextField {...params} 
                                     id="dateExpected" 
@@ -480,9 +533,9 @@ const CreateOrder = () => {
                                     onClick={pushToTestData}>ADD LINE</Button>
                         </Grid>
                     </Grid>
-                    {warning}
                     <Grid item xs={10}></Grid>
                 </Grid>
+                {warning}
                 <hr/> 
                 <h5>Lines in Order</h5>
                 <div style={{ height: 500, width: 'auto', display:'flex', justifyContent:'center', }}>
@@ -505,11 +558,50 @@ const CreateOrder = () => {
                     </Grid>
                     <Grid item xs={2}>
                         <Grid container justify="center" width={1}>
-                            <Button fullWidth variant="outlined" className={classes.button} onClick={submitData}>SUBMIT</Button>
+                            <Button 
+                                fullWidth variant="outlined" 
+                                className={classes.button}
+                                onClick={submitData}
+                            >
+                                SUBMIT
+                            </Button>
                         </Grid>
                     </Grid>
                     <Grid item xs={8}></Grid>
                 </Grid>
+                {currentDandT}
+                {fakeOrderId} 
+                   {/* --- Modal Snack Bar --- */}             
+                <Snackbar open={openSnackBar} autoHideDuration={6000} onClose={handleCloseSnackBar}>
+                    <Alert onClose={handleCloseSnackBar} severity="error">
+                        Empty order list! Can not submit!
+                    </Alert>
+                </Snackbar>
+                    {/* --- Modal Dialog --- */} 
+                    <Dialog
+                        open={openDialog}
+                        onClose={handleCloseDialog}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                    >
+        <DialogTitle id="alert-dialog-title">{"Successfully Create An Order"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            OrderId #: <Box fontWeight="fontWeightBold">{fakeOrderId}</Box>
+            <br/>
+            Order Items: <Box fontWeight="fontWeightBold">{testData.length}</Box>
+            <br/>
+            Created by Username: <Box fontWeight="fontWeightBold">{whoIn.username}</Box>
+            <br/>
+            Time: <Box fontWeight="fontWeightBold">{convertDateTime(currentDandT)}</Box>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={goBackAllOrders} color="primary" autoFocus>
+            Done
+          </Button>
+        </DialogActions>
+      </Dialog> 
             </div>    
         </main>
     )
