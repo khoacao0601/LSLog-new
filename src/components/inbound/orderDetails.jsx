@@ -147,7 +147,7 @@ const useStyles = makeStyles((theme) => ({
             hide: false, 
             type: 'string',
             valueFormatter: getDesc, 
-            sortComparator: (v1, v2) => v1.toString().localeCompare(v2.toString()),
+            // sortComparator: (v1, v2) => v1.toString().localeCompare(v2.toString()),
         },
         {
             field: 'quantityExpected',
@@ -160,6 +160,9 @@ const useStyles = makeStyles((theme) => ({
             hide: false,
             type: 'number',
             valueFormatter: getQuantity,
+            // sortComparator: (v1, v2) => v1.toString().localeCompare(v2.toString()),
+
+            
         },
         {
             field: 'quantityReceivedUOM',
