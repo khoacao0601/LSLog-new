@@ -594,7 +594,7 @@ const CreateOrder = () => {
                         aria-labelledby="alert-dialog-title"
                         aria-describedby="alert-dialog-description"
                     >
-        <DialogTitle id="alert-dialog-title">{"Successfully Create An Order"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{'Order Successfully Created'}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             OrderId #: <Box fontWeight="fontWeightBold">{fakeOrderId}</Box>
