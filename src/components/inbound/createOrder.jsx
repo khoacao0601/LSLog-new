@@ -31,6 +31,9 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Typography from '@material-ui/core/Typography';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Link from '@material-ui/core/Link';
 import {useDispatch, useSelector} from 'react-redux';
 import {setViews} from '../../store/reducer/topNavBarViewsControl';
 import {userInfoDataSelector} from '../../store/reducer/usersControlSlice';
@@ -452,7 +455,14 @@ const CreateOrder = () => {
         <main className={classes.content}>
             <Toolbar />
             <div style={styles.container}>
-                <h1>Inbound / Create Order</h1>
+            <Breadcrumbs aria-label="breadcrumb" style={{fontSize: "4vh"}}>
+                <Link color="inherit" href="/" onClick={(e) => {e.preventDefault(); dispatch(setViews("inbound"))}}>
+                    <h1>Inbound</h1>
+                </Link>
+                <Typography color="textPrimary"> <h1>Create Order</h1></Typography>
+            </Breadcrumbs>
+          {/*<h1>Inbound / Create Order</h1>*/}
+               
                 <Grid container spacing={3} className={classes.page}>
                     <Grid item xs={8}>
                         <Grid container justify="left" width={1}>
