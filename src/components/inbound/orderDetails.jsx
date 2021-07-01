@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux'
 import { orderIdSelector } from '../../store/reducer/orderIDCslice';
+import {useDispatch, useSelector} from 'react-redux';
+import {setViews} from '../../store/reducer/topNavBarViewsControl';
 //import './../../styling/orderDetails.css';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,7 +16,9 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-
+import Typography from '@material-ui/core/Typography';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Link from '@material-ui/core/Link';
 import{ DataGrid } from '@material-ui/data-grid';
 import Icon from '@material-ui/core/Icon';
 
@@ -211,6 +214,7 @@ const useStyles = makeStyles((theme) => ({
 
 const OrderDetails = () => {
     const classes = useStyles();
+    const dispatch = useDispatch();
 
     const orderId = useSelector(orderIdSelector)
     console.log(`Order ID:`, orderId)
@@ -267,8 +271,14 @@ const OrderDetails = () => {
     return (
         <main className={classes.content}>
             <Toolbar />
+            <Breadcrumbs aria-label="breadcrumb" style={{fontSize: "4vh"}}>
+                <Link color="inherit" href="/" onClick={(e) => {e.preventDefault(); dispatch(setViews("inbound"))}}>
+                    <h1>Inbound</h1>
+                </Link>
+                <Typography color="textPrimary"> <h1>Order #: {orderId}</h1></Typography>
+            </Breadcrumbs>
             <div className='container-order'>
-                <h1>Inbound / Orders / {orderId} </h1>
+                {/*<h1>Inbound / Orders / {orderId} </h1>*/}
                 <div className={classes.componentTop}>
                     <div className=""></div>
                     <div className="w3-dropdown-hover">
