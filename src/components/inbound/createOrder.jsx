@@ -282,7 +282,7 @@ const CreateOrder = () => {
 
     /*--remove Item from order--*/
     const removeItem = (value) =>{
-        debugger;
+        //debugger;
         console.log(value);
         //take index value of yor line
         let index = testData.findIndex((object) => {
