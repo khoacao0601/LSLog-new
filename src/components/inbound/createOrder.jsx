@@ -1,9 +1,15 @@
 import React, {useEffect, useState} from 'react';
+//import {useDispatch} from 'react-redux';
+//import {setViews} from '../../store/reducer/topNavBarViewsControl';
+//import {useDispatch, useSelector} from 'react-redux';
+//import {setInventory, inventorySelector} from '../../store/reducer/inventorySlice';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import {useDispatch} from 'react-redux';
 import {setViews} from '../../store/reducer/topNavBarViewsControl';
-//import Autocomplete from '@material-ui/lab/Autocomplete';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -11,17 +17,28 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
+//import Table from '@material-ui/core/Table';
+//import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
+//import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+//import Paper from '@material-ui/core/Paper';
 import{ DataGrid } from '@material-ui/data-grid';
+import Box from '@material-ui/core/Box';
 import Icon from '@material-ui/core/Icon';
+import Alert from '@material-ui/lab/Alert';
+import Snackbar from '@material-ui/core/Snackbar';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import Typography from '@material-ui/core/Typography';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
+import {useDispatch, useSelector} from 'react-redux';
+import {setViews} from '../../store/reducer/topNavBarViewsControl';
+import {userInfoDataSelector} from '../../store/reducer/usersControlSlice';
 
 
 
@@ -112,102 +129,283 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CreateOrder = () => {
+
+    const dispatch = useDispatch();
+
+    const whoIn = useSelector(userInfoDataSelector);
+
+    console.log(whoIn);
+
+    const [testData, setTestData] = useState([]);
+   
     const classes = useStyles();
 
-    const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
+    const api_url = `http://18.223.210.207:8140/v1/products`;
 
+    const [inventory, setInventory] = useState();
+
+    const [orders, setOrders] = useState([]);
+
+    //orderiId,for now, will be removed when back end is ready
+    const [fakeOrderId, setFakeOrderId] = useState();
+
+    //current Date and Time
+    const [currentDandT, setCurrentDandT] = useState();
+
+    //control the warning of empty order
+    const [openSnackBar, setOpenSnackBar] = useState(false);
+    const handleCloseSnackBar = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+    
+        setOpenSnackBar(false);
+      };
+
+    //control modal Dialog
+    const [openDialog, setOpenDialog] = useState(false);
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
+      };
+      const handleClickOpenDialog = () => {
+        setOpenDialog(true);
+      };
+    
+    
+
+    //Done button to redirect back to list all orders
+    const goBackAllOrders = () => {
+        dispatch(setViews("inbound"));
+        handleCloseDialog();
+    }
+    //warning Empty input user
+    const [warning, setWarning] = useState("");
+
+    //const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
+
+    /*const handleDateChange = (date) => {
 
     const handleDateChange = (date) => {
       setSelectedDate(date);
-    };
+    };*/
     
-    const [newUser, setNewUser] = useState({
-        fullName: "",
-        userName: "",
-        email: "",
-        password: "",
-        phoneNumber: "",
-        skype: "",
-        office: "",
-        dept: "",
-        gender: ""
+    const [eachLine, setEachLine] = useState({
+        item: "",
+        quantity: "",
+        UOM: "",
+        dateAndTime: "",
+        sku:" "
+
     });
     
     const [sendValue, setSendValue] = useState();
+    
+
+    //set value for Autocomplete Marterial Desisgn
+    const getValueAutoComplete = (description, sku) => {
+            setEachLine({
+                ...eachLine,
+                item: description,
+                sku: sku
+            })
+            setWarning("");
+    }
 
     const updateField = (e) => {
-        setNewUser({
-            ...newUser,
+        setEachLine({
+            ...eachLine,
             [e.target.name]: e.target.value
         });
     };
-
-    //setup value for Post request
-    useEffect(() => {
-        console.log(newUser.fullName);
-        setSendValue({
-            username: newUser.userName,
-            email: newUser.email
-        })
-    }, [newUser.email, newUser.userName, newUser.fullName])
     
-    // Test Data to display until inventory api is ready
-    // This data should be display in the DataGrid below the column header
-    const testData = [
-        {
-            id: '1',
-            line: "1",
-            item: "Hydrocodone",
-            qty: "1",
-            uom: "PALLET",
-            totalEach: 1,
-            sku: "A1B1C1",
-            dateEx: "05/10/21 12:01 AM",
-        },
-        {
-            id: '2,',
-            line: "2",
-            item: "Simvastatin",
-            qty: "30",
-            uom: "CASES",
-            totalEach: 30,
-            sku: "D4E5A1",
-            dateEx: "05/11/21 12:10 AM",
+    useEffect(() => {
 
-        },
-        {
-            id: '3',
-            line: "3",
-            item: "Metformin",
-            qty: "64",
-            uom: "KITS",
-            totalEach: 64,
-            sku: "B2F6G7",
-            dateEx: "05/11/21 12:21 AM",
+        /*--Get name of invetory for autoComplete--*/
+        async function fetchInventoryList(){
+            try {
+                const requestUrl = api_url;
+                const response = await fetch(requestUrl);   
+                const responseJSON = await response.json();
+                //store Inventory info to state
+                setInventory(responseJSON);
+                //console.log(responseJSON);
+            } catch (error) {
+                console.log('Failed to Fetch', error);
+            } 
+        }
+        fetchInventoryList();
 
-        },
-        {
-            id: '4',
-            line: "4",
-            item: "Amlodipine",
-            qty: "1000",
-            uom: "EACHES",
-            totalEach: 1000,
-            sku: "J9H8G7",
-            dateEx: "05/11/21 12:22 AM",
+        /*--get all info fro orders list to get the biggest order id, so we can generate order id from front-end, 
+            will be removed later--*/
+        async function fetchOrdersList(){
+            try {
+                const requestUrl = (`http://3.141.28.243:8141/v1/receiving-orders`);
+                const response = await fetch(requestUrl);
+                const responseJSON = await response.json();
+                setOrders(responseJSON);
+            } catch (error) {
+                console.log('Failed to Fetch', error);
+            } 
+        }
+        fetchOrdersList();
 
-        },
+        /*--set each line value for order--*/
+        
+        setSendValue({
+            name: eachLine.item,
+            positionId: (testData.length+1).toString(),
+            state: "PROSESSING",
+            quantityExpectedUOM: eachLine.UOM,
+            quantityExpectedMagnitude: eachLine.quantity,
+            quantityReceivedUOM: eachLine.UOM,
+            quantityReceivedMagnitude: 0,
+            product: {
+                sku: eachLine.sku               
+            },
+            transportUnitBK: "10001001",
+            details:{
+                transportUnitTypeName: "CASES"
+            },
+            dateEx: eachLine.dateAndTime,
+            sku: eachLine.sku
+        })
+    }, [api_url, eachLine.UOM, eachLine.dateAndTime, eachLine.item, eachLine.quantity, eachLine.sku, testData, testData.length])
+    
+    
+    const pushToTestData = () => {
+        if(eachLine.item && eachLine.quantity && eachLine.UOM && eachLine.dateAndTime && eachLine.sku){
+            setTestData([...testData, sendValue]);
+            console.log(testData);
+            setEachLine({
+                item: "",
+                quantity: "",
+                UOM: "",
+                dateAndTime: "",
+                sku:" "
+            });
+            setWarning(" ");
+        } else {
+            setWarning(<Alert severity="error">Please Fill all Empty Fields!</Alert>)
+        }
+    }
 
-    ];
+
+
+    /*--remove Item from order--*/
+    const removeItem = (value) =>{
+        //debugger;
+        console.log(value);
+        //take index value of yor line
+        let index = testData.findIndex((object) => {
+            console.log(object)
+            return object.positionId === value;
+        });
+        //you can't remove lne from real array, so I make a shallow array from testData to work on
+        const removeArray = [...testData];
+        removeArray.splice(index,1);
+        //reindex array after remove one lement from i
+        for(let i = 0; i < removeArray.length; i++){
+            removeArray[i].positionId = i+1;
+        }
+        //set new vlaue for testData
+        setTestData(removeArray);
+
+        //setTestData(testData.filter(item => item.id !== value ));
+    }
+
+    console.log(testData);
+
+    const convertDateTime = (dateTime) => {
+        if(dateTime) {
+            let hour = null;
+            let minutes = null;
+            const date = new Date(dateTime);
+            //format minutes
+            if(date.getUTCMinutes() === 0){
+                minutes = date.getUTCMinutes() + "0";
+            } else {
+                minutes = date.getUTCMinutes();
+            }   
+            //format hours
+            if(date.getUTCHours() >= 12){
+                hour = date.getUTCHours() - 12 + ":" + minutes + " PM";
+            } else {
+                hour = date.getUTCHours() + ":" + minutes + " AM";
+            }
+            //full formate for date time 
+            const datePrint = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear() + "  " + hour;
+            return datePrint;
+        } else {
+            return "N/A";
+        }
+    }
+   
+
+    //send data to backEnd
+    const submitData = () => {
+
+        if(testData.length !== 0) {
+            //generate orderId, just for now, will be removed later
+            const biggestOrderId = Math.max.apply(Math, orders.map(function(array) { return parseInt(array.orderId)}));
+            setFakeOrderId(biggestOrderId+5);
+            //generate priority number, will be removed later
+            const priorityNum = Math.floor(Math.random() * 3) + 1;
+            //generate random vendor, will be removed later
+            const vendors = ["USPS", "UPS", "FedEx", "DHL", "Truck"];
+            const random = Math.floor(Math.random() * vendors.length);
+            const vendorRandom = vendors[random];
+            //get current date and time, convert to ISOtime format
+            var currentdate = new Date(); 
+            var datetime =(currentdate.getMonth()+1)  + " " + currentdate.getDate() +  " "   + currentdate.getFullYear() + " "  + currentdate.getHours() + ":"  + currentdate.getMinutes() + " UTC";  
+            const newdate = new Date(datetime);
+            setCurrentDandT(newdate.toString());
+            //Date Expected for now
+            let dateEx = null;
+            if(testData.length !== 0) {
+                dateEx = testData[0].dateEx+":00.000Z";
+            }
+            //reformat data before send
+            for(let x = 0; x < testData.length; x++){
+                delete testData[x].name;
+                delete testData[x].sku;
+                delete testData[x].dateEx;
+            }
+            //console.log(testData[0].dateEx);
+            //object of Data to send
+            const valueToSend = {
+                state: "CREATED",
+                orderId: (biggestOrderId+5).toString(),
+                priority: priorityNum,
+                positions: testData,
+                details:{
+                    vendor: vendorRandom
+                },
+                createdDate: newdate.toISOString(),
+                expectedDate: dateEx
+            }
+
+             //do the POST request
+             fetch('http://3.141.28.243:8141/v1/receiving-orders', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(valueToSend)
+              });
+              
+              handleClickOpenDialog();
+        }  else {
+            setOpenSnackBar(true);
+        } 
+    }
+   
     // Mapping over the testdata array to create a new row for each element in t
-    const rows = testData.map((object, indexArray) =>
-        <TableRow key={object.line}  className={classes.row} >
-            <TableCell component="th" scope="row">{object.line}</TableCell>
-            <TableCell align="center">{object.item}</TableCell>
-            <TableCell align="center">{object.qty} {object.delete}</TableCell>
-            <TableCell align="center">{object.uom}</TableCell>
-            <TableCell align="center">{object.totalEach}</TableCell>
-            <TableCell align="center">{object.sku}</TableCell>
+    const rows = testData.map((object) =>
+        <TableRow key={object.positionId}  className={classes.row} >
+            <TableCell component="th" scope="row">{object.positionId}</TableCell>
+            <TableCell align="center">{object.name}</TableCell>
+            <TableCell align="center">{object.quantityExpectedMagnitude} </TableCell>
+            <TableCell align="center">{object.quantityExpectedUOM}</TableCell>
+            <TableCell align="center">{object.quantityReceivedMagnitude}</TableCell>
+            <TableCell align="center">{object.product.sku}</TableCell>
             <TableCell align="center">{object.dateEx}</TableCell>
             <TableCell><Icon>delete</Icon></TableCell>
         </TableRow>
@@ -223,12 +421,12 @@ const CreateOrder = () => {
     // Note: Flex overrides width, so the width property isn't actually doing anything currently
     // align key aligns the cells l/r/c
     const columns = [
-        { field: 'line', headerName: 'LINES', description: '# of Lines', width: 190, headerAlign: 'center', headerClassName: 'datagrid-header', hide: false, flex: 1, type:'number', align: 'right', },
-        { field: 'item', headerName: 'ITEM', description: 'Item Name', width: 130, headerAlign: 'center', headerClassName: 'datagrid-header', hide: false, flex: 1, align: 'center',},
-        { field: 'qty', headerName: 'QTY', description: 'Quantity', width: 130, headerAlign: 'center', headerClassName: 'datagrid-header', hide: false, flex: 1, type: 'number', align: 'center',},
-        { field: 'uom', headerName: 'UOM', width: 190, description: 'Unit of Measurement', headerAlign: 'center', headerClassName: 'datagrid-header', hide: false, flex: 1, align: 'center',},
+        { field: 'positionId', headerName: 'LINES', description: '# of Lines', width: 190, headerAlign: 'center', headerClassName: 'datagrid-header', hide: false, flex: 1, type:'number', align: 'right', },
+        { field: 'name', headerName: 'ITEM', description: 'Item Name', width: 130, headerAlign: 'center', headerClassName: 'datagrid-header', hide: false, flex: 1, align: 'center',},
+        { field: 'quantityExpectedMagnitude', headerName: 'QTY', description: 'Quantity', width: 130, headerAlign: 'center', headerClassName: 'datagrid-header', hide: false, flex: 1, type: 'number', align: 'center',},
+        { field: 'quantityExpectedUOM', headerName: 'UOM', width: 190, description: 'Unit of Measurement', headerAlign: 'center', headerClassName: 'datagrid-header', hide: false, flex: 1, align: 'center',},
         {
-            field: 'totalEach',
+            field: 'quantityReceivedMagnitude',
             headerName: 'TOTAL EA',
             description: 'Total Eaches',
             width: 150,
@@ -238,28 +436,77 @@ const CreateOrder = () => {
             align: 'center',
         },
         { field: 'sku', headerName: 'SKU', description: 'SKU Number', width: 190, headerAlign: 'center', headerClassName: 'datagrid-header', flex: 1, type: 'number', align: 'center',},
-        { field: 'dateEx', headerName: 'DATE EXPECTED', description: 'Date Expected', width: 180, headerAlign: 'center', headerClassName: 'datagrid-header', flex: 1, type: 'dateTime', align: 'right',},
-        { field: '', headerName: 'DELETE', sortable: false, width: 100, description: 'Delete Line', headerAlign: 'center', headerClassName: 'datagrid-header', flex: 1, align: 'center', renderCell: (params) => { return <Icon style={{ fontSize: 35}}> delete</Icon>} },
+        { 
+            field: 'dateEx', 
+            headerName: 'DATE EXPECTED', 
+            description: 'Date Expected', 
+            width: 180, headerAlign: 'center', 
+            headerClassName: 'datagrid-header', 
+            flex: 1, 
+            type: 'dateTime', 
+            align: 'right',
+            valueFormatter: (params) =>{return convertDateTime(params.value)}
+        },
+        { 
+            field: '', 
+            headerName: 'DELETE', 
+            sortable: false, 
+            width: 100, 
+            description: 'Delete Line', 
+            headerAlign: 'center', 
+            headerClassName: 'datagrid-header', 
+            flex: 1, 
+            align: 'center', 
+            renderCell: (params) => { 
+                return <IconButton aria-label="delete" onClick={() => removeItem(params.id)}>
+                            <DeleteIcon />
+                        </IconButton>
+            } 
+        }   
     ];
 
     return(
         <main className={classes.content}>
             <Toolbar />
             <div style={styles.container}>
-                <Breadcrumbs className={classes.breadcrumbs} aria-label="breadcrumb">
-                    <Link color="inherit" href="/" onClick={(event)=>handleView("inbound", event)}>Inbound Orders</Link>
-                    <Typography color="textPrimary">Create Order</Typography>
-                </Breadcrumbs>
+            <Breadcrumbs className={classes.breadcrumbs} aria-label="breadcrumb" style={{fontSize: "4vh"}}>
+                <Link color="inherit" href="/" onClick={(e) =>{(event)=>handleView("inbound", event)}}>
+                    <h1>Inbound</h1>
+                </Link>
+                <Typography color="textPrimary"> <h1>Create Order</h1></Typography>
+            </Breadcrumbs>
+          {/*<h1>Inbound / Create Order</h1>*/}
+               
                 <Grid container spacing={3} className={classes.page}>
                     <Grid item xs={8}>
-                        <Grid container justify="center" width={1}>
-                            <TextField id="dateExpected" label="ITEM" variant="outlined" fullWidth placeholder="SEARCH BY SKU OR DESCRIPTION" />
+                        <Grid container justify="left" width={1}>
+                            <Autocomplete
+                                id="combo-box-demo"
+                                options={inventory}
+                                getOptionLabel={(option) => option.description}
+                                style={{ width: 300 }}
+                                onChange={(event, value) => value ? getValueAutoComplete(value.description, value.sku) : setWarning("")}
+                                renderInput={(params) => 
+                                    <TextField {...params} 
+                                    id="dateExpected" 
+                                    label="ITEM" 
+                                    variant="outlined" 
+                                    fullWidth placeholder="SEARCH BY DESCRIPTION" 
+                                    />}
+                                />
                         </Grid>
                     </Grid>
                     <Grid item xs={4}></Grid>
                     <Grid item xs={4}>
-                        <Grid container justify="center" width={1}>
-                            <TextField fullWidth id="dateExpected" label="QUANTITY" variant="outlined" />
+                        <Grid container justify="left" width={1}>
+                            <TextField fullWidth 
+                            id="dateExpected" 
+                            label="QUANTITY" 
+                            variant="outlined" 
+                            name="quantity"
+                            value={eachLine.quantity}
+                            onChange={updateField}
+                            />
                         </Grid>
                     </Grid>
                     <Grid item xs={4}>
@@ -270,12 +517,12 @@ const CreateOrder = () => {
                                     labelId="dept-select-outlined-label"
                                     label="Department"
                                     id="dept-select-outlined"
-                                    name="dept"
-                                    value={newUser.dept}
+                                    name="UOM"
+                                    value={eachLine.UOM}
                                     onChange={updateField}
                                 >
                                     <MenuItem value=""><em>None</em></MenuItem>
-                                    <MenuItem value={"PALLET"}>PALLET</MenuItem>
+                                    <MenuItem value={"PALLETS"}>PALLETS</MenuItem>
                                     <MenuItem value={"CASES"}>CASES</MenuItem>
                                     <MenuItem value={"KITS"}>KITS</MenuItem>
                                     <MenuItem value={"EACHES"}>EACHES</MenuItem>
@@ -285,54 +532,48 @@ const CreateOrder = () => {
                     </Grid>
                     <Grid item xs={4}></Grid>
                     <Grid item xs={4}>
-                        <Grid container justify="center" width={1}>
-                            <TextField fullWidth id="dateExpected" label="DATE EXPECTED" variant="outlined"
-        
-        type="date"
-        //placeholder="MM/DD/YYYY"
-        className={classes.textField}
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />                        </Grid>
+                        <Grid container justify="left" width={1}>
+                        <TextField
+                                name="dateAndTime"
+                                value={eachLine.dateAndTime}
+                                onChange={updateField}
+                                id="datetime-local"
+                                label="Date - Time Expected"
+                                type="datetime-local"
+                                defaultValue="2017-05-24T10:30"
+                                className={classes.textField}
+                                InputLabelProps={{
+                                shrink: true,
+                                }}
+                            />                     
+                        </Grid>
                     </Grid>
                     <Grid item xs={8}></Grid>
                     <Grid item xs={2}>
-                        <Grid container justify="center" width={1}>
-                            <Button fullWidth variant="outlined" className={classes.button}>ADD LINE</Button>
+                        <Grid container justify="left" width={1}>
+                            <Button fullWidth 
+                                    variant="outlined" 
+                                    className={classes.button} 
+                                    onClick={pushToTestData}>ADD LINE</Button>
                         </Grid>
                     </Grid>
                     <Grid item xs={10}></Grid>
                 </Grid>
+                {warning}
                 <hr/> 
                 <h5>Lines in Order</h5>
-                <div style={{ height: 400, width: 'auto', display:'flex', justifyContent:'center', }}>
-                    <DataGrid className={classes.root_two} align='center' rows={testData} columns={columns} pageSize={20}>
+                <div style={{ height: 500, width: 'auto', display:'flex', justifyContent:'center', }}>
+                    <DataGrid 
+                        className={classes.root_two} 
+                        align='center' 
+                        rows={testData} 
+                        columns={columns} 
+                        pageSize={5} 
+                        getRowId={(row) => row.positionId}
+                    >
                         {rows}
                     </DataGrid>
-                    {/* <Icon style={{ fontSize: 35}}>delete</Icon>
-                    <Icon style={{ fontSize: 35}}>delete_outline</Icon>
-                    <Icon style={{ fontSize: 35}}>delete_forever</Icon>
-                    <Icon style={{ fontSize: 35}}>remove</Icon> */}
                 </div>
-            {/* <Paper className={classes.root}>
-                    <Table className={classes.table}>
-                        <TableHead className={classes.tableHead}>
-                            <TableRow>
-                                <TableCell align="center">LINES</TableCell>
-                                <TableCell align="center">ITEM</TableCell>
-                                <TableCell align="center">QTY</TableCell>
-                                <TableCell align="center">UOM</TableCell>
-                                <TableCell align="center">TOTAL EA</TableCell>
-                                <TableCell align="center">SKU</TableCell>
-                                <TableCell align="center">DATE EXPECTED</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                        {rows}
-                        </TableBody>
-                    </Table>
-                </Paper> */}
                 <Grid container spacing={3} className={classes.page}>
                     <Grid item xs={2}>
                         <Grid container justify="center" width={1}>
@@ -341,14 +582,51 @@ const CreateOrder = () => {
                     </Grid>
                     <Grid item xs={2}>
                         <Grid container justify="center" width={1}>
-                            <Button fullWidth variant="outlined" className={classes.button}>SUBMIT</Button>
+                            <Button 
+                                fullWidth variant="outlined" 
+                                className={classes.button}
+                                onClick={submitData}
+                            >
+                                SUBMIT
+                            </Button>
                         </Grid>
                     </Grid>
                     <Grid item xs={8}></Grid>
                 </Grid>
+                {currentDandT}
+                {fakeOrderId} 
+                   {/* --- Modal Snack Bar --- */}             
+                <Snackbar open={openSnackBar} autoHideDuration={6000} onClose={handleCloseSnackBar}>
+                    <Alert onClose={handleCloseSnackBar} severity="error">
+                        Empty order list! Can not submit!
+                    </Alert>
+                </Snackbar>
+                    {/* --- Modal Dialog --- */} 
+                    <Dialog
+                        open={openDialog}
+                        onClose={handleCloseDialog}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                    >
+        <DialogTitle id="alert-dialog-title">{'Order Successfully Created'}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            OrderId #: <Box fontWeight="fontWeightBold">{fakeOrderId}</Box>
+            <br/>
+            Order Items: <Box fontWeight="fontWeightBold">{testData.length}</Box>
+            <br/>
+            Created by Username: <Box fontWeight="fontWeightBold">{whoIn.username}</Box>
+            <br/>
+            Time: <Box fontWeight="fontWeightBold">{convertDateTime(currentDandT)}</Box>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={goBackAllOrders} color="primary" autoFocus>
+            Done
+          </Button>
+        </DialogActions>
+      </Dialog> 
             </div>    
-            
-            
         </main>
     )
 }
