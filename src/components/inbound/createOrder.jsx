@@ -124,6 +124,10 @@ const useStyles = makeStyles((theme) => ({
             fontSize: "2.5rem",
         },
     },
+    backDrop: {
+        backdropFilter: "blur(8px)",
+        backgroundColor:'rgba(0,0,30,0.4)'
+      },
 }));
 
 const CreateOrder = () => {
@@ -271,6 +275,8 @@ const CreateOrder = () => {
     
     
     const pushToTestData = () => {
+        //debugger;
+
         if(eachLine.item && eachLine.quantity && eachLine.UOM && eachLine.dateAndTime && eachLine.sku){
             setTestData([...testData, sendValue]);
             console.log(testData);
@@ -281,6 +287,7 @@ const CreateOrder = () => {
                 dateAndTime: "",
                 sku:" "
             });
+            
             setWarning(" ");
         } else {
             setWarning(<Alert severity="error">Please Fill all Empty Fields!</Alert>)
@@ -463,6 +470,7 @@ const CreateOrder = () => {
     ];
 
     return(
+       
         <main className={classes.content}>
             <Toolbar />
             <div style={styles.container}>
@@ -605,6 +613,11 @@ const CreateOrder = () => {
                         onClose={handleCloseDialog}
                         aria-labelledby="alert-dialog-title"
                         aria-describedby="alert-dialog-description"
+                        BackdropProps={{
+                            classes: {
+                              root: classes.backDrop,
+                            },
+                          }}
                     >
         <DialogTitle id="alert-dialog-title">{'Order Successfully Created'}</DialogTitle>
         <DialogContent>
