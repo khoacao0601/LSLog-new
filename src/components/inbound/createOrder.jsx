@@ -35,7 +35,7 @@ import Typography from '@material-ui/core/Typography';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
 import {useDispatch, useSelector} from 'react-redux';
-import {setViews} from '../../store/reducer/topNavBarViewsControl';
+import {setViews} from '../../store/reducer/viewsControlSlice';
 import {userInfoDataSelector} from '../../store/reducer/usersControlSlice';
 
 
@@ -117,6 +117,12 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(3),
         background: "white",
         marginTop: "60px",
+    },
+    breadcrumbs: {
+        fontSize: "2.5rem",
+        "& >ol>li>p": {
+            fontSize: "2.5rem",
+        },
     },
     backDrop: {
         backdropFilter: "blur(8px)",
@@ -410,7 +416,12 @@ const CreateOrder = () => {
         </TableRow>
     );
 
-    // Converted the column headers into an array of objs and passing in to the DataGrid tag to display
+ //Breabcrumbs
+ const handleView = (newView, event) => {
+     event.preventDefault();
+     dispatch(setViews(newView));
+ };
+     // Converted the column headers into an array of objs and passing in to the DataGrid tag to display
     // Note: Flex overrides width, so the width property isn't actually doing anything currently
     // align key aligns the cells l/r/c
     const columns = [
@@ -463,8 +474,9 @@ const CreateOrder = () => {
         <main className={classes.content}>
             <Toolbar />
             <div style={styles.container}>
-            <Breadcrumbs aria-label="breadcrumb" style={{fontSize: "4vh"}}>
+            <Breadcrumbs className={classes.breadcrumbs} aria-label="breadcrumb" style={{fontSize: "4vh"}}>
                 <Link color="inherit" href="/" onClick={(e) => {e.preventDefault(); dispatch(setViews("inbound"))}}>
+                {/* </Link><Link color="inherit" href="/" onClick={(e) =>{(event)=>handleView("inbound", event)}}> */}
                     <h1>Inbound</h1>
                 </Link>
                 <Typography color="textPrimary"> <h1>Create Order</h1></Typography>

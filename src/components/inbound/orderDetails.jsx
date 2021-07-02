@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { orderIdSelector } from '../../store/reducer/orderIDCslice';
 import {useDispatch, useSelector} from 'react-redux';
-import {setViews} from '../../store/reducer/topNavBarViewsControl';
+import {setViews} from '../../store/reducer/viewsControlSlice';
 //import './../../styling/orderDetails.css';
 
 import { makeStyles } from '@material-ui/core/styles';

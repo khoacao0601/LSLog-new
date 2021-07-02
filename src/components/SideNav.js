@@ -81,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
         color: "#5D5D5D",
         fontWeight: "600",
         padding: "0 20px",
-        height: "7vh",
+        height: "5rem",
         '&:hover': {
           color: "#5D5D5D",
           background: "#FFFFFF",
