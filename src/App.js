@@ -6,6 +6,7 @@ import Help from './components/help';
 import Login from './components/loginPage';
 //import Welcome from './components/welcome';
 import CreateUser from './components/createUser';
+import Account from './components/welcome';
 import DashBoardTopNavBar from './components/dashBoardTopNavBar';
 import LeftSideNavBar from './components/inbound/leftSideNavBar';
 import Orders from './components/inbound/orders';
@@ -78,74 +79,79 @@ function App() {
         <CreateUser/>
       </div>
     )
-  } else if(view === "welcome"){
-    //check condition after login, for inbound, outbound ... tabs
-      if(viewFromTopNavBar === ""){
-        return (
-          <div className={classes.app}>
-            <CssBaseline/>
-            <DashBoardTopNavBar/>
-            <SideNav/>
-            <Orders/>
-          </div>
-        ) 
-      } else if (viewFromTopNavBar === "inbound"){
-        return (
-          <div className={classes.app}>
-            <CssBaseline/>
-            <DashBoardTopNavBar/>
-            <SideNav/>
-            <Orders/>
-          </div>
-        ) 
-      } else if(viewFromTopNavBar === "createOrder"){
-        return (
-          <div className={classes.app}>
-            <CssBaseline/>
-            <DashBoardTopNavBar/>
-            <SideNav/>
-            <CreateOrder/>
-          </div>
-        ) 
-      } else if(viewFromTopNavBar === "orderDetails"){
-        return (
-          <div className={classes.app}>
-            <CssBaseline/>
-            <DashBoardTopNavBar/>
-            <SideNav/>
-            <OrderDetails/>
-          </div>
-        ) 
-      } else if (viewFromTopNavBar === "outbound"){
-        return (
-          <div className={classes.app}>
-            <CssBaseline/>
-            <DashBoardTopNavBar/>
-            <LeftSideNavBar/>
-            <Outbound/>
-          </div>
-        ) 
-      } else if (viewFromTopNavBar === "inventory"){
-        return (
-          <div className={classes.app}>
-            <CssBaseline/>
-            <DashBoardTopNavBar/>
-            <LeftSideNavBar/>
-            <Inventory/>
-          </div>
-        ) 
-      } else {
-        return (
-          <div className={classes.app}>
-            <CssBaseline/>
-            <DashBoardTopNavBar/>
-            <LeftSideNavBar/>
-            <Dashboard/>
-          </div>
-        ) 
-      }
-      //end of check condition after login, for inbound outbound ... tabs
-  }   
+  } else if(view === "account"){
+  return (
+    <div className={classes.appSimple}>
+      <Header/>
+      <Account/>
+    </div>
+  )
+}
+// Nav from Inbound
+  else if(view === "welcome"){
+    return (
+      <div className={classes.app}>
+        <CssBaseline/>
+        <DashBoardTopNavBar/>
+        <SideNav/>
+        <Orders/>
+      </div>
+    ) 
+  } else if (view === "inbound"){
+    return (
+      <div className={classes.app}>
+        <CssBaseline/>
+        <DashBoardTopNavBar/>
+        <SideNav/>
+        <Orders/>
+      </div>
+    ) 
+  } else if(view === "createOrder"){
+    return (
+      <div className={classes.app}>
+        <CssBaseline/>
+        <DashBoardTopNavBar/>
+        <SideNav/>
+        <CreateOrder/>
+      </div>
+    ) 
+  } else if(view === "orderDetails"){
+    return (
+      <div className={classes.app}>
+        <CssBaseline/>
+        <DashBoardTopNavBar/>
+        <SideNav/>
+        <OrderDetails/>
+      </div>
+    ) 
+  } else if (view === "outbound"){
+    return (
+      <div className={classes.app}>
+        <CssBaseline/>
+        <DashBoardTopNavBar/>
+        <LeftSideNavBar/>
+        <Outbound/>
+      </div>
+    ) 
+  } else if (view === "inventory"){
+    return (
+      <div className={classes.app}>
+        <CssBaseline/>
+        <DashBoardTopNavBar/>
+        <LeftSideNavBar/>
+        <Inventory/>
+      </div>
+    ) 
+  } else {
+    return (
+      <div className={classes.app}>
+        <CssBaseline/>
+        <DashBoardTopNavBar/>
+        <LeftSideNavBar/>
+        <Dashboard/>
+      </div>
+    ) 
+  }
 }
 
 export default App;

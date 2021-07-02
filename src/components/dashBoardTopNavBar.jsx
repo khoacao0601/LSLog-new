@@ -2,7 +2,7 @@ import React, {useEffect, useState, useRef} from 'react';
 import LSLLogo from '../images/LSL Logo.png';
 import Radium from 'radium'; //CSS-in-JS library support '&:hover'
 import {useDispatch} from 'react-redux';
-import {setViews} from '../store/reducer/topNavBarViewsControl';
+import {setViews} from '../store/reducer/viewsControlSlice';
 
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
     background: '#E0E0E0 ',
     paddingTop:'40px',
     zIndex: theme.zIndex.drawer + 1,
+    height: "104px",
   },
   grow: {
     flexGrow: 1,
@@ -146,11 +147,11 @@ const DashBoardTopNavBar = () => {
       }
       prevOpen.current = open;
     }, [open]);
-
+    
     return (
         <AppBar className={classes.appBar} position="fixed" elevation={0}>
             <Toolbar>
-                <img src={LSLLogo} style={{width:"3%"}} alt="" onClick={homeView}></img>
+                <img src={LSLLogo} style={{width:"34px"}} alt="" onClick={homeView}></img>
                 <a href="Home" onClick={homeView}><Typography variant="h6" className={classes.title} onClick={homeView}>
                 LifeScience Logistics
                 </Typography></a>
@@ -176,9 +177,8 @@ const DashBoardTopNavBar = () => {
                         <Paper>
                             <ClickAwayListener onClickAway={handleClose}>
                             <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                                <MenuItem onClick={handleClose}>My account</MenuItem>
-                                <MenuItem onClick={handleClose}>Logout</MenuItem>
+                                <MenuItem onClick={(event)=>handleView(event, "account")}>My account</MenuItem>
+                                <MenuItem onClick={(event)=>handleView(event, "login")}>Logout</MenuItem>
                             </MenuList>
                             </ClickAwayListener>
                         </Paper>

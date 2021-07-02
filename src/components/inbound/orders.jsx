@@ -17,10 +17,23 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
+import{ DataGrid } from '@material-ui/data-grid';
+import Icon from '@material-ui/core/Icon';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
+        marginTop: theme.spacing(3),
+        overflowX: 'auto',
+        display: 'flex',
+    },
+    // Data Grid Column Header Styling Class
+    root_two: {
+        '& .datagrid-header': {
+            backgroundColor: '#eee',
+        },
+        '& > *': {margin: theme.spacing(1),},
+        width: 'auto',
         marginTop: theme.spacing(3),
         overflowX: 'auto',
         display: 'flex',
@@ -93,7 +106,7 @@ const Orders = () => {
 
     const [allOrders, setAllorders] = useState([]);
 
-    const api_url = `http://3.17.181.84:8141/v1/receiving-orders`;
+    const api_url = `http://3.141.28.243:8141/v1/receiving-orders`;
 
     useEffect(() => {
 
@@ -160,6 +173,63 @@ const Orders = () => {
         event.preventDefault();
         dispatch(setViews(newView));
     };
+    // Datagrid Columns
+    const columns = [
+        { field: 'prty', headerName: 'PRTY', description: 'Order Priority', flex: 1,  headerAlign: 'center', align: 'center', headerClassName: 'datagrid-header', hide: false, type: 'number'},
+        { field: 'orderID', headerName: 'ORDER ID', description: 'Order ID', flex: 1,  headerAlign: 'center', align: 'center',headerClassName: 'datagrid-header', hide: false, },
+        { field: 'lines', headerName: 'LINES', description: 'Lines in Order', flex: 1,  headerAlign: 'center', align: 'center',headerClassName: 'datagrid-header', hide: false, type: 'number'},
+        { field: 'Status', headerName: 'STATUS', description: 'Status of Order', flex: 1, headerAlign: 'center', align: 'center',headerClassName: 'datagrid-header', hide: false,},
+        { field: 'DateCreated', headerName: 'DATE CREATED', description: 'Date of Order Generation', flex: 1,  align: 'center',headerAlign: 'center', headerClassName: 'datagrid-header', hide: false, type: 'dateTime',},
+        { field: 'DateExpected', headerName: 'DATE EXPECTED', description: 'Date of Expected Receipt', flex: 1,  align: 'center',headerAlign: 'center', headerClassName: 'datagrid-header', hide: false, type: 'dateTime',},
+        { field: 'DateCompleted', headerName: 'DATE COMPLETED', description: 'Date of Actual Receipt', flex: 1,  align: 'center',headerAlign: 'center', headerClassName: 'datagrid-header', hide: false, type: 'dateTime',},
+        { field: '', headerName: 'DELETE', sortable: false, width: 100, description: 'Delete Line', headerAlign: 'center', align: 'center', headerClassName: 'datagrid-header', flex: 1, align: 'center', renderCell: (params) => { return <Icon style={{ fontSize: 35}}> delete</Icon>} },
+    ];
+
+    // Testing Data SImply to ensure styling is accurate
+    const testData = [
+        {
+            id: '1',
+            prty: '1',
+            orderID: 'R0022',
+            lines: '3',
+            Status: 'PENDING',
+            DateCreated: '05/11/21 12:30AM',
+            DateExpected: '06/30/21 09:30AM',
+            DateCompleted: '07/07/21 10:45PM',
+        },
+        {
+            id: '2',
+            prty: '10',
+            orderID: 'R0011',
+            lines: '33',
+            Status: 'PENDING',
+            DateCreated: '05/11/21 12:30AM',
+            DateExpected: '06/30/21 09:30AM',
+            DateCompleted: '07/07/21 10:45PM',
+        },
+        {
+            id: '3',
+            prty: '6',
+            orderID: 'R0001',
+            lines: '19',
+            Status: 'PENDING',
+            DateCreated: '05/11/21 12:30AM',
+            DateExpected: '06/30/21 09:30AM',
+            DateCompleted: '07/07/21 10:45PM',
+        },
+        {
+            id: '4',
+            prty: '4',
+            orderID: 'R0055',
+            lines: '303',
+            Status: 'PENDING',
+            DateCreated: '05/11/21 12:30AM',
+            DateExpected: '06/30/21 09:30AM',
+            DateCompleted: '07/07/21 10:45PM',
+        },
+    ]
+
+
 
     return(
         <main className={classes.content}>
@@ -206,7 +276,16 @@ const Orders = () => {
                     </div>
                 </div>
             </div>
-            <Paper className={classes.root}>
+            
+            <div style={{ height: 400, width: 'auto', display:'flex', justifyContent:'center', }}>
+                    <DataGrid className={classes.root_two} align='center' rows={testData} columns={columns} pageSize={20}>
+                        {/* {rows} */}
+                        <h1>TESTING</h1>
+                    </DataGrid>
+                </div>
+
+            
+            {/* <Paper className={classes.root}>
                 <Table className={classes.table}>
                     <TableHead className={classes.tableHead}>
                         <TableRow>
@@ -233,7 +312,7 @@ const Orders = () => {
                     ))}
                     </TableBody>
                 </Table>
-            </Paper>
+            </Paper> */}
         </main>
     )
 }
