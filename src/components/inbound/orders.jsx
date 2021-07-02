@@ -1,7 +1,7 @@
 /* eslint-disable eqeqeq */
 import React, {useState, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
-import {setViews} from '../../store/reducer/topNavBarViewsControl';
+import {setViews} from '../../store/reducer/viewsControlSlice';
 import { setOrderId } from '../../store/reducer/orderIDCslice';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -106,13 +106,10 @@ const Orders = () => {
 
     const [allOrders, setAllorders] = useState([]);
 
-<<<<<<< HEAD
-=======
     const onClickCreateOrder = () => {
         dispatch(setViews("createOrder"));
     }
 
->>>>>>> c245d5ffd6363b904f1c44dd119d56f0c2854a51
     const api_url = `http://3.141.28.243:8141/v1/receiving-orders`;
 
     useEffect(() => {
@@ -174,14 +171,12 @@ const Orders = () => {
         console.log(e.target.value);
     }
 
-<<<<<<< HEAD
     //Breabcrumbs
     const dispatch = useDispatch();
     const handleView = (newView, event) => {
         event.preventDefault();
         dispatch(setViews(newView));
     };
-=======
 
     // Access the priority in the JSON Object
     const getPriority = (params) => {
@@ -194,7 +189,6 @@ const Orders = () => {
         return `${params.row.positions.length}`
     }
 
->>>>>>> c245d5ffd6363b904f1c44dd119d56f0c2854a51
     // Datagrid Columns
     // Field should match exactly as the json object has it(case-sensitive)
     const columns = [

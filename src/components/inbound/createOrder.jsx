@@ -7,8 +7,6 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
-import {useDispatch} from 'react-redux';
-import {setViews} from '../../store/reducer/topNavBarViewsControl';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -37,7 +35,7 @@ import Typography from '@material-ui/core/Typography';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
 import {useDispatch, useSelector} from 'react-redux';
-import {setViews} from '../../store/reducer/topNavBarViewsControl';
+import {setViews} from '../../store/reducer/viewsControlSlice';
 import {userInfoDataSelector} from '../../store/reducer/usersControlSlice';
 
 
@@ -412,7 +410,6 @@ const CreateOrder = () => {
     );
 
  //Breabcrumbs
- const dispatch = useDispatch();
  const handleView = (newView, event) => {
      event.preventDefault();
      dispatch(setViews(newView));
@@ -470,7 +467,8 @@ const CreateOrder = () => {
             <Toolbar />
             <div style={styles.container}>
             <Breadcrumbs className={classes.breadcrumbs} aria-label="breadcrumb" style={{fontSize: "4vh"}}>
-                <Link color="inherit" href="/" onClick={(e) =>{(event)=>handleView("inbound", event)}}>
+                <Link color="inherit" href="/" onClick={(e) => {e.preventDefault(); dispatch(setViews("inbound"))}}>
+                {/* </Link><Link color="inherit" href="/" onClick={(e) =>{(event)=>handleView("inbound", event)}}> */}
                     <h1>Inbound</h1>
                 </Link>
                 <Typography color="textPrimary"> <h1>Create Order</h1></Typography>
