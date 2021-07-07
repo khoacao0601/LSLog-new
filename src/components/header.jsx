@@ -3,7 +3,7 @@ import LSLLogo from '../images/LSL Logo.png';
 import {setViews} from '../store/reducer/viewsControlSlice';
 import {useDispatch} from 'react-redux';
 
-import Link from '@material-ui/core/Link';
+//import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';

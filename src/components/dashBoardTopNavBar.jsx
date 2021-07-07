@@ -4,7 +4,7 @@ import Radium from 'radium'; //CSS-in-JS library support '&:hover'
 import {useDispatch} from 'react-redux';
 import {setViews} from '../store/reducer/topNavBarViewsControl';
 
-import Link from '@material-ui/core/Link';
+//import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -19,7 +19,7 @@ import Popper from '@material-ui/core/Popper';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import SettingsIcon from '@material-ui/icons/Settings';
+//import SettingsIcon from '@material-ui/icons/Settings';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 const useStyles = makeStyles((theme) => ({

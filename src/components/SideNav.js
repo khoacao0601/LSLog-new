@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useState} from 'react';
 //import { Link } from 'react-router-dom'
 import '../styling/sideBar.css'
 
@@ -8,9 +8,9 @@ import {setViews} from '../store/reducer/topNavBarViewsControl';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+//import List from '@material-ui/core/List';
+//import ListItem from '@material-ui/core/ListItem';
+//import ListItemText from '@material-ui/core/ListItemText';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 

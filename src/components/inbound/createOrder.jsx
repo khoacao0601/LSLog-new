@@ -315,10 +315,12 @@ const CreateOrder = () => {
     console.log(testData);
 
     const convertDateTime = (dateTime) => {
+
+        console.log(dateTime);
         if(dateTime) {
             let hour = null;
             let minutes = null;
-            const date = new Date(dateTime);
+            const date = new Date(dateTime+":00Z");
             //format minutes
             if(date.getUTCMinutes() === 0){
                 minutes = date.getUTCMinutes() + "0";
