@@ -1,6 +1,7 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
 import {userInfoDataSelector} from '../store/reducer/usersControlSlice';
+import { makeStyles } from '@material-ui/core/styles';
 
 const drawerWidth = 240;
 
@@ -28,8 +29,8 @@ const Welcome = () => {
     const userInfo = useSelector(userInfoDataSelector);
 
     return (
-        <div className={classes.root}>
-            <div className={classes.content}>
+        <div className={useStyles.root}>
+            <div className={useStyles.content}>
                 <h1 className="w-50 mx-auto ">Welcome to LSLog main page</h1>
                 <h2 className="w-25 mx-auto">Hello {userInfo.fullname}</h2>
                 <div className="card w-50 mx-auto shadow-lg p-3 mb-5 bg-white rounded" style={{width:'18rem'}}>

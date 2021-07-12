@@ -37,6 +37,7 @@ import Link from '@material-ui/core/Link';
 import {useDispatch, useSelector} from 'react-redux';
 import {setViews} from '../../store/reducer/topNavBarViewsControl';
 import {userInfoDataSelector} from '../../store/reducer/usersControlSlice';
+import { useHistory } from 'react-router-dom';
 
 
 
@@ -117,6 +118,9 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(3),
         background: "white",
         marginTop: "60px",
+        position: "absolute",
+        left: "11vw",
+        width: "90vw",
     },
     backDrop: {
         backdropFilter: "blur(8px)",
@@ -127,6 +131,8 @@ const useStyles = makeStyles((theme) => ({
 const CreateOrder = () => {
 
     const dispatch = useDispatch();
+
+    const history = useHistory();
 
     const whoIn = useSelector(userInfoDataSelector);
 
@@ -171,7 +177,7 @@ const CreateOrder = () => {
 
     //Done button to redirect back to list all orders
     const goBackAllOrders = () => {
-        dispatch(setViews("inbound"));
+        history.push("/Inbound/Orders");
         handleCloseDialog();
     }
     //warning Empty input user
@@ -465,13 +471,8 @@ const CreateOrder = () => {
         <main className={classes.content}>
             <Toolbar />
             <div style={styles.container}>
-            <Breadcrumbs aria-label="breadcrumb" style={{fontSize: "4vh"}}>
-                <Link color="inherit" href="/" onClick={(e) => {e.preventDefault(); dispatch(setViews("inbound"))}}>
-                    <h1>Inbound</h1>
-                </Link>
-                <Typography color="textPrimary"> <h1>Create Order</h1></Typography>
-            </Breadcrumbs>
-          {/*<h1>Inbound / Create Order</h1>*/}
+            
+            <h1>Inbound / Create Order</h1>
                
                 <Grid container spacing={3} className={classes.page}>
                     <Grid item xs={8}>
@@ -573,7 +574,7 @@ const CreateOrder = () => {
                 <Grid container spacing={3} className={classes.page}>
                     <Grid item xs={2}>
                         <Grid container justify="center" width={1}>
-                            <Button fullWidth variant="outlined" className={classes.button}>CANCEL</Button>
+                            <Button fullWidth variant="outlined" className={classes.button} onClick={goBackAllOrders}>CANCEL</Button>
                         </Grid>
                     </Grid>
                     <Grid item xs={2}>

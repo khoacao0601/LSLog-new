@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, Fragment} from 'react';
 import Header from './components/header';
 import About from './components/about';
 import Contact from './components/contact';
@@ -21,7 +21,10 @@ import Outbound from './components/outbound/outbound';
 //import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
+//import CssBaseline from '@material-ui/core/CssBaseline';
+import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
+
+
 
 document.body.style.backgroundColor = "white";
 
@@ -33,119 +36,98 @@ const useStyles = makeStyles((theme) => ({
     background: "white",
   },
 }));
+
 function App() {
-  const classes = useStyles();
 
-  const view = useSelector(viewsSelector);
-  const viewFromTopNavBar = useSelector(topNavBarViewsSelector);
+  const userStatus = localStorage.getItem("value");
 
-  console.log(view);
-  console.log(viewFromTopNavBar);
+  console.log(userStatus);
 
-
-  if(view === "about"){
+  const PrivateRoute = ({comp: Component, ...rest}) => {
     return(
-      <div className={classes.appSimple}>
+        <Route {...rest} render={(props) => (
+          userStatus
+            ? <Component {...props}/>
+            : <Redirect to='/'/>
+        )}/>
+     )
+    }
+
+    const Inbound = () => {
+      return(
+          <Switch>
+            <Fragment>
+              <DashBoardTopNavBar/>
+              <SideNav/>
+              <Orders/>
+            </Fragment>
+          </Switch>
+      )
+    }
+
+    const InboundOrderDetails = () => {
+      return( 
+        <Fragment>
+          <DashBoardTopNavBar/>
+          <OrderDetails/>
+          <SideNav/>
+        </Fragment>
+      )
+    }
+
+    const InboundCreateOrder = () => {
+      return(
+      <Fragment>
+          <DashBoardTopNavBar/>
+          <CreateOrder/>
+          <SideNav/>
+        </Fragment>
+      )
+    }
+
+    const InventoryComponent = () => {
+      return(
+        <Fragment>
+          <DashBoardTopNavBar/>
+          <Inventory/>
+        </Fragment>
+      )
+    }
+
+    const OutBoundComponent = () => {
+      return(
+        <Fragment>
+          <DashBoardTopNavBar/>
+          <Outbound/>
+        </Fragment>
+      )
+    }
+
+    
+
+ return(
+  <Router>
+      <Switch>
+      
+          <PrivateRoute exact path="/Welcome" comp={DashBoardTopNavBar}/>  
+          <PrivateRoute exact path='/Inbound/Orders' comp={Inbound}/>
+          <PrivateRoute exact path='/Inbound/OrderDetails' comp={InboundOrderDetails} />
+          <PrivateRoute exact path='/Inbound/CreateOrder' comp={InboundCreateOrder} />
+          <PrivateRoute exact path='/Inventory' comp={InventoryComponent}/>
+          <PrivateRoute exact path='/Outbound' comp={OutBoundComponent}/>
+          
+        <Fragment>  
           <Header/>
-          <About/>
-      </div>
-    )
-  } else if(view === "login"){
-    return (
-      <div className={classes.appSimple}>
-        <Header/>
-        <Login/>
-      </div>
-    );
-  } else if(view === "contact"){
-    return (
-      <div className={classes.appSimple}>
-        <Header/>
-        <Contact/>
-      </div>
-    );
-  } else if(view === "help"){
-    return (
-      <div className={classes.appSimple}>
-        <Header/>
-        <Help/>
-      </div>
-    );
-  } else if(view === "createAcc"){
-    return (
-      <div className={classes.appSimple}>
-        <Header/>
-        <CreateUser/>
-      </div>
-    )
-  } else if(view === "welcome"){
-    //check condition after login, for inbound, outbound ... tabs
-      if(viewFromTopNavBar === ""){
-        return (
-          <div className={classes.app}>
-            <CssBaseline/>
-            <DashBoardTopNavBar/>
-            <SideNav/>
-            <Orders/>
-          </div>
-        ) 
-      } else if (viewFromTopNavBar === "inbound"){
-        return (
-          <div className={classes.app}>
-            <CssBaseline/>
-            <DashBoardTopNavBar/>
-            <SideNav/>
-            <Orders/>
-          </div>
-        ) 
-      } else if(viewFromTopNavBar === "createOrder"){
-        return (
-          <div className={classes.app}>
-            <CssBaseline/>
-            <DashBoardTopNavBar/>
-            <SideNav/>
-            <CreateOrder/>
-          </div>
-        ) 
-      } else if(viewFromTopNavBar === "orderDetails"){
-        return (
-          <div className={classes.app}>
-            <CssBaseline/>
-            <DashBoardTopNavBar/>
-            <SideNav/>
-            <OrderDetails/>
-          </div>
-        ) 
-      } else if (viewFromTopNavBar === "outbound"){
-        return (
-          <div className={classes.app}>
-            <CssBaseline/>
-            <DashBoardTopNavBar/>
-            <LeftSideNavBar/>
-            <Outbound/>
-          </div>
-        ) 
-      } else if (viewFromTopNavBar === "inventory"){
-        return (
-          <div className={classes.app}>
-            <CssBaseline/>
-            <DashBoardTopNavBar/>
-            <LeftSideNavBar/>
-            <Inventory/>
-          </div>
-        ) 
-      } else {
-        return (
-          <div className={classes.app}>
-            <CssBaseline/>
-            <DashBoardTopNavBar/>
-            <LeftSideNavBar/>
-            <Dashboard/>
-          </div>
-        ) 
-      }
-      //end of check condition after login, for inbound outbound ... tabs
-  }   
+          <Route exact path='/' component={Login}/>
+          <Route exact path='/About' component={About}/>
+          <Route exact path='/Contact' component={Contact}/>
+          <Route exact path='/Help' component={Help}/>
+        </Fragment>
+      </Switch>        
+  </Router>
+ )  
 }
+
+
 
 export default App;

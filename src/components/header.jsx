@@ -9,8 +9,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
-import ToggleButton from '@material-ui/lab/ToggleButton';
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+import { NavLink } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -37,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: "600",
         padding: "0 20px",
         height: "6vh",
+        width: "8%",
         '&:hover': {
             color: "#5D5D5D",
             background: "#FFFFFF",
@@ -62,16 +62,17 @@ const useStyles = makeStyles((theme) => ({
         color: "#000000",
       },
       }));
+      
 const Header = () => {
     const classes = useStyles();
 
-    const dispatch = useDispatch();
+    //const dispatch = useDispatch();
 
-    const [alignment, setAlignment] = useState('login');
+    /*const [alignment, setAlignment] = useState('login');
     const handleAlignment = (event, newAlignment) => {
         setAlignment(newAlignment);
         dispatch(setViews(newAlignment));
-    };
+    };*/
 
     return(
         <AppBar className={classes.appBar} position="static" elevation={0}>
@@ -83,12 +84,12 @@ const Header = () => {
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
-                <ToggleButtonGroup className={classes.menuGroup} value={alignment} exclusive onChange={handleAlignment} aria-label="text alignment">
-                    <ToggleButton className={classes.menuButton} value="login">HOME</ToggleButton>
-                    <ToggleButton className={classes.menuButton} value="about">ABOUT</ToggleButton>
-                    <ToggleButton className={classes.menuButton} value="contact">CONTACT</ToggleButton>
-                    <ToggleButton className={classes.menuButton} value="help">HELP</ToggleButton>
-                </ToggleButtonGroup>
+                
+                <NavLink exact to="/" activeStyle={{backgroundColor: "white"}} className={classes.menuButton}>HOME</NavLink>
+                <NavLink to="/About" activeStyle={{backgroundColor: "white"}} className={classes.menuButton}>ABOUT</NavLink>
+                <NavLink to="/Contact" activeStyle={{backgroundColor: "white"}} className={classes.menuButton}>CONTACT</NavLink>
+                <NavLink to="/Help" activeStyle={{backgroundColor: "white"}} className={classes.menuButton}>HELP</NavLink>
+
             </Toolbar>
         </AppBar>
     )

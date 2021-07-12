@@ -3,6 +3,7 @@ import React, {useState, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {setViews} from '../../store/reducer/topNavBarViewsControl';
 import { setOrderId } from '../../store/reducer/orderIDCslice';
+import { useHistory, Link } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -87,6 +88,9 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(3),
         background: "white",
         marginTop: "60px",
+        position: "absolute",
+        left: "11vw",
+        width: "90vw"
     },
 }));
 
@@ -99,8 +103,10 @@ const Orders = () => {
 
     const [allOrders, setAllorders] = useState([]);
 
+    const history = useHistory();
+
     const onClickCreateOrder = () => {
-        dispatch(setViews("createOrder"));
+        history.push('/Inbound/CreateOrder');
     }
 
     const api_url = `http://3.141.28.243:8141/v1/receiving-orders`;
@@ -124,7 +130,7 @@ const Orders = () => {
         }
         fetchPostList();
 
-    }, []);
+    }, [api_url]);
 
     //change Format of Date and Time 
     const convertDateTime = (dateTime) => {
@@ -154,8 +160,9 @@ const Orders = () => {
 
     //store OrderID to Redux Store and Change View to Order Details
     const storeOrderId = (orderId) => {
-        dispatch(setViews("orderDetails"));
+        //dispatch(setViews("orderDetails"));
         dispatch(setOrderId(orderId));
+        history.push(`/Inbound/OrderDetails?number=${orderId}`);
     }
 
     //store OrderId from user input to Search Bar
@@ -271,7 +278,8 @@ const Orders = () => {
     ];
 
     let rows = allOrders.map(object=> (
-            <TableRow 
+            <TableRow
+                key={object.orderId} 
                 hover='true' 
                 className={classes.row} 
                 onClick={() => {storeOrderId(object.orderId)}}>
@@ -290,8 +298,8 @@ const Orders = () => {
             <Toolbar />
             <div className={classes.container}>
                 <h1>Inbound / Orders</h1>
-                <div className={classes.componentTop}>
-                    <Button variant="outlined" className={classes.button} onClick={onClickCreateOrder}>CREATE ORDER</Button>
+                <div className={classes.componentTop}>   
+                        <Button variant="outlined" className={classes.button} onClick={onClickCreateOrder}>CREATE ORDER</Button>              
                     <div className="w3-dropdown-hover">
                     <Button variant="outlined" className={classes.button}>ACTIONS &darr;</Button>
                         <div className="w3-dropdown-content w3-bar-block w3-card-4">

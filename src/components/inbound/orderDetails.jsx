@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { orderIdSelector } from '../../store/reducer/orderIDCslice';
 import {useDispatch, useSelector} from 'react-redux';
 import {setViews} from '../../store/reducer/topNavBarViewsControl';
+import {useParams, useRouteMatch} from 'react-router-dom';
 //import './../../styling/orderDetails.css';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -93,6 +94,9 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(3),
         background: "white",
         marginTop: "60px",
+        position: "absolute",
+        left: "11vw",
+        width: "90vw",
     },
     tableCheck: {
         padding: "0",
@@ -215,10 +219,23 @@ const useStyles = makeStyles((theme) => ({
 const OrderDetails = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
+    //const params = useParams();
+
+   
+
+    
+    console.log(useParams());
+    //console.log(props);
 
     const orderId = useSelector(orderIdSelector)
-    console.log(`Order ID:`, orderId)
-    const url = `http://3.141.28.243:8141/v1/receiving-orders/?orderId=${orderId}`
+    //because the OrderId will remove when user refresh the page
+    //so i take the param orderId number for the API URL
+    //so user can refresh the page but we still get the value from URL params, because React Router keep we on the same Route 
+    const paramURL = window.location.href;
+    var urltest = new URL(paramURL);
+    var paramOnly = urltest.searchParams.get("number");
+   // console.log(`Order ID:`, orderId)
+    const url = `http://3.141.28.243:8141/v1/receiving-orders/?orderId=${paramOnly}`
 
     const [orderDetail, setOrderDetail] = useState([])
 
@@ -271,12 +288,9 @@ const OrderDetails = () => {
     return (
         <main className={classes.content}>
             <Toolbar />
-            <Breadcrumbs aria-label="breadcrumb" style={{fontSize: "4vh"}}>
-                <Link color="inherit" href="/" onClick={(e) => {e.preventDefault(); dispatch(setViews("inbound"))}}>
-                    <h1>Inbound</h1>
-                </Link>
-                <Typography color="textPrimary"> <h1>Order #: {orderId}</h1></Typography>
-            </Breadcrumbs>
+          
+            <h1>Inbound/ Order #: {paramOnly}</h1>
+           
             <div className='container-order'>
                 {/*<h1>Inbound / Orders / {orderId} </h1>*/}
                 <div className={classes.componentTop}>
