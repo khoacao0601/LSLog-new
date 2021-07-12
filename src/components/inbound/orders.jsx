@@ -3,20 +3,20 @@ import React, {useState, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {setViews} from '../../store/reducer/viewsControlSlice';
 import { setOrderId } from '../../store/reducer/orderIDCslice';
+import { useHistory} from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Toolbar from '@material-ui/core/Toolbar';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
+//import Table from '@material-ui/core/Table';
+//import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
+//import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import Link from '@material-ui/core/Link';
+//import Paper from '@material-ui/core/Paper';
+//import Typography from '@material-ui/core/Typography';
+//import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import{ DataGrid } from '@material-ui/data-grid';
 import Icon from '@material-ui/core/Icon';
 
@@ -90,6 +90,9 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(3),
         background: "white",
         marginTop: "60px",
+        position: "absolute",
+        left: "11vw",
+        width: "90vw"
     },
     breadcrumbs: {
         fontSize: "2.5rem",
@@ -106,8 +109,10 @@ const Orders = () => {
 
     const [allOrders, setAllorders] = useState([]);
 
+    const history = useHistory();
+
     const onClickCreateOrder = () => {
-        dispatch(setViews("createOrder"));
+        history.push('/Inbound/CreateOrder');
     }
 
     const api_url = `http://3.141.28.243:8141/v1/receiving-orders`;
@@ -131,7 +136,7 @@ const Orders = () => {
         }
         fetchPostList();
 
-    }, []);
+    }, [api_url]);
 
     //change Format of Date and Time 
     const convertDateTime = (dateTime) => {
@@ -161,8 +166,9 @@ const Orders = () => {
 
     //store OrderID to Redux Store and Change View to Order Details
     const storeOrderId = (orderId) => {
-        dispatch(setViews("orderDetails"));
+        //dispatch(setViews("orderDetails"));
         dispatch(setOrderId(orderId));
+        history.push(`/Inbound/OrderDetails?number=${orderId}`);
     }
 
     //store OrderId from user input to Search Bar
@@ -284,7 +290,8 @@ const Orders = () => {
     ];
 
     let rows = allOrders.map(object=> (
-            <TableRow 
+            <TableRow
+                key={object.orderId} 
                 hover='true' 
                 className={classes.row} 
                 onClick={() => {storeOrderId(object.orderId)}}>
@@ -302,11 +309,9 @@ const Orders = () => {
         <main className={classes.content}>
             <Toolbar />
             <div className={classes.container}>
-                <Breadcrumbs className={classes.breadcrumbs} aria-label="breadcrumb">
-                    <Typography color="textPrimary">Inbound Orders</Typography>
-                </Breadcrumbs>
-                <div className={classes.componentTop}>
-                    <Button variant="outlined" className={classes.button} onClick={(event)=>handleView("createOrder", event)}>CREATE ORDER</Button>
+                <h1>Inbound / Orders</h1>
+                <div className={classes.componentTop}>   
+                        <Button variant="outlined" className={classes.button} onClick={onClickCreateOrder}>CREATE ORDER</Button>              
                     <div className="w3-dropdown-hover">
                     <Button variant="outlined" className={classes.button}>ACTIONS &darr;</Button>
                         <div className="w3-dropdown-content w3-bar-block w3-card-4">

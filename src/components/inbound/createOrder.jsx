@@ -31,12 +31,13 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Typography from '@material-ui/core/Typography';
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import Link from '@material-ui/core/Link';
+//import Typography from '@material-ui/core/Typography';
+//mport Breadcrumbs from '@material-ui/core/Breadcrumbs';
+//import Link from '@material-ui/core/Link';
 import {useDispatch, useSelector} from 'react-redux';
 import {setViews} from '../../store/reducer/viewsControlSlice';
 import {userInfoDataSelector} from '../../store/reducer/usersControlSlice';
+import { useHistory } from 'react-router-dom';
 
 
 
@@ -117,6 +118,9 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(3),
         background: "white",
         marginTop: "60px",
+        position: "absolute",
+        left: "11vw",
+        width: "90vw",
     },
     breadcrumbs: {
         fontSize: "2.5rem",
@@ -133,6 +137,8 @@ const useStyles = makeStyles((theme) => ({
 const CreateOrder = () => {
 
     const dispatch = useDispatch();
+
+    const history = useHistory();
 
     const whoIn = useSelector(userInfoDataSelector);
 
@@ -177,7 +183,7 @@ const CreateOrder = () => {
 
     //Done button to redirect back to list all orders
     const goBackAllOrders = () => {
-        dispatch(setViews("inbound"));
+        history.push("/Inbound/Orders");
         handleCloseDialog();
     }
     //warning Empty input user
@@ -321,10 +327,12 @@ const CreateOrder = () => {
     console.log(testData);
 
     const convertDateTime = (dateTime) => {
+
+        console.log(dateTime);
         if(dateTime) {
             let hour = null;
             let minutes = null;
-            const date = new Date(dateTime);
+            const date = new Date(dateTime+":00Z");
             //format minutes
             if(date.getUTCMinutes() === 0){
                 minutes = date.getUTCMinutes() + "0";
@@ -474,14 +482,8 @@ const CreateOrder = () => {
         <main className={classes.content}>
             <Toolbar />
             <div style={styles.container}>
-            <Breadcrumbs className={classes.breadcrumbs} aria-label="breadcrumb" style={{fontSize: "4vh"}}>
-                <Link color="inherit" href="/" onClick={(e) => {e.preventDefault(); dispatch(setViews("inbound"))}}>
-                {/* </Link><Link color="inherit" href="/" onClick={(e) =>{(event)=>handleView("inbound", event)}}> */}
-                    <h1>Inbound</h1>
-                </Link>
-                <Typography color="textPrimary"> <h1>Create Order</h1></Typography>
-            </Breadcrumbs>
-          {/*<h1>Inbound / Create Order</h1>*/}
+            
+            <h1>Inbound / Create Order</h1>
                
                 <Grid container spacing={3} className={classes.page}>
                     <Grid item xs={8}>
@@ -583,7 +585,7 @@ const CreateOrder = () => {
                 <Grid container spacing={3} className={classes.page}>
                     <Grid item xs={2}>
                         <Grid container justify="center" width={1}>
-                            <Button fullWidth variant="outlined" className={classes.button}>CANCEL</Button>
+                            <Button fullWidth variant="outlined" className={classes.button} onClick={goBackAllOrders}>CANCEL</Button>
                         </Grid>
                     </Grid>
                     <Grid item xs={2}>

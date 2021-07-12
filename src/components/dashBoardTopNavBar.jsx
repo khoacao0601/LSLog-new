@@ -2,9 +2,9 @@ import React, {useEffect, useState, useRef} from 'react';
 import LSLLogo from '../images/LSL Logo.png';
 import Radium from 'radium'; //CSS-in-JS library support '&:hover'
 import {useDispatch} from 'react-redux';
-import {setViews} from '../store/reducer/viewsControlSlice';
+//import {setViews} from '../store/reducer/topNavBarViewsControl';
 
-import Link from '@material-ui/core/Link';
+//import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -17,10 +17,14 @@ import Grow from '@material-ui/core/Grow';
 import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
 import ToggleButton from '@material-ui/lab/ToggleButton';
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+//import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import SettingsIcon from '@material-ui/icons/Settings';
+//import SettingsIcon from '@material-ui/icons/Settings';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import { useHistory } from 'react-router-dom';
+//import {setViews} from '../store/reducer/viewsControlSlice';
+import { NavLink, Link, useLocation} from "react-router-dom";
+
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -101,9 +105,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const DashBoardTopNavBar = () => {
+
+    // Storing useHistory() in a variable
+    const history = useHistory();
+    const { pathname } = useLocation();
+
     const classes = useStyles();
 
-    const homeView = (event) => {
+    const dispatch = useDispatch();
+
+   /* const homeView = (event) => {
         dispatch(setViews('login'));
     };
 
@@ -115,7 +126,7 @@ const DashBoardTopNavBar = () => {
         setView(newView);
         dispatch(setViews(newView));
       };
-    };
+    };*/
 
     const [open, setOpen] = React.useState(false);
     // const [tabToggle, setTabToggle] = useState(true);
@@ -131,6 +142,12 @@ const DashBoardTopNavBar = () => {
       }
       setOpen(false);
     };
+
+    const logOut = () => {
+      localStorage.removeItem("value");
+      history.push('/');
+      window.location.reload();
+    }
   
     function handleListKeyDown(event) {
       if (event.key === 'Tab') {
@@ -151,20 +168,38 @@ const DashBoardTopNavBar = () => {
     return (
         <AppBar className={classes.appBar} position="fixed" elevation={0}>
             <Toolbar>
-                <img src={LSLLogo} style={{width:"34px"}} alt="" onClick={homeView}></img>
-                <a href="Home" onClick={homeView}><Typography variant="h6" className={classes.title} onClick={homeView}>
+                <img src={LSLLogo} style={{width:"3%"}} alt=""></img>
+                <a href="Home" ><Typography variant="h6" className={classes.title}>
                 LifeScience Logistics
                 </Typography></a>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                   <span className="navbar-toggler-icon"></span>
                 </button>
-                <ToggleButtonGroup className={classes.menuGroup} value={view} exclusive onChange={handleView} aria-label="text view">
-                  <ToggleButton className={classes.menuButton} value="inbound">INBOUND</ToggleButton>
-                  <ToggleButton className={classes.menuButton} value="inventory">INVENTORY</ToggleButton>
-                  <ToggleButton className={classes.menuButton} value="outbound">OUTBOUND</ToggleButton>
-                </ToggleButtonGroup>
+                
+                  <NavLink 
+                    exact to="/Inbound/Orders" 
+                    activeStyle={{backgroundColor: "white"}} 
+                    className={classes.menuButton}
+                    isActive={() => ['/Inbound/Orders', '/Inbound/OrderDetails', '/Inbound/CreateOrder'].includes(pathname)} 
+                    >
+                      INBOUND
+                  </NavLink>
+                  <NavLink 
+                    to="/Inventory" 
+                    activeStyle={{backgroundColor: "white"}} 
+                    className={classes.menuButton}
+                    >
+                      INVENTORY
+                  </NavLink>
+                  <NavLink 
+                    to="/OutBound" 
+                    activeStyle={{backgroundColor: "white"}} 
+                    className={classes.menuButton}
+                    >
+                      OUTBOUND
+                  </NavLink>
+                
                 <div className={classes.grow} />
-                <ToggleButtonGroup className={classes.menuGroup} /*value={view}*/ exclusive aria-label="text view">
                   <TextField className={classes.searchBar} id="globalSearchBar" label="Global Search" variant="outlined" type="globalSearchBar"/>
                   <ToggleButton className={classes.menuButton} value="notifications"><NotificationsIcon></NotificationsIcon></ToggleButton>
                   <ToggleButton className={classes.menuButton} ref={anchorRef} aria-controls={open ? 'menu-list-grow' : undefined} aria-haspopup="true" onClick={handleToggle}><AccountCircleIcon></AccountCircleIcon></ToggleButton>
@@ -177,15 +212,16 @@ const DashBoardTopNavBar = () => {
                         <Paper>
                             <ClickAwayListener onClickAway={handleClose}>
                             <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                                <MenuItem onClick={(event)=>handleView(event, "account")}>My account</MenuItem>
-                                <MenuItem onClick={(event)=>handleView(event, "login")}>Logout</MenuItem>
+                                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                                <MenuItem onClick={handleClose}>My account</MenuItem>
+                                <MenuItem ><Link to="/" onClick={logOut}>LOG OUT</Link></MenuItem>
                             </MenuList>
                             </ClickAwayListener>
                         </Paper>
                       </Grow>
                     )}
                   </Popper>
-                </ToggleButtonGroup>
+                
             </Toolbar>
         </AppBar>
     )

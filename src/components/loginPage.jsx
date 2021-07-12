@@ -22,6 +22,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -60,6 +61,8 @@ const Login = () => {
     const handleChange = (event) => {
         setState({ ...state, [event.target.name]: event.target.checked });
     };
+
+    const history = useHistory();
     
     useEffect(() => {
         async function fetchPostList(){
@@ -103,13 +106,16 @@ const Login = () => {
                     if(allUsers[x].username === inputUserName ){
                         //console.log(allUsers[i]);
                         dispatch(setUserInData(allUsers[x]));
-                        dispatch(setViews('welcome')); 
+                        dispatch(setViews(true)); 
                         setUserStatus(''); //remove status after fail login
                         statusCheckPoint = 'welcome';
+                        localStorage.setItem("value", "true")
+                        history.push('/Welcome'); 
                         //break the loop so you don't need to loop through the rest when you get it
                         break; 
                     }
                 }
+                
         if(statusCheckPoint === '') {
             setUserStatus("Username is not available");
         }  

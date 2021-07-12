@@ -2,12 +2,10 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 import {userInfoDataSelector} from '../store/reducer/usersControlSlice';
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
 import { Typography } from '@material-ui/core';
-import { spacing } from '@material-ui/system';
-import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
