@@ -17,12 +17,12 @@ import Grow from '@material-ui/core/Grow';
 import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
 import ToggleButton from '@material-ui/lab/ToggleButton';
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+//import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 //import SettingsIcon from '@material-ui/icons/Settings';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { useHistory } from 'react-router-dom';
-import {setViews} from '../store/reducer/viewsControlSlice';
+//import {setViews} from '../store/reducer/viewsControlSlice';
 import { NavLink, Link, useLocation} from "react-router-dom";
 
 
@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
     background: '#E0E0E0 ',
     paddingTop:'40px',
     zIndex: theme.zIndex.drawer + 1,
+    height: "104px",
   },
   grow: {
     flexGrow: 1,
@@ -80,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
     color: "#5D5D5D",
     fontWeight: "600",
     padding: "0 20px",
-    height: "6vh",
+    height: "4rem",
     '&:hover': {
       color: "#5D5D5D",
       background: "#FFFFFF",
@@ -163,7 +164,7 @@ const DashBoardTopNavBar = () => {
       }
       prevOpen.current = open;
     }, [open]);
-
+    
     return (
         <AppBar className={classes.appBar} position="fixed" elevation={0}>
             <Toolbar>
@@ -214,7 +215,6 @@ const DashBoardTopNavBar = () => {
                                 <MenuItem onClick={handleClose}>Profile</MenuItem>
                                 <MenuItem onClick={handleClose}>My account</MenuItem>
                                 <MenuItem ><Link to="/" onClick={logOut}>LOG OUT</Link></MenuItem>
-          
                             </MenuList>
                             </ClickAwayListener>
                         </Paper>

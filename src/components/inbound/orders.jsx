@@ -1,20 +1,22 @@
 /* eslint-disable eqeqeq */
 import React, {useState, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
-import {setViews} from '../../store/reducer/topNavBarViewsControl';
+import {setViews} from '../../store/reducer/viewsControlSlice';
 import { setOrderId } from '../../store/reducer/orderIDCslice';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory} from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Toolbar from '@material-ui/core/Toolbar';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
+//import Table from '@material-ui/core/Table';
+//import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
+//import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+//import Paper from '@material-ui/core/Paper';
+//import Typography from '@material-ui/core/Typography';
+//import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import{ DataGrid } from '@material-ui/data-grid';
 import Icon from '@material-ui/core/Icon';
 
@@ -92,14 +94,18 @@ const useStyles = makeStyles((theme) => ({
         left: "11vw",
         width: "90vw"
     },
+    breadcrumbs: {
+        fontSize: "2.5rem",
+        "& >ol>li>p": {
+            fontSize: "2.5rem",
+        },
+    },
 }));
 
 
  
 const Orders = () => {
     const classes = useStyles();
-
-    const dispatch = useDispatch();
 
     const [allOrders, setAllorders] = useState([]);
 
@@ -171,6 +177,12 @@ const Orders = () => {
         console.log(e.target.value);
     }
 
+    //Breabcrumbs
+    const dispatch = useDispatch();
+    const handleView = (newView, event) => {
+        event.preventDefault();
+        dispatch(setViews(newView));
+    };
 
     // Access the priority in the JSON Object
     const getPriority = (params) => {

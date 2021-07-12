@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React from 'react';
 import LSLLogo from '../images/LSL Logo.png';
-import {setViews} from '../store/reducer/viewsControlSlice';
-import {useDispatch} from 'react-redux';
+//import {setViews} from '../store/reducer/viewsControlSlice';
+//import {useDispatch} from 'react-redux';
 
 //import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
         background: '#E0E0E0 ',
         paddingTop:'40px',
         zIndex: theme.zIndex.drawer + 1,
+        height: "104px",
       },
       menuGroup: {
         height: "64px",
@@ -41,6 +42,9 @@ const useStyles = makeStyles((theme) => ({
             color: "#5D5D5D",
             background: "#FFFFFF",
             textDecoration: "none",
+        },
+        '&:focus': {
+          outline: "none",
         },
         "& >span": {
             fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
@@ -93,8 +97,6 @@ const Header = () => {
             </Toolbar>
         </AppBar>
     )
-}
+};
 
 export default Header;
-
-
