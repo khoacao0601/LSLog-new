@@ -11,8 +11,8 @@ import DashBoardTopNavBar from './components/dashBoardTopNavBar';
 //import LeftSideNavBar from './components/inbound/leftSideNavBar';
 import Orders from './components/inbound/orders';
 import CreateOrder from './components/inbound/createOrder';
-//import {useSelector} from 'react-redux';
-//import {viewsSelector} from './store/reducer/viewsControlSlice';
+import {useSelector} from 'react-redux';
+import {viewsSelector} from './store/reducer/viewsControlSlice';
 //import {topNavBarViewsSelector} from './store/reducer/topNavBarViewsControl';
 import SideNav from './components/SideNav';
 import OrderDetails from './components/inbound/orderDetails';
@@ -41,6 +41,10 @@ const useStyles = makeStyles((theme) => ({
 function App() {
 
   const userStatus = localStorage.getItem("value");
+
+  const viewValue = useSelector(viewsSelector);
+
+  console.log(viewValue);
 
   console.log(userStatus);
 

@@ -115,7 +115,7 @@ const Orders = () => {
         history.push('/Inbound/CreateOrder');
     }
 
-    const api_url = `http://3.141.28.243:8141/v1/receiving-orders`;
+    const api_url = `http://3.142.47.66:8141/v1/receiving-orders`;
 
     useEffect(() => {
 
