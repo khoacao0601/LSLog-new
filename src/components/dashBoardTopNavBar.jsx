@@ -144,8 +144,9 @@ const DashBoardTopNavBar = () => {
     };
 
     const logOut = () => {
-      localStorage.removeItem("value");
+      //localStorage.removeItem("value");
       history.push('/');
+      localStorage.clear();
       window.location.reload();
     }
   

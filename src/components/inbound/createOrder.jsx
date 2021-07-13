@@ -247,7 +247,7 @@ const CreateOrder = () => {
             will be removed later--*/
         async function fetchOrdersList(){
             try {
-                const requestUrl = (`http://3.141.28.243:8141/v1/receiving-orders`);
+                const requestUrl = (`http://3.142.47.66:8141/v1/receiving-orders`);
                 const response = await fetch(requestUrl);
                 const responseJSON = await response.json();
                 setOrders(responseJSON);
@@ -398,7 +398,7 @@ const CreateOrder = () => {
             }
 
              //do the POST request
-             fetch('http://3.141.28.243:8141/v1/receiving-orders', {
+             fetch('http://3.142.47.66:8141/v1/receiving-orders', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(valueToSend)

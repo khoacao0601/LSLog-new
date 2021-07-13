@@ -52,7 +52,7 @@ const Login = () => {
 
     const allUsers = useSelector(usersSelector);
 
-    const api_url = `http://3.139.83.37:8110/uaa/users`;
+    const api_url = `http://18.222.84.229:8110/uaa/users`;
 
     const [state, setState] = useState({
         checkedB: false,

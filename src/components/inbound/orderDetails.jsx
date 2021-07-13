@@ -235,7 +235,7 @@ const OrderDetails = () => {
     var urltest = new URL(paramURL);
     var paramOnly = urltest.searchParams.get("number");
    // console.log(`Order ID:`, orderId)
-    const url = `http://3.141.28.243:8141/v1/receiving-orders/?orderId=${paramOnly}`
+    const url = `http://3.142.47.66:8141/v1/receiving-orders/?orderId=${paramOnly}`
 
     const [orderDetail, setOrderDetail] = useState([])
 
