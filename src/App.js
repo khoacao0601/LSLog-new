@@ -112,7 +112,7 @@ function App() {
     <Router>
       <Switch>
         {/* <PrivateRoute exact path="/Welcome" comp={DashBoardTopNavBar}/>   */}
-        <PrivateRoute exact path="/Welcome" comp={Inbound}/>  
+        <PrivateRoute exact path="/Welcome" comp={DashBoardTopNavBar}/>  
         <PrivateRoute exact path='/Inbound/Orders' comp={Inbound}/>
         <PrivateRoute exact path='/Inbound/OrderDetails' comp={InboundOrderDetails} />
         <PrivateRoute exact path='/Inbound/CreateOrder' comp={InboundCreateOrder} />
