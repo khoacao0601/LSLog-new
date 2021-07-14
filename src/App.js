@@ -19,13 +19,11 @@ import OrderDetails from './components/inbound/orderDetails';
 //import Dashboard from './components/dashboard';
 import Inventory from './components/inventory/inventory';
 import Outbound from './components/outbound/outbound';
-//import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
-
 import { makeStyles } from '@material-ui/core/styles';
 //import CssBaseline from '@material-ui/core/CssBaseline';
 import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
 
-
+import './styling/app.css';
 
 document.body.style.backgroundColor = "white";
 
@@ -39,6 +37,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function App() {
+
+  const classes = useStyles();
 
   const userStatus = localStorage.getItem("value");
 
@@ -74,8 +74,8 @@ function App() {
       return( 
         <Fragment>
           <DashBoardTopNavBar/>
-          <OrderDetails/>
           <SideNav/>
+          <OrderDetails/>
         </Fragment>
       )
     }
@@ -84,8 +84,8 @@ function App() {
       return(
       <Fragment>
           <DashBoardTopNavBar/>
-          <CreateOrder/>
           <SideNav/>
+          <CreateOrder/>
         </Fragment>
       )
     }
@@ -108,20 +108,18 @@ function App() {
       )
     }
 
-    
-
- return(
-  <Router>
+  return(
+    <Router>
       <Switch>
-      
-          <PrivateRoute exact path="/Welcome" comp={DashBoardTopNavBar}/>  
-          <PrivateRoute exact path='/Inbound/Orders' comp={Inbound}/>
-          <PrivateRoute exact path='/Inbound/OrderDetails' comp={InboundOrderDetails} />
-          <PrivateRoute exact path='/Inbound/CreateOrder' comp={InboundCreateOrder} />
-          <PrivateRoute exact path='/Inventory' comp={InventoryComponent}/>
-          <PrivateRoute exact path='/Outbound' comp={OutBoundComponent}/>
+        {/* <PrivateRoute exact path="/Welcome" comp={DashBoardTopNavBar}/>   */}
+        <PrivateRoute exact path="/Welcome" comp={Inbound}/>  
+        <PrivateRoute exact path='/Inbound/Orders' comp={Inbound}/>
+        <PrivateRoute exact path='/Inbound/OrderDetails' comp={InboundOrderDetails} />
+        <PrivateRoute exact path='/Inbound/CreateOrder' comp={InboundCreateOrder} />
+        <PrivateRoute exact path='/Inventory' comp={InventoryComponent}/>
+        <PrivateRoute exact path='/Outbound' comp={OutBoundComponent}/>
           
-        <Fragment>  
+        <Fragment className={classes.app}>  
           <Header/>
           <Route exact path='/' component={Login}/>
           <Route exact path='/About' component={About}/>
@@ -129,7 +127,7 @@ function App() {
           <Route exact path='/Help' component={Help}/>
         </Fragment>
       </Switch>        
-  </Router>
+    </Router>
  )  
 }
 

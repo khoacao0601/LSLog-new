@@ -94,9 +94,6 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(3),
         background: "white",
         marginTop: "60px",
-        position: "absolute",
-        left: "11vw",
-        width: "90vw",
     },
     tableCheck: {
         padding: "0",

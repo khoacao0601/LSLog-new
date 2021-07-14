@@ -75,13 +75,13 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     border: "none",
     borderRadius: "20px 20px 0px 0px !important",
-    lineHeight: "3vh",
+    lineHeight: "50px",
     background: "#E0E0E0",
     marginTop: "auto",
     color: "#5D5D5D",
     fontWeight: "600",
     padding: "0 20px",
-    height: "4rem",
+    height: "50px",
     '&:hover': {
       color: "#5D5D5D",
       background: "#FFFFFF",
@@ -101,6 +101,15 @@ const useStyles = makeStyles((theme) => ({
         background: "#FFFFFF",
       },
     }
+  },
+  menuList: {
+    color: "#5D5D5D",
+    "& >li>a": {
+      fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+      fontWeight: "400",
+      fontSize: "1rem",
+      color: "#5D5D5D",
+    },
   },
 }));
 
@@ -212,10 +221,10 @@ const DashBoardTopNavBar = () => {
                         >
                         <Paper>
                             <ClickAwayListener onClickAway={handleClose}>
-                            <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
+                            <MenuList className={classes.menuList} autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
                                 <MenuItem onClick={handleClose}>Profile</MenuItem>
-                                <MenuItem onClick={handleClose}>My account</MenuItem>
-                                <MenuItem ><Link to="/" onClick={logOut}>LOG OUT</Link></MenuItem>
+                                <MenuItem onClick={handleClose}>My Account</MenuItem>
+                                <MenuItem ><Link to="/" onClick={logOut}>Log Out</Link></MenuItem>
                             </MenuList>
                             </ClickAwayListener>
                         </Paper>
