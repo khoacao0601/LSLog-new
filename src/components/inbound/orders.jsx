@@ -90,9 +90,6 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(3),
         background: "white",
         marginTop: "60px",
-        //position: "absolute",
-        //left: "0",
-        //width: "90vw"
     },
     breadcrumbs: {
         fontSize: "2.5rem",
