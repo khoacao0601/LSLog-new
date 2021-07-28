@@ -369,21 +369,30 @@ const OrderDetails = () => {
 
     //Select
     const [state, setState] = useState({
-        dock: "",
         crossDock: "",
     });
     const handleChange = (event) => {
         setState({ [event.target.name]: event.target.checked });
     };
-    
+
+    //Select Dock
+    const [dock, setDock] = useState('');
+    const handleDock = (event) => {
+      setDock(event.target.value);
+    };    
+    //Select CrossDock
+    const [crossDock, setCrossDock] = useState('');
+    const handleCrossDock = (event) => {
+      setCrossDock(event.target.value);
+    };    
 
 
     const [warning, setWarning] = useState("");
     
     const [eachLine, setEachLine] = useState({
-        dock: "",
+        //dock: "",
     });
-    //set value for Autocomplete Marterial Desisgn
+    //set value for Autocomplete Material Desisgn
     const getValueAutoComplete = (description, sku) => {
         setEachLine({
             ...eachLine,
@@ -565,20 +574,36 @@ const OrderDetails = () => {
                                         <DialogContentText style={{marginTop: "40px",}} className={classes.underline}>LOCATION:</DialogContentText>
                                         <Grid item >
                                             <Grid container justify="left" width={1}>
-                                                <FormControl size="small">
-                                                    <FormLabel className={classes.dialogLabel}>DOCK:</FormLabel>
-                                                    <Select id="dock" value={eachLine.dock} onChange={updateField} variant="outlined" className={classes.dialogTextField}>
-                                                        <MenuItem value="">SELECT RECEIVING DOCK</MenuItem>
+                                                <FormLabel className={classes.dialogLabel}>DOCK:</FormLabel>
+                                                <FormControl className={classes.formControl} size="small" variant="outlined" style={{width:"230px"}}>
+                                                    <Select
+                                                        value={dock}
+                                                        onChange={handleDock}
+                                                        displayEmpty
+                                                        className={classes.dialogTextField}
+                                                        inputProps={{ 'aria-label': 'Without label' }}
+                                                    >
+                                                        <MenuItem value="" disabled>SELECT RECEIVING DOCK</MenuItem>
+                                                        <MenuItem value={"dock1"}>Dock 1</MenuItem>
+                                                        <MenuItem value={"dock2"}>Dock 2</MenuItem>
                                                     </Select>
                                                 </FormControl>
                                             </Grid>
                                         </Grid>
                                         <Grid item >
                                             <Grid container justify="left" width={1}>
-                                                <FormControl size="small">
-                                                    <FormLabel className={classes.dialogLabel}>CROSS DOCK:</FormLabel>
-                                                    <Select id="crossDock" value={eachLine.crossDock} onChange={updateField} variant="outlined" className={classes.dialogTextField}>
-                                                        <MenuItem value="">SELECT SHIPPING DOCK</MenuItem>
+                                                <FormLabel className={classes.dialogLabel}>CROSS DOCK:</FormLabel>
+                                                <FormControl className={classes.formControl} size="small" variant="outlined" style={{width:"230px"}}>
+                                                    <Select
+                                                        value={crossDock}
+                                                        onChange={handleCrossDock}
+                                                        displayEmpty
+                                                        className={classes.dialogTextField}
+                                                        inputProps={{ 'aria-label': 'Without label' }}
+                                                    >
+                                                        <MenuItem value="" disabled>SELECT SHIPPING DOCK</MenuItem>
+                                                        <MenuItem value={"crossDock1"}>Dock 1</MenuItem>
+                                                        <MenuItem value={"crossDock2"}>Dock 2</MenuItem>
                                                     </Select>
                                                 </FormControl>
                                             </Grid>
@@ -694,7 +719,7 @@ const OrderDetails = () => {
                                         </Grid>
                                         <Grid item >
                                             <Grid container justify="left" width={1}>
-                                                <Button className={classes.button}>+ ADD OTHER EQUIPMENT</Button>
+                                                <Button className={classes.button} variant="outlined">+ ADD OTHER EQUIPMENT</Button>
                                             </Grid>
                                         </Grid>
                                     </TableCell>
@@ -704,12 +729,8 @@ const OrderDetails = () => {
                     </form>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose} color="primary">
-                    Cancel
-                    </Button>
-                    <Button onClick={handleClose} color="primary">
-                    Submit
-                    </Button>
+                    <Button className={classes.button} onClick={handleClose} variant="outlined">CANCEL</Button>
+                    <Button className={classes.button} onClick={handleClose} variant="outlined">PLAN ORDER</Button>
                 </DialogActions>
             </Dialog>
 
