@@ -315,8 +315,7 @@ const OrderDetails = () => {
         setOpen(false);
     };   
 
-    
-    console.log(useParams());
+
     //console.log(props);
 
     const orderId = useSelector(orderIdSelector)
@@ -329,7 +328,8 @@ const OrderDetails = () => {
    // console.log(`Order ID:`, orderId)
     const url = `http://3.142.47.66:8141/v1/receiving-orders/?orderId=${paramOnly}`
 
-    const [orderDetail, setOrderDetail] = useState([])
+    const [orderDetail, setOrderDetail] = useState({});
+    const [orderPositions, setOrderPositions] = useState([]);
 
 
     //Checkboxes
@@ -411,15 +411,16 @@ const OrderDetails = () => {
     useEffect(() => {
         async function getOrderDetail() {
             try{
-                const requestUrl = url
+                const requestUrl = url;
 
-                const res = await fetch(requestUrl);
+                const res = await fetch(url);
                 //console.log(`Response before JSON Conversion`, res);
 
-                const resJSON = await res.json()
-                //console.log(`Response AFTER JSON Conversion`, resJSON)
+                const resJSON = await res.json();
+                console.log(`Response AFTER JSON Conversion`, resJSON)
 
-                setOrderDetail(resJSON.positions)
+                //setOrderPositions(resJSON.positions);
+                setOrderDetail(resJSON.positions);
             }
             catch(err) {
                 console.log('Failed to Fetch the Data', err);
@@ -429,6 +430,7 @@ const OrderDetails = () => {
 
     }, []);
 
+    console.log(orderDetail);
     let rows = orderDetail.map((order) => 
         <TableRow key={order.positionId} className={classes.row}>
             <TableCell align="center">
