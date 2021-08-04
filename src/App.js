@@ -24,6 +24,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
 
 import './styling/app.css';
+import UnplannedPicks from './components/inbound/unplanned-picks';
 
 document.body.style.backgroundColor = "white";
 
@@ -107,6 +108,14 @@ function App() {
         </Fragment>
       )
     }
+    const UnplannedPicksComponent = () => {
+      return(
+        <Fragment>
+          <DashBoardTopNavBar/>
+          <UnplannedPicks/>
+        </Fragment>
+      )
+    }
 
   return(
     <Router>
@@ -116,6 +125,7 @@ function App() {
         <PrivateRoute exact path='/Inbound/Orders' comp={Inbound}/>
         <PrivateRoute exact path='/Inbound/OrderDetails' comp={InboundOrderDetails} />
         <PrivateRoute exact path='/Inbound/CreateOrder' comp={InboundCreateOrder} />
+        <PrivateRoute exact path='/Outbound/fulfillment' comp={UnplannedPicksComponent} />
         <PrivateRoute exact path='/Inventory' comp={InventoryComponent}/>
         <PrivateRoute exact path='/Outbound' comp={OutBoundComponent}/>
           
