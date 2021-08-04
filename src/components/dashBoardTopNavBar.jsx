@@ -202,7 +202,7 @@ const DashBoardTopNavBar = () => {
                       INVENTORY
                   </NavLink>
                   <NavLink 
-                    to="/OutBound" 
+                    to="/OutBound/fulfillment" 
                     activeStyle={{backgroundColor: "white"}} 
                     className={classes.menuButton}
                     >
