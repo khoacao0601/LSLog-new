@@ -24,7 +24,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
 
 import './styling/app.css';
-import UnplannedPicks from './components/inbound/unplanned-picks';
+import UnplannedPicks from './components/outbound/unplanned-picks';
 
 document.body.style.backgroundColor = "white";
 
