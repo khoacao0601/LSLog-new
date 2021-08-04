@@ -41,6 +41,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 
+
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
@@ -149,7 +150,14 @@ const useStyles = makeStyles((theme) => ({
     },
     dialogCheckbox: {
         padding: "0px 9px",
-    }
+    },
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 220,
+    },
+    underline: {
+        textDecorationLine: 'underline',
+    },
 }));
 
 
@@ -157,6 +165,19 @@ const UnplannedPicks = () => {
     const classes = useStyles();
 
     const [allOrders, setAllorders] = useState([]);
+    const [state, setState] = useState({
+        age: '',
+        name: 'hai',
+    });
+
+    const handleChange = (event) => {
+        const name = event.target.name;
+        setState({
+          ...state,
+          [name]: event.target.value,
+        });
+    };
+    
 
     const history = useHistory();
 
@@ -501,6 +522,24 @@ const UnplannedPicks = () => {
                                                 />
                                             </Grid>
                                         </Grid>
+                                        <Grid item>
+                                            <Grid container justify="left" width={1}>
+                                                <FormLabel className={classes.dialogLabel}>TIME:</FormLabel>
+                                                <TextField
+                                                    id="time"
+                                                    type="time"
+                                                    defaultValue="07:30"
+                                                    className={classes.dialogTextField}
+                                                    variant="outlined"
+                                                    InputLabelProps={{
+                                                        shrink: true,
+                                                    }}
+                                                    inputProps={{
+                                                        step: 300, // 5 min
+                                                    }}
+                                                />
+                                            </Grid>
+                                        </Grid>
 
                                         <Grid item >
                                             <Grid container justify="left" width={1}>
@@ -530,64 +569,6 @@ const UnplannedPicks = () => {
                                                 />} label="ANY QUALIFIED EMPLOYEE"/>
                                             </Grid>
                                         </Grid>
-
-
-                                        <Grid item>
-                                            <Grid container justify="left" width={1}>
-                                                <FormLabel className={classes.dialogLabel}>TIME:</FormLabel>
-                                                <TextField
-                                                    id="time"
-                                                    type="time"
-                                                    defaultValue="07:30"
-                                                    className={classes.dialogTextField}
-                                                    variant="outlined"
-                                                    InputLabelProps={{
-                                                        shrink: true,
-                                                    }}
-                                                    inputProps={{
-                                                        step: 300, // 5 min
-                                                    }}
-                                                />
-                                            </Grid>
-                                        </Grid>
-                                        <DialogContentText style={{marginTop: "40px",}} className={classes.underline}>LOCATION:</DialogContentText>
-                                        <Grid item >
-                                            <Grid container justify="left" width={1}>
-                                                <FormLabel className={classes.dialogLabel}>DOCK:</FormLabel>
-                                                <FormControl className={classes.formControl} size="small" variant="outlined" style={{width:"230px"}}>
-                                                    <Select
-                                                        displayEmpty
-                                                        className={classes.dialogTextField}
-                                                        inputProps={{ 'aria-label': 'Without label' }}
-                                                    >
-                                                        <MenuItem value="" disabled>SELECT RECEIVING DOCK</MenuItem>
-                                                        <MenuItem value={"dock1"}>Dock 1</MenuItem>
-                                                        <MenuItem value={"dock2"}>Dock 2</MenuItem>
-                                                    </Select>
-                                                </FormControl>
-                                            </Grid>
-                                        </Grid>
-
-                                    </TableCell>
-                                    <TableCell>
-                                        <DialogContentText className={classes.underline}>LABOR:</DialogContentText>
-                                        <Grid item >
-                                            <Grid container justify="left" width={1}>
-                                                <FormLabel className={classes.dialogLabel} style={{lineHeight: "28px",}}>ASSIGN
-                                                <TextField
-                                                    style={{width: "40px",margin: "0 5px",}}
-                                                    id="time"
-                                                    type="text"
-                                                    defaultValue=""
-                                                    className={classes.dialogTextField}
-                                                    variant="outlined"
-                                                    InputLabelProps={{
-                                                        shrink: true,
-                                                    }}
-                                                />EMPLOYEES TO RECEIVE THIS ORDER EMPLOYEES</FormLabel>
-                                                
-                                            </Grid>
-                                        </Grid>
                                         <Grid item >
                                             <Grid container justify="left" width={1}>
                                                 <FormControlLabel control={<Radio
@@ -598,69 +579,76 @@ const UnplannedPicks = () => {
                                                     name="radio-button-demo"
                                                     aria-label="A"
                                                     color="primary"
-                                                />} label="ANY QUALIFIED EMPLOYEE"/>
+                                                />} label="SPECIFIED EMPLOYEES:"/>
+                                                <TextField
+                                                    style={{width: "130px",margin: "0 5px",}}
+                                                    id="time"
+                                                    type="text"
+                                                    defaultValue=""
+                                                    className={classes.dialogTextField}
+                                                    variant="outlined"
+                                                    InputLabelProps={{
+                                                        shrink: true,
+                                                    }}
+                                                />
                                             </Grid>
                                         </Grid>
 
 
-                                        <DialogContentText style={{marginTop: "40px",}} className={classes.underline}>EQUIPMENT:</DialogContentText>
+
+                                        <DialogContentText style={{marginTop: "40px",}} className={classes.underline}>DROP OFF LOCATION:</DialogContentText>
+                                        <Grid item >
+                                            <FormControlLabel control={
+                                                        <Checkbox
+                                                            className={classes.dialogCheckbox}
+                                                            checked={stateCheck1.dockLeveler}
+                                                            onChange={handleCheck1('dockLeveler')}
+                                                            value="multipleDropOffLocations"
+                                                            color="primary"
+                                                        />}
+                                                    label="Multiple Drop Off Locations"/>
+                                        </Grid>
+
+                                        <FormControl className={classes.formControl}>
+                                            <InputLabel htmlFor="age-native-simple">Select Location</InputLabel>
+                                            <Select
+                                            native
+                                            value={state.age}
+                                            onChange={handleChange}
+                                            inputProps={{
+                                                name: 'age',
+                                                id: 'age-native-simple',
+                                            }}
+                                            >
+                                            <option aria-label="None" value="" />
+                                            <option value={10}>10A-225-7</option>
+                                            <option value={20}>134B-12-42</option>
+                                            <option value={30}>749-220-4</option>
+                                            </Select>
+                                        </FormControl>
+
+                                    </TableCell>
+                                    <TableCell>
+                                        <DialogContentText className={classes.underline}>FLAGS</DialogContentText>
                                         <Grid item >
                                             <Grid container justify="left" width={1}>
-                                                <FormControlLabel control={
-                                                    <Checkbox
-                                                        className={classes.dialogCheckbox}
-                                                        checked={stateCheck1.dockLeveler}
-                                                        onChange={handleCheck1('dockLeveler')}
-                                                        value="dockLeveler"
-                                                        color="primary"
-                                                    />}
-                                                label="DOCK LEVELER"/>
+                                                <FormLabel>1. 2 lines in the wave are located in the DEA cage and require the appropriate authorization.</FormLabel>
+                                                <DialogContentText>More Info</DialogContentText>
+                                                
                                             </Grid>
                                         </Grid>
-                                        <Grid item >
-                                            <Grid container justify="left" width={1}>
-                                                <FormControlLabel control={
-                                                    <Checkbox
-                                                        className={classes.dialogCheckbox}
-                                                        checked={stateCheck2.forkLift}
-                                                        onChange={handleCheck2('forkLift')}
-                                                        value="forkLift"
-                                                        color="primary"
-                                                    />}
-                                                label="FORKLIFT"/>
-                                            </Grid>
+
+
+                                        <DialogContentText style={{marginTop: "40px",}} className={classes.underline}>DETAILS</DialogContentText>
+                                        <Grid item>
+                                                <DialogContentText>Lines:  1</DialogContentText>
+                                                <DialogContentText>Areas:  2</DialogContentText>
+                                                <DialogContentText>Orders: 1</DialogContentText>
+                                                <DialogContentText>SKUs:   7</DialogContentText>
+                                                <DialogContentText>Tags:   7</DialogContentText>
+                                                <DialogContentText>Lots:   7</DialogContentText>
                                         </Grid>
-                                        <Grid item >
-                                            <Grid container justify="left" width={1}>
-                                                <FormControlLabel control={
-                                                    <Checkbox
-                                                        className={classes.dialogCheckbox}
-                                                        checked={stateCheck3.reachTruck}
-                                                        onChange={handleCheck3('reachTruck')}
-                                                        value="reachTruck"
-                                                        color="primary"
-                                                    />}
-                                                label="REACH TRUCK"/>
-                                            </Grid>
-                                        </Grid>
-                                        <Grid item >
-                                            <Grid container justify="left" width={1}>
-                                                <FormControlLabel control={
-                                                    <Checkbox
-                                                        className={classes.dialogCheckbox}
-                                                        checked={stateCheck4.palletJack}
-                                                        onChange={handleCheck4('palletJack')}
-                                                        value="palletJack"
-                                                        color="primary"
-                                                    />}
-                                                label="PALLET JACK"/>
-                                            </Grid>
-                                        </Grid>
-                                        <Grid item >
-                                            <Grid container justify="left" width={1}>
-                                                <Button className={classes.button} variant="outlined">+ ADD OTHER EQUIPMENT</Button>
-                                            </Grid>
-                                        </Grid>
+
                                     </TableCell>
                                 </TableRow>
                             </TableBody>
@@ -669,7 +657,7 @@ const UnplannedPicks = () => {
                 </DialogContent>
                 <DialogActions>
                     <Button className={classes.button} onClick={handleClose} variant="outlined">CANCEL</Button>
-                    <Button className={classes.button} onClick={handleClose} variant="outlined">PLAN ORDER</Button>
+                    <Button className={classes.button} onClick={handleClose} variant="outlined">PLAN WAVE</Button>
                 </DialogActions>
             </Dialog>
 

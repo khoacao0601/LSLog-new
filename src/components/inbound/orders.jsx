@@ -4,19 +4,12 @@ import {useDispatch} from 'react-redux';
 import {setViews} from '../../store/reducer/viewsControlSlice';
 import { setOrderId } from '../../store/reducer/orderIDCslice';
 import { useHistory} from 'react-router-dom';
-
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Toolbar from '@material-ui/core/Toolbar';
-//import Table from '@material-ui/core/Table';
-//import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-//import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-//import Paper from '@material-ui/core/Paper';
-//import Typography from '@material-ui/core/Typography';
-//import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import{ DataGrid } from '@material-ui/data-grid';
 import Icon from '@material-ui/core/Icon';
 
@@ -105,6 +98,7 @@ const Orders = () => {
     const classes = useStyles();
 
     const [allOrders, setAllorders] = useState([]);
+    const [oredersFilter, setOrdersFilter] = useState([]);
 
     const history = useHistory();
 
@@ -126,6 +120,7 @@ const Orders = () => {
                 
                 // console.log(responseJSON[0].positions[0].positionId);
                     setAllorders(responseJSON);
+                    setOrdersFilter(responseJSON);
 
             } catch (error) {
                 console.log('Failed to Fetch', error);
@@ -169,9 +164,15 @@ const Orders = () => {
     }
 
     //store OrderId from user input to Search Bar
-    const orderIdState = (e) => {
-        //debugger;
-        console.log(e.target.value);
+    const searchBar= (e) => {
+        setAllorders(oredersFilter.filter((val) => {
+            if(e.target.value === ""){
+                return val;
+            } else if(val.orderId.toLowerCase().includes(e.target.value.toLowerCase())) {
+               return val;
+            }
+        })
+        )
     }
 
     //Breabcrumbs
@@ -283,10 +284,21 @@ const Orders = () => {
             type: 'dateTime',
             valueFormatter: (params) =>{return convertDateTime(params.value)}
         },
-        { field: '', headerName: 'DELETE', sortable: false, width: 100, description: 'Delete Line', headerAlign: 'center', align: 'center', headerClassName: 'datagrid-header', flex: 1, align: 'center', renderCell: (params) => { return <Icon style={{ fontSize: 35}}> delete</Icon>} },
+        { 
+            field: '', 
+            headerName: 'DELETE', 
+            sortable: false, 
+            width: 100, 
+            description: 'Delete Line', 
+            headerAlign: 'center', 
+            align: 'center', 
+            headerClassName: 'datagrid-header', 
+            flex: 1,
+            renderCell: (params) => { return <Icon style={{ fontSize: 35}}> delete</Icon>} 
+        }
     ];
 
-    let rows = allOrders.map(object=> (
+    let rows = oredersFilter.map(object=> (
             <TableRow
                 key={object.orderId} 
                 hover='true' 
@@ -325,8 +337,7 @@ const Orders = () => {
                         variant="outlined" 
                         type="globalSearchBar"
                         name="orderId"
-                        
-                        onChange={orderIdState}/>
+                        onChange={searchBar}/>
                     <div className="w3-dropdown-hover">
                     <Button variant="outlined" className={classes.button}>FILTER &darr;</Button>
                         <div className="w3-dropdown-content w3-bar-block w3-card-4">
@@ -356,4 +367,4 @@ const Orders = () => {
 }
 
 
-export default Orders;
+export default Orders
