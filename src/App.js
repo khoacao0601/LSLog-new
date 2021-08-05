@@ -25,6 +25,8 @@ import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom
 
 import './styling/app.css';
 import UnplannedPicks from './components/outbound/unplanned-picks';
+import SideNavOutbound from './components/outbound/SideNavOB';
+import PlannedPicks from './components/outbound/planned-picks';
 
 document.body.style.backgroundColor = "white";
 
@@ -104,6 +106,7 @@ function App() {
       return(
         <Fragment>
           <DashBoardTopNavBar/>
+          <SideNavOutbound/>
           <Outbound/>
         </Fragment>
       )
@@ -112,7 +115,17 @@ function App() {
       return(
         <Fragment>
           <DashBoardTopNavBar/>
+          <SideNavOutbound />
           <UnplannedPicks/>
+        </Fragment>
+      )
+    }
+    const PlannedPicksComponent = () => {
+      return(
+        <Fragment>
+          <DashBoardTopNavBar/>
+          <SideNavOutbound />
+          <PlannedPicks />
         </Fragment>
       )
     }
@@ -125,7 +138,8 @@ function App() {
         <PrivateRoute exact path='/Inbound/Orders' comp={Inbound}/>
         <PrivateRoute exact path='/Inbound/OrderDetails' comp={InboundOrderDetails} />
         <PrivateRoute exact path='/Inbound/CreateOrder' comp={InboundCreateOrder} />
-        <PrivateRoute exact path='/Outbound/fulfillment' comp={UnplannedPicksComponent} />
+        <PrivateRoute exact path='/Outbound/unplanned-fulfillment' comp={UnplannedPicksComponent} />
+        <PrivateRoute exact path='/Outbound/planned-fulfillment' comp={PlannedPicksComponent} />
         <PrivateRoute exact path='/Inventory' comp={InventoryComponent}/>
         <PrivateRoute exact path='/Outbound' comp={OutBoundComponent}/>
           

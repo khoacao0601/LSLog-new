@@ -161,7 +161,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const UnplannedPicks = () => {
+const PlannedPicks = () => {
     const classes = useStyles();
 
     const [allOrders, setAllorders] = useState([]);
@@ -372,6 +372,16 @@ const UnplannedPicks = () => {
             field: 'flags', 
             headerName: 'FLAGS', 
             description: 'flags', 
+            flex: 1,  
+            headerAlign: 'center', 
+            align: 'center',
+            headerClassName: 'datagrid-header', 
+            hide: false, 
+        },
+        { 
+            field: 'status', 
+            headerName: 'STATUS', 
+            description: 'status', 
             flex: 1,  
             headerAlign: 'center', 
             align: 'center',
@@ -666,4 +676,4 @@ const UnplannedPicks = () => {
 }
 
 
-export default UnplannedPicks;
+export default PlannedPicks;
