@@ -27,6 +27,7 @@ import './styling/app.css';
 import UnplannedPicks from './components/outbound/unplanned-picks';
 import SideNavOutbound from './components/outbound/SideNavOB';
 import PlannedPicks from './components/outbound/planned-picks';
+import PlannedWaves from './components/outbound/planned-waves';
 
 document.body.style.backgroundColor = "white";
 
@@ -129,6 +130,15 @@ function App() {
         </Fragment>
       )
     }
+    const PlannedWavesComponent = () => {
+      return(
+        <Fragment>
+          <DashBoardTopNavBar/>
+          <SideNavOutbound />
+          <PlannedWaves />
+        </Fragment>
+      )
+    }
 
   return(
     <Router>
@@ -140,6 +150,7 @@ function App() {
         <PrivateRoute exact path='/Inbound/CreateOrder' comp={InboundCreateOrder} />
         <PrivateRoute exact path='/Outbound/unplanned-fulfillment' comp={UnplannedPicksComponent} />
         <PrivateRoute exact path='/Outbound/planned-fulfillment' comp={PlannedPicksComponent} />
+        <PrivateRoute exact path='/Outbound/planned-waves' comp={PlannedWavesComponent} />
         <PrivateRoute exact path='/Inventory' comp={InventoryComponent}/>
         <PrivateRoute exact path='/Outbound' comp={OutBoundComponent}/>
           
