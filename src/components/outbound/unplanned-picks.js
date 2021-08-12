@@ -165,6 +165,8 @@ const UnplannedPicks = () => {
     const classes = useStyles();
 
     const [allOrders, setAllorders] = useState([]);
+    const [ordersFilter, setOrdersFilter] = useState([]);
+
     const [state, setState] = useState({
         age: '',
         name: 'hai',
@@ -180,10 +182,6 @@ const UnplannedPicks = () => {
     
 
     const history = useHistory();
-
-    const onClickCreateOrder = () => {
-        history.push('/Inbound/CreateOrder');
-    }
 
     const paramURL = window.location.href;
     var urltest = new URL(paramURL);
@@ -248,6 +246,8 @@ const UnplannedPicks = () => {
                 
                 // console.log(responseJSON[0].positions[0].positionId);
                     setAllorders(responseJSON);
+                    setOrdersFilter(responseJSON);
+
 
             } catch (error) {
                 console.log('Failed to Fetch', error);
@@ -296,12 +296,18 @@ const UnplannedPicks = () => {
         console.log(e.target.value);
     }
 
-    //Breabcrumbs
+    //Search Bar
     const dispatch = useDispatch();
-    const handleView = (newView, event) => {
-        event.preventDefault();
-        dispatch(setViews(newView));
-    };
+    const searchBar= (e) => {
+        setAllorders(ordersFilter.filter((val) => {
+            if(e.target.value === ""){
+                return val;
+            } else if(val.orderId.toLowerCase().includes(e.target.value.toLowerCase())) {
+               return val;
+            }
+        })
+        )
+    }
 
     // Access the priority in the JSON Object
     const getPriority = (params) => {
@@ -432,7 +438,7 @@ const UnplannedPicks = () => {
         },
     ];
 
-    let rows = allOrders.map(object=> (
+    let rows = ordersFilter.map(object=> (
             <TableRow
                 key={object.orderId} 
                 hover='true' 
@@ -454,7 +460,7 @@ const UnplannedPicks = () => {
             <div className={classes.container}>
                 <h1>Fulfillment / Orders</h1>
                 <div className={classes.componentTop}>   
-                        <Button variant="outlined" className={classes.button} onClick={onClickCreateOrder}>PLAN WAVE</Button>              
+                        <Button variant="outlined" className={classes.button}>PLAN WAVE</Button>              
                     <div className="w3-dropdown-hover">
                     <Button variant="outlined" className={classes.button}>ACTIONS &darr;</Button>
                         <div className="w3-dropdown-content w3-bar-block w3-card-4">
@@ -471,8 +477,7 @@ const UnplannedPicks = () => {
                         variant="outlined" 
                         type="globalSearchBar"
                         name="orderId"
-                        
-                        onChange={orderIdState}/>
+                        onChange={searchBar}/>
                     <div className="w3-dropdown-hover">
                     <Button variant="outlined" className={classes.button}>FILTER &darr;</Button>
                         <div className="w3-dropdown-content w3-bar-block w3-card-4">
