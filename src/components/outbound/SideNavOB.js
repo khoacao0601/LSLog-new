@@ -73,16 +73,17 @@ const useStyles = makeStyles((theme) => ({
       paddingTop: "45px",
     },
     menuButton: {
-      marginRight: theme.spacing(3),
+      marginRight: theme.spacing(0),
       textAlign: "center",
       border: "none",
-      borderRadius: "20px 20px 0px 0px !important",
+      borderRadius: "20px 0px 0px 20px !important",
       lineHeight: "3vh",
       background: "#E0E0E0",
       marginTop: "auto",
       color: "#5D5D5D",
       fontWeight: "600",
       padding: "0 20px",
+      marginBottom: "10%",
       height: "6vh",
       '&:hover': {
         color: "#5D5D5D",
@@ -165,14 +166,12 @@ const useStyles = makeStyles((theme) => ({
             background: "#FFFFFF",
           },
         }
-      },
+      }
     }));
 
 const SideNavOutbound = () => {
     const classes = useStyles();
     
-    const dispatch = useDispatch();
-
     const history = useHistory();
 
 
@@ -185,9 +184,27 @@ const SideNavOutbound = () => {
           <Toolbar />
           <div>
             <ToggleButtonGroup className={classes.menuGroupVert} value={view} exclusive orientation="vertical" onChange={handleView} aria-label="text alignment">
-                <ToggleButton className={classes.menuButtonVert} value="outbound">ORDERS</ToggleButton>
-                <ToggleButton className={classes.menuButtonVertTwo} value="outbound">WAVES</ToggleButton>
-                <ToggleButton className={classes.menuButtonVertTwo} value="outbound">COMPLETE</ToggleButton>
+                  <NavLink 
+                    to="/Outbound/unplanned-fulfillment" 
+                    activeStyle={{backgroundColor: "white"}} 
+                    className={classes.menuButton}
+                    >
+                      ORDERS
+                  </NavLink>
+                  <NavLink 
+                    to="/outbound/planned-waves" 
+                    activeStyle={{backgroundColor: "white"}} 
+                    className={classes.menuButton}
+                    >
+                      WAVES
+                  </NavLink>
+                  <NavLink 
+                    to="/Outbound/Complete" 
+                    activeStyle={{backgroundColor: "white"}} 
+                    className={classes.menuButton}
+                    >
+                      COMPLETE
+                  </NavLink>
             </ToggleButtonGroup>
           </div>
         </Drawer>

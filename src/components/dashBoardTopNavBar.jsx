@@ -205,6 +205,7 @@ const DashBoardTopNavBar = () => {
                     to="/OutBound/unplanned-fulfillment" 
                     activeStyle={{backgroundColor: "white"}} 
                     className={classes.menuButton}
+                    isActive={() => ['/outbound/planned-waves', '/Outbound/Complete', '/Outbound/unplanned-fulfillment'].includes(pathname)} 
                     >
                       OUTBOUND
                   </NavLink>
