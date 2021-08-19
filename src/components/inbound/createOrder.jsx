@@ -107,7 +107,7 @@ const useStyles = makeStyles((theme) => ({
     },
    filter: {
         width: "11vh",
-        margincenter: "4vh"
+        margincenter: "4vh",
     },
     sort: {
         width: "15vh",
@@ -145,7 +145,8 @@ const CreateOrder = () => {
    
     const classes = useStyles();
 
-    const api_url = `http://18.223.210.207:8140/v1/products`;
+    // const api_url = `http://18.223.210.207:8140/v1/products`;
+    const api_url = `http://3.17.109.70:8140/v1/products/`;
 
     const [inventory, setInventory] = useState();
 
@@ -225,15 +226,16 @@ const CreateOrder = () => {
     
     useEffect(() => {
 
-        /*--Get name of invetory for autoComplete--*/
+        /*--Get name of inventory for autoComplete--*/
         async function fetchInventoryList(){
             try {
-                const requestUrl = api_url;
+                // const requestUrl = api_url;
+                const requestUrl = window.$RECEIVING_STAGING_API;
                 const response = await fetch(requestUrl);   
                 const responseJSON = await response.json();
                 //store Inventory info to state
                 setInventory(responseJSON);
-                //console.log(responseJSON);
+                console.log('products', responseJSON);
             } catch (error) {
                 console.log('Failed to Fetch', error);
             } 
@@ -259,7 +261,7 @@ const CreateOrder = () => {
         setSendValue({
             name: eachLine.item,
             positionId: (testData.length+1).toString(),
-            state: "PROSESSING",
+            state: "PROCESSING",
             quantityExpectedUOM: eachLine.UOM,
             quantityExpectedMagnitude: eachLine.quantity,
             quantityReceivedUOM: eachLine.UOM,
@@ -311,11 +313,11 @@ const CreateOrder = () => {
         //you can't remove lne from real array, so I make a shallow array from testData to work on
         const removeArray = [...testData];
         removeArray.splice(index,1);
-        //reindex array after remove one lement from i
+        //reindex array after remove one element from i
         for(let i = 0; i < removeArray.length; i++){
             removeArray[i].positionId = i+1;
         }
-        //set new vlaue for testData
+        //set new value for testData
         setTestData(removeArray);
 
         //setTestData(testData.filter(item => item.id !== value ));
@@ -529,7 +531,7 @@ const CreateOrder = () => {
                                     <MenuItem value=""><em>None</em></MenuItem>
                                     <MenuItem value={"PALLETS"}>PALLETS</MenuItem>
                                     <MenuItem value={"CASES"}>CASES</MenuItem>
-                                    <MenuItem value={"KITS"}>KITS</MenuItem>
+                                    {/* <MenuItem value={"KITS"}>KITS</MenuItem> */}
                                     <MenuItem value={"EACHES"}>EACHES</MenuItem>
                                 </Select>
                             </FormControl>
