@@ -189,7 +189,8 @@ const PlannedPicks = () => {
     var urltest = new URL(paramURL);
     var paramOnly = urltest.searchParams.get("number");
    // console.log(`Order ID:`, orderId)
-    const url = `http://3.142.47.66:8141/v1/receiving-orders/?orderId=${paramOnly}`
+    // const url = `http://3.142.47.66:8141/v1/receiving-orders/?orderId=${paramOnly}`
+    const url = window.$SPECIFIC_ORDER
 
     //dialog functions
     const [open, setOpen] = useState(false);
@@ -234,7 +235,8 @@ const PlannedPicks = () => {
         setStateCheck4({ [name]: event.target.checked });
     };
 
-    const api_url = `http://3.142.47.66:8141/v1/receiving-orders`;
+    // const api_url = `http://3.142.47.66:8141/v1/receiving-orders`;
+    const api_url = window.$ALL_RECEIVING_ORDERS;
 
     useEffect(() => {
 
@@ -464,7 +466,7 @@ const PlannedPicks = () => {
             <div className={classes.container}>
                 <h1>Fulfillment / Orders</h1>
                 <div className={classes.componentTop}>   
-                        <Button variant="outlined" className={classes.button} onClick={onClickCreateOrder}>PLAN WAVE</Button>              
+                        <Button variant="outlined" className={classes.button} onClick={handleClickOpen}>PLAN WAVE</Button>              
                     <div className="w3-dropdown-hover">
                     <Button variant="outlined" className={classes.button}>ACTIONS &darr;</Button>
                         <div className="w3-dropdown-content w3-bar-block w3-card-4">

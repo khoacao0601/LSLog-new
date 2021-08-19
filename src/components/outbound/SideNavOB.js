@@ -20,28 +20,28 @@ const useStyles = makeStyles((theme) => ({
     drawer: {
         width: drawerWidth,
         flexShrink: 0,
-    },
-    drawerPaper: {
+      },
+      drawerPaper: {
         width: drawerWidth,
         backgroundColor: "#E0E0E0",
         border: "none",
         marginTop: "20px",
-    },
-    drawerContainer: {
+      },
+      drawerContainer: {
         overflow: 'auto',
-    },
-    sidebarList: {
+      },
+      sidebarList: {
         paddingTop: "100px",
-    },
-    sidebarItem: {
+      },
+      sidebarItem: {
         paddingRight: "0",
         lineHeight: "5vh",
         height: "6vh",
         '&:hover': {
-            background: "none",
+          background: "none",
         },
-    },
-    sidebarText: {
+      },
+      sidebarText: {
         backgroundColor: "#E0E0E0",
         color: "#5D5D5D",
         fontWeight: "600",

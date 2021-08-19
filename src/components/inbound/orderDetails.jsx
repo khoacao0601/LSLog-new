@@ -197,11 +197,23 @@ const getDesc = params => {
 }
 
 const getQuantity = params => {
-    return params.row.quantityExpectedMagnitude
+    // console.log(params.row)
+    return params.row.quantityExpected.magnitude
+}
+
+const getQuantityReceived = params => {
+    // console.log(params.row)
+    return params.row.quantityReceived.magnitude
 }
 
 const getSKU = params => {
     return params.row.product.sku
+}
+
+const getUOM = params => {
+    // console.log(params.row.quantityExpected.unitType)
+    console.log(params.row.quantityReceived.unitType[1])
+    return params.row.quantityReceived.unitType[1]
 }
 
 // Datagrid Columns
@@ -257,7 +269,8 @@ const columns = [
         align: 'center',
         headerClassName: 'datagrid-header',
         hide: false,
-        type: 'string'
+        type: 'string',
+        valueFormatter: getUOM,
     },
     {
         field: 'state',
@@ -277,7 +290,8 @@ const columns = [
         headerAlign: 'center',
         align: 'center',
         headerClassName: 'datagrid-header',
-        hide: false
+        hide: false,
+        valueFormatter: getQuantityReceived,
     },
     { 
         field: 'sku', 
@@ -327,7 +341,8 @@ const OrderDetails = () => {
     var urltest = new URL(paramURL);
     var paramOnly = urltest.searchParams.get("number");
    // console.log(`Order ID:`, orderId)
-    const url = `http://3.142.47.66:8141/v1/receiving-orders/?orderId=${paramOnly}`
+    // const url = `http://3.142.47.66:8141/v1/receiving-orders/?orderId=${paramOnly}`
+    const url = window.$SPECIFIC_ORDER
 
     const [orderDetail, setOrderDetail] = useState([])
 
@@ -420,6 +435,8 @@ const OrderDetails = () => {
                 //console.log(`Response AFTER JSON Conversion`, resJSON)
 
                 setOrderDetail(resJSON.positions)
+                console.log(resJSON.positions[0].quantityExpected.magnitude)
+                // console.log(resJSON.positions[0].quantityReceived.unitType[1])
             }
             catch(err) {
                 console.log('Failed to Fetch the Data', err);
@@ -430,7 +447,7 @@ const OrderDetails = () => {
     }, []);
 
     let rows = orderDetail.map((order) => 
-        <TableRow key={order.positionId} className={classes.row}>
+    <TableRow key={order.positionId} className={classes.row}>
             <TableCell align="center">
                 <FormControlLabel onChange={handleChange} className={classes.tableCheck}
                     control={<Checkbox checked={state.positionId}
@@ -438,8 +455,8 @@ const OrderDetails = () => {
             </TableCell>
             <TableCell align="center">{order.positionId}</TableCell>
             <TableCell align="center">{order.product.description}</TableCell>
-            <TableCell align="center">{order.quantityExpected}</TableCell>
-            <TableCell align="center">{order.quantityReceivedUOM}</TableCell>
+            <TableCell align="center">{order.quantityExpected.magnitude}</TableCell>
+            <TableCell align="center">{order.quantityReceived.unitType[1]}</TableCell>
             <TableCell align="center">{order.state}</TableCell>
             <TableCell align="center">{order.quantityReceivedMagnitude}</TableCell>
             <TableCell align="center">{order.product.sku}</TableCell>
