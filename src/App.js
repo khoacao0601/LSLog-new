@@ -29,8 +29,12 @@ import SideNavOutbound from './components/outbound/SideNavOB';
 import PlannedPicks from './components/outbound/planned-picks';
 import PlannedWaves from './components/outbound/planned-waves';
 import DetailPlannedWaves from './components/outbound/detail-planned';
+import CreateUser from './components/createUser';
+import { MainHome } from './components/homeScreen/MainHome';
 
 document.body.style.backgroundColor = "white";
+require('dotenv').config()
+
 
 const useStyles = makeStyles((theme) => ({
   appSimple: {
@@ -149,12 +153,19 @@ function App() {
         </Fragment>
       )
     }
+    const HomeScreenComponent = () => {
+      return(
+        <Fragment>
+          <MainHome />
+        </Fragment>
+      )
+    }
 
   return(
     <Router>
       <Switch>
         {/* <PrivateRoute exact path="/Welcome" comp={DashBoardTopNavBar}/>   */}
-        <PrivateRoute exact path="/Welcome" comp={DashBoardTopNavBar}/>  
+        <PrivateRoute exact path="/Welcome" comp={MainHome}/>  
         <PrivateRoute exact path='/Inbound/Orders' comp={Inbound}/>
         <PrivateRoute exact path='/Inbound/OrderDetails' comp={InboundOrderDetails} />
         <PrivateRoute exact path='/Inbound/CreateOrder' comp={InboundCreateOrder} />
@@ -168,6 +179,7 @@ function App() {
         <Fragment className={classes.app}>  
           <Header/>
           <Route exact path='/' component={Login}/>
+          <Route exact path='/createAccount' component={CreateUser}/>
           <Route exact path='/About' component={About}/>
           <Route exact path='/Contact' component={Contact}/>
           <Route exact path='/Help' component={Help}/>

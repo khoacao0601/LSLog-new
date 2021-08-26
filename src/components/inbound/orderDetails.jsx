@@ -341,8 +341,9 @@ const OrderDetails = () => {
     var urltest = new URL(paramURL);
     var paramOnly = urltest.searchParams.get("number");
    // console.log(`Order ID:`, orderId)
-    // const url = `http://3.142.47.66:8141/v1/receiving-orders/?orderId=${paramOnly}`
-    const url = window.$SPECIFIC_ORDER
+    const url = `http://3.142.47.66:8141/v1/receiving-orders/?orderId=${paramOnly}`
+    // const url = process.env.REACT_APP_SPECIFIC_ORDER
+    console.log('specific', window.$SPECIFIC_ORDER)
 
     const [orderDetail, setOrderDetail] = useState([])
 
@@ -435,7 +436,7 @@ const OrderDetails = () => {
                 //console.log(`Response AFTER JSON Conversion`, resJSON)
 
                 setOrderDetail(resJSON.positions)
-                console.log(resJSON.positions[0].quantityExpected.magnitude)
+                // console.log(resJSON.positions[0].quantityExpected.magnitude)
                 // console.log(resJSON.positions[0].quantityReceived.unitType[1])
             }
             catch(err) {
@@ -464,6 +465,7 @@ const OrderDetails = () => {
         </TableRow>
     )
 
+    console.log('test', process.env)
     return (
         <main className={classes.content}>
             <Toolbar />

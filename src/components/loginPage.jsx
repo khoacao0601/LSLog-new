@@ -133,7 +133,7 @@ const Login = () => {
     //set state to direct to Create Acc page
     const setCreateAcc = (event) => {
         event.preventDefault();
-        dispatch(setViews('createAcc'));
+        dispatch(setViews('/createAccount'));
     }
 
     return(
@@ -162,7 +162,7 @@ const Login = () => {
                             <a href="#" onClick={handleClickOpen}>Forgot password?</a>
                     </Grid></Grid>
                     <Grid item xs={6}><Grid container justify="center">
-                            <a href="createAccount" onClick={setCreateAcc}>Create an Account</a>
+                            <a href="/createAccount" onClick={setCreateAcc}>Create an Account</a>
                     </Grid></Grid>
                 </Grid>
             </form>

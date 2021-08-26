@@ -107,7 +107,8 @@ const Orders = () => {
     }
 
     // const api_url = `http://3.142.47.66:8141/v1/receiving-orders`;
-    const api_url = window.$ALL_RECEIVING_ORDERS;
+    // const api_url = window.$ALL_RECEIVING_ORDERS;
+    const api_url = process.env.REACT_APP_ALL_RECEIVING_ORDERS_API
 
     useEffect(() => {
 

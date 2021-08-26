@@ -68,9 +68,17 @@ const CreateUser = () => {
 
 
     //do Post request
+    // const sendInfos = (e) => {
+    //     console.log(JSON.stringify(sendValue));
+    //     fetch('http://18.222.84.229:8110/uaa/users', {
+    //         method: 'POST',
+    //         headers: { 'Content-Type': 'application/json' },
+    //         body: JSON.stringify(sendValue)
+    //       });
+    // }
     const sendInfos = (e) => {
         console.log(JSON.stringify(sendValue));
-        fetch('http://18.222.84.229:8110/uaa/users', {
+        fetch(window.$LOGIN_USERS, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(sendValue)
